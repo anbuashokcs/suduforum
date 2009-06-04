@@ -232,7 +232,7 @@ CREATE TABLE `jforum_categories` (
   `display_order` int(11) NOT NULL default '0',
   `moderated` tinyint(1) default '0',
   PRIMARY KEY  (`categories_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -241,7 +241,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_categories` WRITE;
 /*!40000 ALTER TABLE `jforum_categories` DISABLE KEYS */;
-INSERT INTO `jforum_categories` VALUES (1,'Category Test',1,0);
+INSERT INTO `jforum_categories` VALUES (1,'速读资料',1,1),(2,'训练讨论',2,0),(3,'自由讨论',3,0);
 /*!40000 ALTER TABLE `jforum_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -344,7 +344,7 @@ CREATE TABLE `jforum_forums` (
   PRIMARY KEY  (`forum_id`),
   KEY `categories_id` (`categories_id`),
   KEY `idx_forums_cats` (`categories_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -353,7 +353,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_forums` WRITE;
 /*!40000 ALTER TABLE `jforum_forums` DISABLE KEYS */;
-INSERT INTO `jforum_forums` VALUES (1,1,'Test Forum','This is a test forum',1,1,1,0);
+INSERT INTO `jforum_forums` VALUES (1,1,'新手快速入门','',1,1,1,1),(2,1,'心得经验分享','',2,0,0,1),(3,1,'速读资料下载','',3,0,0,1),(4,2,'基础训练','',4,0,0,0),(5,2,'实战训练','',5,0,0,0),(6,2,'思维导图','',6,0,0,0),(7,2,'速记训练','',7,0,0,0),(8,2,'右脑开发','',8,0,0,0),(9,3,'建议意见','',9,0,0,0),(10,3,'海阔天空','',10,0,0,0);
 /*!40000 ALTER TABLE `jforum_forums` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -537,7 +537,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_posts` WRITE;
 /*!40000 ALTER TABLE `jforum_posts` DISABLE KEYS */;
-INSERT INTO `jforum_posts` VALUES (1,1,1,2,'2005-01-04 16:59:54','127.0.0.1',1,0,1,1,NULL,0,1,0,0);
+INSERT INTO `jforum_posts` VALUES (1,1,1,2,'2005-01-04 16:59:54','127.0.0.1',1,0,1,1,'2009-06-04 21:16:09',1,1,0,0);
 /*!40000 ALTER TABLE `jforum_posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -562,7 +562,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_posts_text` WRITE;
 /*!40000 ALTER TABLE `jforum_posts_text` DISABLE KEYS */;
-INSERT INTO `jforum_posts_text` VALUES (1,'[b][color=blue][size=18]Congratulations :!: [/size][/color][/b]\nYou have completed the installation, and JForum is up and running. \n\nTo start administering the board, login as [i]Admin / <the password you supplied in the installer>[/i] and access the [b][url=/admBase/login.page]Admin Control Panel[/url][/b] using the link that shows up in the bottom of the page. There you will be able to create Categories, Forums and much more  :D  \n\nFor more information and support, please refer to the following pages:\n\n:arrow: Community forum: http://www.jforum.net/community.jsp\n:arrow: Documentation: http://www.jforum.net/doc\n\nThank you for choosing JForum.\n\n[url=http://www.jforum.net/doc/Team]The JForum Team[/url]\n\n','Welcome to JForum');
+INSERT INTO `jforum_posts_text` VALUES (1,'开始创建奇迹……\r\n','新手入门');
 /*!40000 ALTER TABLE `jforum_posts_text` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -692,7 +692,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_role_values` WRITE;
 /*!40000 ALTER TABLE `jforum_role_values` DISABLE KEYS */;
-INSERT INTO `jforum_role_values` VALUES (41,'1'),(50,'1'),(51,'1'),(52,'1'),(54,'1'),(59,'1'),(62,'1'),(63,'1'),(64,'1'),(65,'1'),(69,'1'),(71,'1'),(72,'1'),(76,'1'),(78,'1'),(79,'1'),(80,'1');
+INSERT INTO `jforum_role_values` VALUES (41,'1'),(50,'1'),(51,'1'),(52,'1'),(54,'1'),(59,'1'),(62,'1'),(63,'1'),(64,'1'),(65,'1'),(69,'1'),(71,'1'),(72,'1'),(76,'1'),(78,'1'),(79,'1'),(80,'1'),(80,'2'),(64,'2'),(80,'3'),(64,'3'),(71,'2'),(52,'2'),(69,'2'),(50,'2'),(79,'2'),(63,'2'),(76,'2'),(59,'2'),(72,'2'),(54,'2'),(71,'3'),(52,'3'),(69,'3'),(50,'3'),(79,'3'),(63,'3'),(76,'3'),(59,'3'),(72,'3'),(54,'3'),(71,'4'),(52,'4'),(69,'4'),(50,'4'),(79,'4'),(63,'4'),(76,'4'),(59,'4'),(72,'4'),(54,'4'),(71,'5'),(52,'5'),(69,'5'),(50,'5'),(79,'5'),(63,'5'),(76,'5'),(59,'5'),(72,'5'),(54,'5'),(71,'6'),(52,'6'),(69,'6'),(50,'6'),(79,'6'),(63,'6'),(76,'6'),(59,'6'),(72,'6'),(54,'6'),(71,'7'),(52,'7'),(69,'7'),(50,'7'),(79,'7'),(63,'7'),(76,'7'),(59,'7'),(72,'7'),(54,'7'),(71,'8'),(52,'8'),(69,'8'),(50,'8'),(79,'8'),(63,'8'),(76,'8'),(59,'8'),(72,'8'),(54,'8'),(71,'9'),(52,'9'),(69,'9'),(50,'9'),(79,'9'),(63,'9'),(76,'9'),(59,'9'),(72,'9'),(54,'9'),(71,'10'),(52,'10'),(69,'10'),(50,'10'),(79,'10'),(63,'10'),(76,'10'),(59,'10'),(72,'10'),(54,'10');
 /*!40000 ALTER TABLE `jforum_role_values` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -748,7 +748,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_sessions` WRITE;
 /*!40000 ALTER TABLE `jforum_sessions` DISABLE KEYS */;
-INSERT INTO `jforum_sessions` VALUES ('59BDE9C93ED929C237C77DB44A29DF53',2,'2009-06-04 15:03:10',616797,'',0,NULL),('F2139336A9FC0587BC2BE142641F383E',3,'2009-06-04 13:56:54',133378,'',0,NULL),('59BDE9C93ED929C237C77DB44A29DF53',4,'2009-06-04 14:31:10',0,'',0,NULL);
+INSERT INTO `jforum_sessions` VALUES ('ED75EE73EEDCC9BB0ACA694574374E81',2,'2009-06-04 21:13:05',196657,'',0,NULL),('ED75EE73EEDCC9BB0ACA694574374E81',3,'2009-06-04 20:59:20',256406,'',0,NULL),('59BDE9C93ED929C237C77DB44A29DF53',4,'2009-06-04 14:31:10',0,'',0,NULL);
 /*!40000 ALTER TABLE `jforum_sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -839,7 +839,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_topics` WRITE;
 /*!40000 ALTER TABLE `jforum_topics` DISABLE KEYS */;
-INSERT INTO `jforum_topics` VALUES (1,1,'Welcome to JForum',2,'2005-01-04 16:59:54',1,0,0,0,0,1,1,0,0);
+INSERT INTO `jforum_topics` VALUES (1,1,'新手入门',2,'2005-01-04 16:59:54',9,0,0,0,0,1,1,0,1);
 /*!40000 ALTER TABLE `jforum_topics` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1079,4 +1079,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-06-04 12:51:33
+-- Dump completed on 2009-06-04 15:12:11
