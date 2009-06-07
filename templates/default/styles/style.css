@@ -12,9 +12,11 @@ hr { border: #dfdfdf 1px solid; height: 0px }
 .forumline { border: #006699 2px solid; }
 
 /* td */
-td.row1 { background-color: #fafafa; }
+td.row1 { background-color: #fafafa;}
 td.row2 { background-color: #f7f7f8; }
 td.row3 { background-color: #dfdfdf; }
+
+#userform td.row1 { background-color: #fafafa;text-align:right;padding:0 15px 0 0;}
 
 td.row1announce { background-color: #efefef;}
 td.row1sticky { background-color: #efefef; }
