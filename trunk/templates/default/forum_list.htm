@@ -1,6 +1,61 @@
 <#include "header.htm"/>
+<#import "../macros/pagination.ftl" as pagination>
+<#import "../macros/presentation.ftl" as presentation/>
+<#import "../macros/trydone_common.ftl" as trydone/>
+<#assign currentCategoryId=currentCategoryId?default(0)/>
 <link rel="alternate" type="application/rss+xml" title="RSS" href="${contextPath}/rss/forums${extension}" />
-
+<script type="text/javascript" src="${contextPath}/templates/${templateName}/js/jquery.js?${startupTime}"></script>
+<script type="text/javascript">
+var __currentForumID=0;
+var $get=function(){return document.getElementById(arguments[0]);}
+function getUrl(topic,id){
+   location="${JForumContext.encodeURL("/posts/list/_topicid_")}".replace("_topicid_",topic)+(id!=undefined?"#"+id:"");
+}function getForumUrl(forumId){
+   location="${JForumContext.encodeURL("/forums/show/_forumId_")}".replace("_forumId_",forumId);
+}
+function getUserHome(userid){
+   location="${JForumContext.encodeURL("/user/edit/_userid_")}".replace("_userid_",userid);
+}
+function getMore(o,id,reload){
+    displayid=$get("mA_"+id);
+    if(displayid.style.display!='none'&&reload==undefined){
+        o.src="${contextPath}/templates/${templateName}/images/icon_close.gif";
+        displayid.style.display='none';
+        return;
+    }
+	if(reload==undefined)
+        o.src="${contextPath}/templates/${templateName}/images/icon_open.gif";
+    displayid.style.display='';
+    if(displayid.innerHTML!=""&&reload==undefined){
+        return;
+    }
+    displayid.innerHTML="<img src=${contextPath}/templates/${templateName}/images/icon_loadding.gif>";
+	__currentForumID=id;
+    getPostsByForumId(id,0);
+};
+var getPostsByForumId = function(id, start) {
+    $.ajax({
+        type:"POST",
+        url: "${contextPath}/jforum${extension}?module=ajax&action=getTopicByForumId",
+        data:{
+            forumId:id,
+            start:start
+        },
+        dataType:"script",
+        global:false
+    });
+}
+function callbackAm(data) {
+  var datalog = "<ol class=olstyle>";
+  var forumId=__currentForumID;
+  for (var d=1;d<data.length;d++) {  //1:{}
+    forumId=data[d].forumId;
+    datalog += "<li><a href=javascript:getUrl("+data[d].id+");>" + data[d].title+"</a> -- [<a href=javascript:getUserHome('"+data[d].postedBy.id+"')>"+data[d].postedBy.username+"</a>]"+ "</li>";
+  }
+displayid=$get("mA_"+forumId);
+displayid.innerHTML=datalog+"</ol><div style=text-align:left;margin-left:20px;><img style=\"cursor:pointer;border:0;\" src=\"${contextPath}/templates/${templateName}/images/icon_reload.jpg\" onclick=\"getMore(null,"+forumId+",true);\"  alt=\"[reload]\">  <img style=\"cursor:pointer;border:0;\" src=\"${contextPath}/templates/${templateName}/images/icon_more.jpg\" onclick=\"getForumUrl("+forumId+");\"  alt=\"[more]\"></div>";
+};
+</script>
 <table width="100%" align="center">
 	<tr>
 		<td width="100%" height="318" valign="top">
