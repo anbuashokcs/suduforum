@@ -1,5 +1,13 @@
 <#include "header.htm"/>
-<form accept-charset="${encoding}" action="${JForumContext.encodeURL("/jforum")}" method="get" id="formSearch" name="formSearch">
+<script language="javascript">
+	function CheckInput(form){
+		if("a" == form.search_keywords.value){
+			form.search_keywords.value = "";
+		}
+		return true;
+	}
+</script>
+<form accept-charset="${encoding}" action="${JForumContext.encodeURL("/jforum")}" method="get" id="formSearch" name="formSearch" onSubmit="return CheckInput(this)">
 	<input type="hidden" name="module" value="${moduleName}" />
 	<input type="hidden" name="action" value="search" />
 	
