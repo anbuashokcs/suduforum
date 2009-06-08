@@ -3,7 +3,7 @@
 <bbConfig>
 	<!-- CODE -->
 	<match name="code">
-		<regex>(?s)\[code\](.*?)\[/code\]</regex>		
+		<regex>(?s)\[code\](.*?)\[/code\]</regex>
 		<replace>
 		<![CDATA[
         <textarea name="code" class="java" cols="60" rows="10">$1</textarea>
@@ -19,7 +19,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<match name="openSimpleQuote">
 		<regex>(?i)\[quote\]</regex>
 		<replace>
@@ -29,7 +29,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<match name="openQuote">
 		<regex>(?i)\[quote=['"]?(.*?[^'"])['"]?\]</regex>
 		<replace>
@@ -40,7 +40,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<match name="closeQuote">
 		<regex>(?i)\[/quote\]</regex>
 		<replace>
@@ -60,7 +60,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- I -->
 	<match name="i">
 		<regex>(?s)(?i)\[i\](.*?)\[/i\]</regex>
@@ -70,7 +70,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- U -->
 	<match name="u">
 		<regex>(?s)(?i)\[u\](.*?)\[/u\]</regex>
@@ -80,7 +80,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- LIST -->
 	<match name="list">
 		<regex>(?s)(?i)\[list\](.*?)\[/list\]</regex>
@@ -90,7 +90,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- IMG -->
 	<match name="img" removeQuotes="true">
 		<regex>(?i)\[img\](.*?)\[/img\]</regex>
@@ -100,7 +100,7 @@
 		]]>
 		</replace>
 	</match>
-    
+
 	<!-- Flash -->
 	<match name="flash" removeQuotes="true">
 		<regex>(?i)\[flash\](.*?)\[/flash\]</regex>
@@ -120,8 +120,8 @@
 		<regex>(?i)\[wmv\](.*?)\[/wmv\]</regex>
 		<replace>
 		<![CDATA[
-		<object id="mediaPlayer" width="320" height="285" 
-			classid="CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95" 
+		<object id="mediaPlayer" width="320" height="285"
+			classid="CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95"
 			codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701"
 			standby="Loading Microsoft Windows Media Player components..." type="application/x-oleobject">
 			<param name="fileName" value="$1" />
@@ -132,8 +132,8 @@
 			<param name="loop" value="false" />
 			<embed src="$1" width="320" height="285" type="application/x-mplayer2"
 			pluginspage="http://microsoft.com/windows/mediaplayer/en/download/"
-			id="mediaPlayer" name="mediaPlayer" displaysize="4" autosize="-1" 
-			bgcolor="darkblue" showcontrols="true" showtracker="-1" 
+			id="mediaPlayer" name="mediaPlayer" displaysize="4" autosize="-1"
+			bgcolor="darkblue" showcontrols="true" showtracker="-1"
 			showdisplay="0" showstatusbar="-1" videoborder3d="-1"
 			autostart="true" designtimesp="5311" loop="false">
 			</embed>
@@ -141,7 +141,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
     <!-- Real Media -->
 	<match name="rm" removeQuotes="true">
 		<regex>(?i)\[rm\](.*?)\[/rm\]</regex>
@@ -153,7 +153,7 @@
 			<param name="controls" value="ImageWindow" />
 			<param name="console" value="video" />
 			<param name="loop" value="false" />
-			<embed src="$1" width="320" height="240" 
+			<embed src="$1" width="320" height="240"
 			type="audio/x-pn-realaudio-plugin" controls="ImageWindow" console="video" autostart="true" loop="false">
 			</embed>
         </object>
@@ -163,14 +163,14 @@
 			<param name="autostart" value="true" />
 			<param name="controls" value="ControlPanel" />
 			<param name="console" value="video" />
-			<embed src="$1" width="320" height="30" 
+			<embed src="$1" width="320" height="30"
 			type="audio/x-pn-realaudio-plugin" controls="ControlPanel" console="video" autostart="true">
 			</embed>
 		</object>
 		]]>
 		</replace>
 	</match>
-				
+
 	<!-- Automatic URL matching -->
 	<match name="auto-url" removeQuotes="true" alwaysProcess="true">
 		<regex>(^|[\n ]|\()([\w]+?://[^ \"\n\r\t&lt;\)\[]*)</regex>
@@ -207,7 +207,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- URL -->
 	<match name="simple-url" removeQuotes="true">
 		<regex>(?i)\[url\](.*?)\[/url\]</regex>
@@ -217,7 +217,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- URL=?? -->
 	<match name="descriptive-url" removeQuotes="true">
 		<regex>(?i)\[url=['"]?(.*?[^'"])['"]?\](.*?)\[/url\]</regex>
@@ -227,7 +227,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- COLOR -->
 	<match name="color" removeQuotes="true">
 		<regex>(?s)(?i)\[color=['"]?(.*?[^'"])['"]?\](.*?)\[/color\]</regex>
@@ -257,7 +257,7 @@
 		]]>
 		</replace>
 	</match>
-	
+
 	<!-- YouTube -->
 	<match name="youtube">
 		<regex>
@@ -273,4 +273,102 @@
                 ]]>
 		</replace>
 	</match>
+
+<!-- trydone addtion by pinke -->
+
+    <!-- FLASH SWF -->
+    <match name="swf" removeQuotes="true">
+        <regex>(?i)\[swf\](.*?)\[/swf\]</regex>
+        <replace>
+            <![CDATA[
+<a href="$1" target="_blank">$1</a>
+<br>
+<OBJECT codeBase=http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4,0,2,0 classid=clsid:D27CDB6E-AE6D-11cf-96B8-444553540000 width="400" height="300">
+<PARAM NAME=movie VALUE="$1">
+<PARAM NAME=quality VALUE=high>
+<embed src="$1" quality=high pluginspage='<img align=absmiddle src=pic/url.gif border=0><a target=_blank href=http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'>http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'</a> type='application/x-shockwave-flash' width="400" height="300">http://</embed></OBJECT>
+
+		]]>
+        </replace>
+
+    </match>
+
+
+    <!-- FLASH FLV -->
+    <match name="flv" removeQuotes="true">
+        <regex>(?i)\[flv\](.*?)\[/flv\]</regex>
+        <replace>
+            <![CDATA[
+<object codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" height="288" width="344" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+<param value="9102" name="_cx" />
+<param value="7620" name="_cy" /><param name="FlashVars" />
+<param value="/imf/gr.swf?videoUrl=$1&thumbnailUrl=$1&playerMode=normal" name="Movie" />
+<param value="/imf/gr.swf?videoUrl=$1&thumbnailUrl=$1&playerMode=normal" name="Src" />
+<param value="Window" name="WMode" />
+<param value="0" name="Play" /><param value="-1" name="Loop" />
+<param value="High" name="Quality" /><param value="LT" name="SAlign" />
+<param value="0" name="Menu" /><param name="Base" />
+<param name="AllowScriptAccess" /><param value="NoScale" name="Scale" />
+<param value="0" name="DeviceFont" /><param value="0" name="EmbedMovie" />
+<param name="BGColor" /><param name="SWRemote" /><param name="MovieData" />
+<param value="1" name="SeamlessTabbing" /><param value="0" name="Profile" />
+<param name="ProfileAddress" /><param value="0" name="ProfilePort" />
+<param value="all" name="AllowNetworking" /></object>
+		]]>
+        </replace>
+
+    </match>
+
+    <!--  Media player-->
+    <match name="mp" removeQuotes="true">
+        <regex>(?i)\[mp\](.*?)\[/mp\]</regex>
+        <replace>
+            <![CDATA[
+		<object align=middle classid=CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95 class=OBJECT id=MediaPlayer width="400" height="350" ><param name=ShowStatusBar value=-1><param name=Filename value="$1"><embed type=application/x-oleobject codebase=http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701 flename=mp src="$1" width="400" height="300"></embed></object>
+		]]>
+        </replace>
+
+    </match>
+        <!--  Media player-->
+    <match name="mp3" removeQuotes="true">
+        <regex>(?i)\[mp3\](.*?)\[/mp3\]</regex>
+        <replace>
+            <![CDATA[
+<object id="MediaPlayer1" width="300" height="73" classid="CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,5,715" align="baseline" border="0" standby="Loading Microsoft Windows Media Player components..." type="application/x-oleobject">
+<param name=Filename value='$1'><param name="ShowControls" value="1"><param name="ShowPositionControls" value="0">
+<param name="ShowAudioControls" value="1"><param name="ShowTracker" value="1"><param name="ShowDisplay" value="0">
+<param name="ShowStatusBar" value="1"><param name="AutoSize" value="0"><param name="ShowGotoBar" value="0">
+<param name="ShowCaptioning" value="0">
+<param name="AutoStart" value="1">
+<param name="PlayCount" value="0">
+<param name="AnimationAtStart" value="0">
+<param name="TransparentAtStart" value="0">
+<param name="AllowScan" value="0">
+<param name="EnableContextMenu" value="1">
+<param name="ClickToPlay" value="0">
+<param name="InvokeURLs" value="1">
+<param name="DefaultFrame" value="datawindow">
+<embed src='$1' align="baseline" border="0" width="300" height="70" type="application/x-mplayer2" pluginspage="http://www.microsoft.com/isapi/redir.dll?prd=windows&amp;sbp=mediaplayer&amp;ar=media&amp;sba=plugin&amp;" name="MediaPlayer" showcontrols="1" showpositioncontrols="0" showaudiocontrols="1" showtracker="1" showdisplay="0" showstatusbar="1" autosize="0" showgotobar="0" showcaptioning="0" autostart="1" autorewind="0" animationatstart="0" transparentatstart="0" allowscan="1" enablecontextmenu="1" clicktoplay="0" invokeurls="1" defaultframe="datawindow">
+</embed>
+</object>
+	]]>
+        </replace>
+
+    </match>
+
+
+    <!--  real player-->
+    <match name="rm" removeQuotes="true">
+        <regex>(?i)\[rm\](.*?)\[/rm\]</regex>
+        <replace>
+            <![CDATA[
+	<OBJECT classid=clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA class=OBJECT id=RAOCX width="400" height="300">
+<PARAM NAME=SRC VALUE="$1"><PARAM NAME=CONSOLE VALUE=Clip1><PARAM NAME=CONTROLS VALUE=imagewindow><PARAM NAME=AUTOSTART VALUE=true></OBJECT><br><OBJECT classid=CLSID:CFCDAA03-8BE4-11CF-B84B-0020AFBBCCFA height=30 id=video2 width="400">
+<PARAM NAME=SRC VALUE="$1"><PARAM NAME=AUTOSTART VALUE=-1><PARAM NAME=CONTROLS VALUE=controlpanel><PARAM NAME=CONSOLE VALUE=Clip1></OBJECT>
+		]]>
+        </replace>
+    </match>
+<!-- addtion end -->
+
+
 </bbConfig>

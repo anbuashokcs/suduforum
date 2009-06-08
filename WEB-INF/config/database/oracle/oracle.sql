@@ -24,7 +24,7 @@ ConfigModel.insert = INSERT INTO jforum_config (config_id, config_name, config_v
 UserModel.addNew = INSERT INTO jforum_users (user_id, username, user_password, user_email, user_regdate, user_actkey, rank_id) VALUES (jforum_users_seq.nextval, ?, ?, ?, ?, ?, 0)
 
 UserModel.selectAllByLimit = SELECT * FROM ( \
-        SELECT user_email, user_id, user_posts, user_regdate, username, deleted, user_karma, user_from, user_website, user_viewemail, ROW_NUMBER() OVER(ORDER BY username) - 1 LINENUM  \
+        SELECT user_email, user_id, user_posts, user_regdate, username, deleted, user_karma, user_from, user_website, user_viewemail,user_qq,user_sex,user_birthday , ROW_NUMBER() OVER(ORDER BY username) - 1 LINENUM  \
         FROM jforum_users ORDER BY username \
         ) \
         WHERE LINENUM >= ? AND LINENUM < ?
@@ -44,7 +44,7 @@ UserModel.lastUserRegistered = SELECT * FROM ( \
 	WHERE LINENUM = 0
 	
 UserModel.selectAllByGroup = SELECT * FROM ( \
-	SELECT user_email, u.user_id, user_posts, user_regdate, username, deleted, user_karma, user_from, user_website, user_viewemail, ROW_NUMBER() OVER(ORDER BY u.user_id) LINENUM \
+	SELECT user_email, u.user_id, user_posts, user_regdate, username, deleted, user_karma, user_from, user_website, user_viewemail,u.user_qq,u.user_sex,u.user_birthday , ROW_NUMBER() OVER(ORDER BY u.user_id) LINENUM \
 	FROM jforum_users u, jforum_user_groups ug \
 	WHERE u.user_id = ug.user_id \
 	AND ug.group_id = ? \
@@ -54,7 +54,7 @@ UserModel.selectAllByGroup = SELECT * FROM ( \
 # PostModel
 # #############
 PostModel.selectLatestByForumForRSS = SELECT * FROM ( \
-		SELECT p.topic_id, p.topic_id, p.post_id, p.forum_id, pt.post_subject AS subject, pt.post_text, p.post_time, p.user_id, u.username,
+		SELECT p.topic_id, p.topic_id, p.post_id, p.forum_id, pt.post_subject AS subject, pt.post_text, p.post_time, p.user_id, u.username,u.user_qq,u.user_sex,u.user_birthday ,
 		ROW_NUMBER() OVER(ORDER BY t.topic_id DESC) - 1 LINENUM \
 		FROM jforum_topics t, jforum_posts p, jforum_posts_text pt, jforum_users u \
 		WHERE p.post_id = t.topic_first_post_id \
@@ -68,7 +68,7 @@ PostModel.selectLatestByForumForRSS = SELECT * FROM ( \
 	WHERE LINENUM <= ?
 	
 PostModel.selectHotForRSS = SELECT * FROM ( \
-		SELECT t.topic_id, t.topic_title AS subject, p.post_id, t.forum_id, pt.post_text, p.post_time, p.user_id, u.username, \
+		SELECT t.topic_id, t.topic_title AS subject, p.post_id, t.forum_id, pt.post_text, p.post_time, p.user_id, u.username,u.user_qq,u.user_sex,u.user_birthday , \
 		ROW_NUMBER() OVER(ORDER BY topic_first_post_id DESC) \
 		FROM jforum_topics t, jforum_posts p, jforum_posts_text pt, jforum_users u \
 		WHERE p.post_id = t.topic_first_post_id \
@@ -91,7 +91,7 @@ PostModel.lastGeneratedPostId = SELECT jforum_posts_seq.currval FROM DUAL
 
 PostModel.selectAllByTopicByLimit = SELECT * FROM ( \
     SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, p.need_moderate, \
-   	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username,  \
+   	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username,u.user_qq,u.user_sex,u.user_birthday ,  \
    	ROW_NUMBER() OVER(ORDER BY p.post_time ASC) - 1 LINENUM \
    	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
 	WHERE p.post_id = pt.post_id  \
@@ -104,7 +104,7 @@ WHERE LINENUM >= ? AND LINENUM < ?
 
 PostModel.selectByUserByLimit = SELECT * FROM ( \
     SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, p.attach, \
-	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate, \
+	enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.need_moderate,u.user_qq,u.user_sex,u.user_birthday , \
 	ROW_NUMBER() OVER(ORDER BY p.post_id DESC) - 1 LINENUM \
 	FROM jforum_posts p, jforum_posts_text pt, jforum_users u \
 	WHERE p.post_id = pt.post_id \
@@ -185,7 +185,7 @@ TopicModel.selectHottestTopicsByLimit = SELECT * FROM (\
 TopicModel.lastGeneratedTopicId = SELECT jforum_topics_seq.currval FROM DUAL
 
 TopicModel.topicPosters = SELECT user_id, username, user_karma, user_avatar, user_allowavatar, user_regdate, user_posts, user_icq, \
-	user_from, user_email, rank_id, user_sig, user_attachsig, user_viewemail, user_msnm, user_yim, user_website, user_sig, user_aim \
+	user_from, user_email, rank_id, user_sig, user_attachsig, user_viewemail, user_msnm, user_yim, user_website, user_sig, user_aim,user_qq,user_sex,user_birthday  \
 	FROM jforum_users \
 	WHERE user_id IN (:ids:)
 

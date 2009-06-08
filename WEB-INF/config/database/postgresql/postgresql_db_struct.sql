@@ -22,7 +22,8 @@ CREATE TABLE jforum_categories (
   categories_id INTEGER NOT NULL PRIMARY KEY DEFAULT NEXTVAL('jforum_categories_seq'),
   title VARCHAR(100) NOT NULL DEFAULT '',
   display_order INTEGER NOT NULL DEFAULT 0,
-  moderated INTEGER DEFAULT 0
+  moderated INTEGER DEFAULT 0,
+  parent_id INTEGER DEFAULT 0
 );
 
 --
@@ -318,6 +319,9 @@ CREATE TABLE jforum_users (
   user_authhash VARCHAR(32),
   user_notify_always INTEGER DEFAULT 0,
   user_notify_text INTEGER DEFAULT 0,
+  user_qq VARCHAR(15) DEFAULT NULL,
+  user_sex INTEGER default 0 DEFAULT 0,
+  user_birthday datetime,
   PRIMARY KEY(user_id)
 );
 

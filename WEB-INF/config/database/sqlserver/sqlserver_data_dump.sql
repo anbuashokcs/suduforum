@@ -100,7 +100,7 @@ INSERT INTO jforum_smilies (code, url, disk_name) VALUES (':|', '<img src=\"#CON
 -- Demonstration Forum
 --
 SET IDENTITY_INSERT jforum_categories ON;
-INSERT INTO jforum_categories (categories_id, title, display_order, moderated) VALUES (1,'Category Test',1,0);
+INSERT INTO jforum_categories (categories_id, title, display_order, moderated,parent_id) VALUES (1,'Category Test',1,0,0);
 SET IDENTITY_INSERT jforum_categories OFF;
 SET IDENTITY_INSERT jforum_forums ON;
 INSERT INTO jforum_forums (forum_id, categories_id, forum_name, forum_desc, forum_order, forum_topics, forum_last_post_id, moderated) VALUES (1,1,'Test Forum','This is a test forum',1,1,1,0);

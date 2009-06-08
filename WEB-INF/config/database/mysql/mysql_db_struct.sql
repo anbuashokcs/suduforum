@@ -22,6 +22,7 @@ CREATE TABLE jforum_categories (
   title varchar(100) NOT NULL default '',
   display_order INT NOT NULL default '0',
   moderated TINYINT(1) DEFAULT '0',
+  parent_id  INT DEFAULT '0',
   PRIMARY KEY  (categories_id)
 ) TYPE=InnoDB;
 
@@ -321,6 +322,9 @@ CREATE TABLE jforum_users (
   security_hash varchar(32),
   user_karma DOUBLE,
   user_authhash VARCHAR(32),
+  user_qq VARCHAR(15),
+  user_sex TINYINT default 0,
+  user_birthday datetime default null,
   PRIMARY KEY  (user_id)
 ) TYPE=InnoDB;
 

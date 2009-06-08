@@ -12,13 +12,14 @@ GroupModel.selectUsersIds = SELECT user_id FROM jforum_user_groups WHERE group_i
 # #############
 # CategoryModel
 # #############
-CategoryModel.selectById = SELECT categories_id, title, display_order, moderated FROM jforum_categories WHERE categories_id = ? ORDER BY title 
-CategoryModel.selectAll = SELECT categories_id, title, display_order, moderated FROM jforum_categories ORDER BY display_order
+CategoryModel.selectById = SELECT categories_id, title, display_order, moderated,parent_id FROM jforum_categories WHERE categories_id = ? ORDER BY title
+CategoryModel.selectAll = SELECT categories_id, title, display_order, moderated,parent_id FROM jforum_categories ORDER BY display_order
 CategoryModel.canDelete = SELECT COUNT(1) AS total FROM jforum_forums WHERE categories_id = ?
 CategoryModel.delete = DELETE FROM jforum_categories WHERE categories_id = ?
-CategoryModel.update = UPDATE jforum_categories SET title = ?, moderated = ? WHERE categories_id = ?
-CategoryModel.addNew = INSERT INTO jforum_categories (title, display_order, moderated) VALUES (?, ?, ?)
+CategoryModel.update = UPDATE jforum_categories SET title = ?, moderated = ?,parent_id=? WHERE categories_id = ?
+CategoryModel.addNew = INSERT INTO jforum_categories (title, display_order, moderated,parent_id) VALUES (?, ?,? ,?)
 CategoryModel.setOrderById = UPDATE jforum_categories SET display_order = ? WHERE categories_id = ?
+CategoryModel.setParentById = UPDATE jforum_categories SET parent_id = ? WHERE categories_id = ?
 CategoryModel.getMaxOrder = SELECT MAX(display_order) FROM jforum_categories
 
 # #############
@@ -53,13 +54,13 @@ UserModel.selectById = SELECT COUNT(pm.privmsgs_to_userid) AS private_messages, 
 	GROUP BY pm.privmsgs_to_userid
 
 UserModel.selectAll = SELECT user_email, user_id, user_posts, user_regdate, username, deleted, user_karma, user_from, \
-	user_website, user_viewemail FROM jforum_users ORDER BY user_id
+	user_website, user_viewemail,user_qq,user_sex,user_birthday FROM jforum_users ORDER BY user_id
 
-UserModel.selectAllByLimit = SELECT user_email, user_id, user_posts, user_regdate, username, deleted, user_karma, user_from, user_website, user_viewemail \
+UserModel.selectAllByLimit = SELECT user_email, user_id, user_posts, user_regdate, username, deleted, user_karma, user_from, user_website, user_viewemail,user_qq,user_sex,user_birthday \
 	FROM jforum_users ORDER BY username LIMIT ?, ?
 
 UserModel.selectAllByGroup = SELECT user_email, u.user_id, user_posts, user_regdate, username, deleted, user_karma, user_from, \
-	user_website, user_viewemail \
+	user_website, user_viewemail,user_qq,user_sex,user_birthday \
 	FROM jforum_users u, jforum_user_groups ug \
 	WHERE u.user_id = ug.user_id \
 	AND ug.group_id = ? \
@@ -74,11 +75,11 @@ UserModel.incrementPosts = UPDATE jforum_users SET user_posts = user_posts + 1 W
 UserModel.decrementPosts = UPDATE jforum_users SET user_posts = user_posts - 1 WHERE user_id = ?
 UserModel.rankingId = UPDATE jforum_users SET rank_id = ? WHERE user_id = ?
 UserModel.activeStatus = UPDATE jforum_users SET user_active = ? WHERE user_id = ?
-UserModel.addNew = INSERT INTO jforum_users (username, user_password, user_email, user_regdate, user_actkey, rank_id) VALUES (?, ?, ?, ?, ?, 0)
-UserModel.findByName = SELECT user_id, username, user_email, deleted FROM jforum_users WHERE UPPER(username) LIKE UPPER(?)
+UserModel.addNew = INSERT INTO jforum_users (username, user_password, user_email, user_regdate, user_actkey, rank_id,user_qq,user_sex,user_birthday) VALUES (?, ?, ?, ?, ?, 0,?,?,?)
+UserModel.findByName = SELECT user_id, username, user_email, deleted,user_qq,user_sex,user_birthday FROM jforum_users WHERE UPPER(username) LIKE UPPER(?)
 UserModel.findByEmail = SELECT * FROM jforum_users WHERE LOWER(user_email) = LOWER(?)
 UserModel.selectByName = SELECT * FROM jforum_users WHERE LOWER(username) = LOWER(?)
-UserModel.addNewWithId = INSERT INTO jforum_users (username, user_password, user_email, user_regdate, user_actkey, user_id) VALUES (?, ?, ?, ?, ?, ?)
+UserModel.addNewWithId = INSERT INTO jforum_users (username, user_password, user_email, user_regdate, user_actkey,user_qq,user_sex,user_birthday, user_id) VALUES (?, ?, ?, ?, ?,?,?, ?)
 
 UserModel.update = UPDATE jforum_users SET user_aim = ?, \
 	user_avatar = ?,\
@@ -111,6 +112,9 @@ UserModel.update = UPDATE jforum_users SET user_aim = ?, \
 	user_notify_always = ?, \
 	user_notify_text = ?, \
 	rank_id = ? \
+	,user_qq=? \
+	,user_sex =? \
+	,user_birthday=? \
 	WHERE user_id = ?
 	
 UserModel.lastUserRegistered = SELECT user_id, username FROM jforum_users ORDER BY user_regdate DESC LIMIT 1
@@ -329,7 +333,7 @@ TopicModel.selectAllByForumByLimit = SELECT t.*, p.user_id AS last_user_id, p.po
 	LIMIT ?, ?
 
 TopicModel.topicPosters = SELECT user_id, username, user_karma, user_avatar, user_allowavatar, user_regdate, user_posts, user_icq, \
-	user_from, user_email, rank_id, user_sig, user_attachsig, user_viewemail, user_msnm, user_yim, user_website, user_sig, user_aim \
+	user_from, user_email, rank_id, user_sig, user_attachsig, user_viewemail, user_msnm, user_yim, user_website, user_sig, user_aim,user_qq,user_sex,user_birthday \
 	FROM jforum_users \
 	WHERE user_id IN (:ids:)
 
@@ -659,7 +663,7 @@ AttachmentModel.selectQuotaLimitByGroup = SELECT ql.quota_limit_id, ql.quota_des
 # ModerationModel
 # ################
 ModerationModel.aprovePost = UPDATE jforum_posts SET need_moderate = 0, post_time = ? WHERE post_id = ?
-ModerationModel.categoryPendingModeration = SELECT c.categories_id, c.title, f.forum_id, f.forum_name, COUNT(p.post_id) AS total \
+ModerationModel.categoryPendingModeration = SELECT c.categories_id, c.title, f.forum_id, f.forum_name, COUNT(p.post_id) AS total,c.parent_id \
 	FROM jforum_categories c, jforum_forums f, jforum_posts p \
 	WHERE p.need_moderate = 1 \
 	AND p.forum_id = f.forum_id \
