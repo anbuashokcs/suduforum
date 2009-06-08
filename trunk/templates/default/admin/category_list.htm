@@ -1,3 +1,46 @@
+<#macro  listCategries categories parentId level>
+    <#list categories as category>
+      <#if (category.parentId==parentId) >
+    <tr>
+                <td class="catleft" width="38%"><span style="width:${level*5} px;">&nbsp;</span><span class="cattitle">${category.name}</span></td>
+                <td class="catleft" align="center"><span class="gen"><a id="categoryEdit" href="${contextPath}/${moduleName}/edit/${category.id}${extension}">${I18n.getMessage("Category.List.Edit")}</a></span></td>
+                <td class="catleft" align="center" width="10%"><input type="checkbox" name="categories_id" value="${category.id}" /></td>
+
+                <td class="catleft" align="center" width="10%">
+                    <#if (counter > 1) >
+                        <input type="button" value="${I18n.getMessage("up")}" class="mainoption" onClick="document.location = '${contextPath}/${moduleName}/up/${category.id}${extension}';">&nbsp;
+                    <#else>
+                        &nbsp;
+                    </#if>
+                </td>
+
+                <td class="catleft" align="center" width="10%">
+                    <#if (counter < categories.size()) >
+                        <input type="button" value="${I18n.getMessage("down")}" class="mainoption" onClick="document.location = '${contextPath}/${moduleName}/down/${category.id}${extension}';">&nbsp;
+                    <#else>
+                        &nbsp;
+                    </#if>
+                </td>
+     </tr>
+
+            <tr>
+                <td colspan="5" class="row1">
+                    <table width="100%">
+                    <#list repository.getCategory(category.id).getForums() as forum>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td class="row1" width="100%"><span class="gen">${forum.name}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </#list>
+                    </table>
+                </td>
+            </tr>
+        <#local ccid=category.id />
+              <@listCategries  categories ccid level+1/>
+      </#if>
+    </#list>
+</#macro>
 <#setting number_format = "#"/>
 <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/style.css?${startupTime} );</style>
 
@@ -19,7 +62,8 @@
 	<#assign counter = 1/>
 	<#assign categories = repository.getAllCategories()/>
 	<#list categories as category>
-		<tr>
+        <#if (category.parentId=0)>
+        <tr>
 			<td class="catleft" width="38%"><span class="cattitle">${category.name}</span></td>
 			<td class="catleft" align="center"><span class="gen"><a id="categoryEdit" href="${contextPath}/${moduleName}/edit/${category.id}${extension}">${I18n.getMessage("Category.List.Edit")}</a></span></td>
 			<td class="catleft" align="center" width="10%"><input type="checkbox" name="categories_id" value="${category.id}" /></td>
@@ -53,10 +97,11 @@
 				</#list>
 				</table>
 			</td>
-		</tr>
-
+		</tr> 
+              <@listCategries  categories category.id 0/>
+        </#if>
 		<#assign counter = counter + 1/>
-	</#list>
+    </#list>
 
 	<tr align="center">
 		<td class="catbottom" colspan="5" height="28">

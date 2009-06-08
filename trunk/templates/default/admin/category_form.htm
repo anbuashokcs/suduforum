@@ -1,4 +1,4 @@
-<#setting number_format = "#"/>
+<#setting number_format = "#"/>    
 <#import "macros/group_macros.ftl" as lib>
 <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/style.css?${startupTime} );</style>
 <form action="${contextPath}/jforum${extension}" method="post" name="form" id="form" accept-charset="${encoding}" onSubmit="return checkGroups()">
@@ -6,7 +6,7 @@
 <input type="hidden" name="module" value="${moduleName}" />
 
 <script language="javascript">
-function checkGroups() 
+function checkGroups()
 {
 	<#if !category?exists>
 		if (document.form.groups.selectedIndex == -1) {
@@ -42,14 +42,25 @@ function checkGroups()
 			</span>
 		</td>
 	</tr>
-	
-	<#if !category?exists>
+
+    <tr>
+        <td class="row1" width="38%"><span class="gen">${I18n.getMessage("Category.Form.CategoryParent")}</span></td>
+        <td class="row2">
+            <#if category?exists>
+                <@lib.selectFieldCategorys "parent_id",categories,category.id,category.parentId />
+                <#else>
+                <@lib.selectFieldCategorys "parent_id",categories,-1,-1/>                         
+            </#if>
+        </td>
+    </tr>
+
+    <#if !category?exists>
 	<tr>
 		<td class="row1"><span class="gen">${I18n.getMessage("Category.Form.ChooseGroup")}</span></td>
 		<td><@lib.selectFieldGroups "groups", groups, 0, true, selectedList/></td>
 	</tr>
 	</#if>
-	
+
 	<tr align="center">
 		<td class="catbottom" colspan="2" height="28">
 			<input class="mainoption" type="submit" value="${I18n.getMessage("Category.Form.ClickToUpdate")}" name="submit" />

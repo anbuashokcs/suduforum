@@ -127,10 +127,12 @@ function limitTextArea(field, limit)
 	<tr>
 		<td class="row1"><span class="gen">${I18n.getMessage("Forums.Form.Category")}</span></td>
 		<td class="row2">
-			<select name="categories_id">
-			<#list categories as c><option value="${c.id}" <#if forum?exists><#if forum.categoryId == c.id>selected</#if></#if>>${c.name}</option></#list>
-			</select>
-		</td>
+             <#if forum?exists>
+                <@lib.selectFieldCategorys "categories_id",categories,-1,forum.categoryId />
+                <#else>
+                <@lib.selectFieldCategorys "categories_id",categories,-1,-1/>
+            </#if>
+        </td>
 	</tr>
 
 	<tr>
