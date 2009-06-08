@@ -108,9 +108,20 @@ function bbplace(text) {
 }
 
 function emoticon(text) {
-   text = ' ' + text;
-   bbfontstyle(text,'');
-   return;
+    if(text==undefined)return;
+    var he = document.getElementById('disable_html');
+    if (!he.checked) {
+        if (tinyMCE != undefined) {
+            if (tinyMCE.execCommand)
+            {
+                tinyMCE.execCommand('mceInsertContent', false, text);
+            }
+        }
+        return;
+    }
+    text = ' ' + text;
+    bbfontstyle(text, '');
+    return;
 }
 
 function bbfontstyle(bbopen,bbclose) {
@@ -234,6 +245,12 @@ function storeCaret(textEl) {
 // Depends of jquery.js
 function previewMessage()
 {
+	var he=document.getElementById('disable_html');
+	if(!he.checked){
+	    if(tinyMCE!=undefined){
+	        tinyMCE.triggerSave();
+		}
+	}
 	var f = document.post;
 
 	var p = { 
@@ -366,4 +383,84 @@ function limitURLSize()
 			$(this).text(value.substring(0, 50) + "..." + value.substring(value.length - 30));
 		}
 	});
+}
+
+
+var _trydone_AutoResizeImage=function(obj, maxW, maxH ){
+    if(obj==undefined||obj==null)return;
+    if (maxH == undefined)maxH = 450;
+    if (maxW == undefined)maxW = 600;
+            //alert(nos[i].src +" , " + nos[i].width + nos[i].width);
+            var scale = 1;
+            var width = obj.width;
+            var height = obj.height;
+            if (width < maxW) maxW = width;
+            if (height < maxH) maxH = height;
+            if (maxW / width >= maxH / height) {
+                scale = maxH / height;
+            } else {
+                scale = maxW / width;
+            }
+            var scaledW = scale * width;
+            var scaledH = scale * height;
+            if (maxH >= height && maxW >= width) {
+                //正常显示
+            } else {
+                //scaledW scaledH;
+                obj.style.width = scaledW;
+                obj.width = scaledW
+                obj.style.height = scaledH;
+                obj.height = scaledH;
+                obj.alt+="(zoom)";
+                obj.ondblclick=function(){var _oa=window.open('','','');_oa.document.write("<img src=\""+this.src+"\" border=0>");}
+                if(document.all)//IE,Ctrl+鼠标中间滚动，可以放大/缩小图片
+                    obj.onmousewheel=function(){if(event.ctrlKey){var zoom=parseInt(this.style.zoom, 10)||100;zoom+=event.wheelDelta/12;if (zoom>0) this.style.zoom=zoom+'%';return false;}}
+
+        }
+
+}
+//调整图片等对像的高跟宽
+function  _trydone_ResizeObj(obj, maxW, maxH,tag) {
+    if(obj==undefined||obj==null)return;
+    if (maxH == undefined)maxH = 450;
+    if (maxW == undefined)maxW = 600;
+    if(tag==undefined)tag= "IMG";         //默认为IMG(图片)
+    var nos = obj.childNodes;
+    for (var i = 0; i < nos.length; i++) {
+        //递归调用
+        if (nos[i].childNodes.length > 0)_trydone_ResizeObj(nos[i],maxW,maxH,tag);
+
+        if (nos[i].nodeName ==tag) {
+            //alert(nos[i].src +" , " + nos[i].width + nos[i].width);
+            var scale = 1;
+            var width = nos[i].width;
+            var height = nos[i].height;
+            if (width < maxW) maxW = width;
+            if (height < maxH) maxH = height;
+            if (maxW / width >= maxH / height) {
+                scale = maxH / height;
+            } else {
+                scale = maxW / width;
+            }
+            var scaledW = scale * width;
+            var scaledH = scale * height;
+            if (maxH >= height && maxW >= width) {
+                //正常显示
+                continue;
+            } else {
+                //scaledW scaledH;
+                nos[i].style.width = scaledW;
+                nos[i].width = scaledW
+                nos[i].style.height = scaledH;
+                nos[i].height = scaledH;
+                if(tag=="IMG"){
+                    nos[i].alt+="(zoom)";
+                    nos[i].ondblclick=function(){var _oa=window.open('','','');_oa.document.write("<img src=\""+this.src+"\" border=0>");}
+                    if(document.all)//IE,Ctrl+鼠标中间滚动，可以放大/缩小图片
+                    nos[i].onmousewheel=function(){if(event.ctrlKey){var zoom=parseInt(this.style.zoom, 10)||100;zoom+=event.wheelDelta/12;if (zoom>0) this.style.zoom=zoom+'%';return false;}}
+                }
+            }
+
+        }
+    }
 }
