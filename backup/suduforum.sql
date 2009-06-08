@@ -231,8 +231,9 @@ CREATE TABLE `jforum_categories` (
   `title` varchar(100) NOT NULL default '',
   `display_order` int(11) NOT NULL default '0',
   `moderated` tinyint(1) default '0',
+  `parent_id` int(11) default '0',
   PRIMARY KEY  (`categories_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -241,7 +242,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_categories` WRITE;
 /*!40000 ALTER TABLE `jforum_categories` DISABLE KEYS */;
-INSERT INTO `jforum_categories` VALUES (1,'速读资料',1,1),(2,'训练讨论',2,0),(3,'自由讨论',3,0);
+INSERT INTO `jforum_categories` VALUES (1,'Category Test',1,0,0);
 /*!40000 ALTER TABLE `jforum_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -266,7 +267,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_config` WRITE;
 /*!40000 ALTER TABLE `jforum_config` DISABLE KEYS */;
-INSERT INTO `jforum_config` VALUES ('most.users.ever.online','5',1),('most.users.ever.online.date','1244370953812',2);
+INSERT INTO `jforum_config` VALUES ('most.users.ever.online','1',1),('most.users.ever.online.date','1244476100703',2);
 /*!40000 ALTER TABLE `jforum_config` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -344,7 +345,7 @@ CREATE TABLE `jforum_forums` (
   PRIMARY KEY  (`forum_id`),
   KEY `categories_id` (`categories_id`),
   KEY `idx_forums_cats` (`categories_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -353,7 +354,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_forums` WRITE;
 /*!40000 ALTER TABLE `jforum_forums` DISABLE KEYS */;
-INSERT INTO `jforum_forums` VALUES (1,1,'新手快速入门','该栏目新帖需审核',1,1,1,1),(2,1,'心得经验分享','该栏目新帖需审核',2,1,14,1),(3,1,'速读资料下载','该栏目新帖需审核',3,0,0,1),(4,2,'基础训练','',4,0,0,0),(5,2,'实战训练','',5,0,0,0),(6,2,'思维导图','',6,0,0,0),(7,2,'速记训练','',7,0,0,0),(8,2,'右脑开发','',8,1,16,0),(9,3,'建议意见','',9,4,51,0),(10,3,'海阔天空','',10,0,0,0);
+INSERT INTO `jforum_forums` VALUES (1,1,'Test Forum','This is a test forum',1,1,1,0);
 /*!40000 ALTER TABLE `jforum_forums` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -403,7 +404,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_groups` WRITE;
 /*!40000 ALTER TABLE `jforum_groups` DISABLE KEYS */;
-INSERT INTO `jforum_groups` VALUES (1,'注册用户','注册用户',0),(2,'管理员','论坛管理员',0);
+INSERT INTO `jforum_groups` VALUES (1,'General','General Users',0),(2,'Administration','Admin Users',0);
 /*!40000 ALTER TABLE `jforum_groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -427,7 +428,7 @@ CREATE TABLE `jforum_karma` (
   KEY `topic_id` (`topic_id`),
   KEY `post_user_id` (`post_user_id`),
   KEY `from_user_id` (`from_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -436,7 +437,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_karma` WRITE;
 /*!40000 ALTER TABLE `jforum_karma` DISABLE KEYS */;
-INSERT INTO `jforum_karma` VALUES (1,8,5,1,6,5,'2009-06-07 18:51:57');
 /*!40000 ALTER TABLE `jforum_karma` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -488,7 +488,7 @@ CREATE TABLE `jforum_moderation_log` (
   PRIMARY KEY  (`log_id`),
   KEY `user_id` (`user_id`),
   KEY `post_user_id` (`post_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -497,7 +497,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_moderation_log` WRITE;
 /*!40000 ALTER TABLE `jforum_moderation_log` DISABLE KEYS */;
-INSERT INTO `jforum_moderation_log` VALUES (1,3,'html格式不对','[b]做饭的时候空的电饭煲烧了近一个小时。[b]','2009-06-07 18:25:04',2,2,2,1),(2,3,'answer','11， 如果连游客都能发表帖子的话，容易变得不好管理，一些喜欢乱发言发贴甚至打广告的，不好处理。','2009-06-07 19:47:25',2,51,7,6),(3,3,'answer','10， 不能通过此交流区来寻找和添加好友。','2009-06-07 19:53:37',2,50,7,6),(4,3,'answer','9，个人资料,“这些信息将对外公开”栏，会员资料只对部分人公开的功能没有。','2009-06-07 20:06:14',2,49,7,6),(5,3,'answer','8， 个人资料的版面不好看。左边的应该右对齐才好看，标签和填写框隔太远了。','2009-06-07 20:17:57',2,48,7,6);
 /*!40000 ALTER TABLE `jforum_moderation_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -530,7 +529,7 @@ CREATE TABLE `jforum_posts` (
   KEY `forum_id` (`forum_id`),
   KEY `post_time` (`post_time`),
   KEY `need_moderate` (`need_moderate`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -539,7 +538,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_posts` WRITE;
 /*!40000 ALTER TABLE `jforum_posts` DISABLE KEYS */;
-INSERT INTO `jforum_posts` VALUES (1,1,1,2,'2005-01-04 16:59:54','127.0.0.1',1,0,1,1,'2009-06-04 21:16:09',1,1,0,0),(2,2,2,1,'2009-06-07 18:06:34','127.0.0.1',1,0,1,0,'2009-06-07 18:25:04',1,1,0,0),(3,3,9,1,'2009-06-07 10:54:36','127.0.0.1',1,0,1,0,'2009-06-07 10:54:36',0,1,0,0),(4,3,9,1,'2009-06-07 10:55:24','127.0.0.1',1,0,1,0,'2009-06-07 10:55:24',0,1,0,0),(5,4,9,1,'2009-06-07 10:58:35','127.0.0.1',1,0,1,0,'2009-06-07 10:58:35',0,1,0,0),(6,3,9,1,'2009-06-07 10:58:54','127.0.0.1',1,0,1,0,'2009-06-07 10:58:54',0,1,0,0),(7,4,9,1,'2009-06-07 10:59:19','127.0.0.1',1,0,1,0,'2009-06-07 10:59:19',0,1,0,0),(8,5,9,1,'2009-06-07 10:59:52','127.0.0.1',1,0,1,0,'2009-06-07 10:59:52',0,1,0,0),(9,5,9,1,'2009-06-07 11:00:32','127.0.0.1',1,0,1,0,'2009-06-07 11:00:32',0,1,0,0),(10,3,9,1,'2009-06-07 11:01:05','127.0.0.1',1,0,1,0,'2009-06-07 11:01:05',0,1,0,0),(11,3,9,1,'2009-06-07 11:01:22','127.0.0.1',1,0,1,0,'2009-06-07 11:01:22',0,1,0,0),(12,5,9,1,'2009-06-07 18:00:54','127.0.0.1',1,0,1,0,'2009-06-07 18:00:54',0,1,0,0),(13,5,9,3,'2009-06-07 18:01:21','127.0.0.1',1,0,1,1,'2009-06-07 18:01:21',0,1,0,0),(14,2,2,3,'2009-06-07 18:08:01','127.0.0.1',1,0,1,1,'2009-06-07 18:08:01',0,1,0,0),(15,4,9,1,'2009-06-07 18:15:13','192.168.18.100',1,0,1,0,'2009-06-07 18:15:13',0,1,0,0),(16,6,8,1,'2009-06-07 18:22:52','192.168.18.100',1,0,1,0,'2009-06-07 18:22:52',0,1,0,0),(17,3,9,1,'2009-06-07 18:24:03','192.168.18.100',1,0,1,0,'2009-06-07 18:24:03',0,1,0,0),(18,3,9,1,'2009-06-07 18:25:15','192.168.18.100',1,0,1,0,'2009-06-07 18:25:15',0,1,0,0),(19,7,9,1,'2009-06-07 18:31:27','192.168.18.100',1,0,1,0,'2009-06-07 18:31:27',0,1,0,0),(20,4,9,6,'2009-06-07 18:39:36','192.168.18.100',1,0,1,1,'2009-06-07 18:39:36',0,1,0,0),(21,4,9,6,'2009-06-07 18:39:53','192.168.18.100',1,0,1,1,'2009-06-07 18:39:53',0,1,0,0),(22,4,9,6,'2009-06-07 18:40:11','192.168.18.100',1,0,1,1,'2009-06-07 18:40:11',0,1,0,0),(23,4,9,6,'2009-06-07 18:40:27','192.168.18.100',1,0,1,1,'2009-06-07 18:40:27',0,1,0,0),(24,4,9,6,'2009-06-07 18:40:42','192.168.18.100',1,0,1,1,'2009-06-07 18:40:42',0,1,0,0),(25,4,9,6,'2009-06-07 18:41:02','192.168.18.100',1,0,1,1,'2009-06-07 18:41:02',0,1,0,0),(26,4,9,6,'2009-06-07 18:41:18','192.168.18.100',1,0,1,1,'2009-06-07 18:41:18',0,1,0,0),(27,4,9,3,'2009-06-07 18:42:56','127.0.0.1',1,0,1,1,'2009-06-07 18:42:56',0,1,0,0),(28,4,9,6,'2009-06-07 18:43:21','192.168.18.100',1,0,1,1,'2009-06-07 18:43:21',0,1,0,0),(29,4,9,6,'2009-06-07 18:43:40','192.168.18.100',1,0,1,1,'2009-06-07 18:43:40',0,1,0,0),(30,4,9,6,'2009-06-07 18:43:59','192.168.18.100',1,0,1,1,'2009-06-07 18:43:59',0,1,0,0),(31,4,9,6,'2009-06-07 18:44:28','192.168.18.100',1,0,1,1,'2009-06-07 18:44:28',0,1,0,0),(32,4,9,6,'2009-06-07 18:44:49','192.168.18.100',1,0,1,1,'2009-06-07 18:44:49',0,1,0,0),(33,4,9,6,'2009-06-07 18:45:05','192.168.18.100',1,0,1,1,'2009-06-07 18:45:05',0,1,0,0),(34,4,9,6,'2009-06-07 18:45:38','192.168.18.100',1,0,1,1,'2009-06-07 18:45:38',0,1,0,0),(35,4,9,6,'2009-06-07 18:46:28','192.168.18.100',1,0,1,1,'2009-06-07 18:46:28',0,1,0,0),(36,4,9,6,'2009-06-07 18:46:45','192.168.18.100',1,0,1,1,'2009-06-07 18:46:45',0,1,0,0),(37,4,9,6,'2009-06-07 18:47:04','192.168.18.100',1,0,1,1,'2009-06-07 18:47:04',0,1,0,0),(38,4,9,6,'2009-06-07 18:47:21','192.168.18.100',1,0,1,1,'2009-06-07 18:47:21',0,1,0,0),(39,7,9,6,'2009-06-07 18:48:16','192.168.18.100',1,0,1,1,'2009-06-07 18:48:16',0,1,0,0),(40,7,9,6,'2009-06-07 18:49:19','192.168.18.100',1,0,1,1,'2009-06-07 18:49:19',0,1,0,0),(41,7,9,6,'2009-06-07 18:51:29','192.168.18.100',1,0,1,1,'2009-06-07 18:51:29',0,1,0,0),(42,5,9,6,'2009-06-07 18:52:28','192.168.18.100',1,0,1,0,'2009-06-07 18:52:28',0,1,0,0),(43,5,9,6,'2009-06-07 18:52:49','192.168.18.100',1,0,1,0,'2009-06-07 18:52:49',0,1,0,0),(44,5,9,6,'2009-06-07 18:53:04','192.168.18.100',1,0,1,0,'2009-06-07 18:53:04',0,1,0,0),(45,5,9,6,'2009-06-07 18:53:33','192.168.18.100',1,0,1,1,'2009-06-07 18:53:33',0,1,0,0),(46,7,9,6,'2009-06-07 18:54:24','192.168.18.100',1,0,1,1,'2009-06-07 18:54:24',0,1,0,0),(47,7,9,6,'2009-06-07 18:56:52','192.168.18.100',1,0,1,1,'2009-06-07 18:56:52',0,1,0,0),(48,7,9,6,'2009-06-07 19:01:07','192.168.18.100',1,0,1,1,'2009-06-07 20:17:57',1,1,0,0),(49,7,9,6,'2009-06-07 19:03:56','192.168.18.100',1,0,1,1,'2009-06-07 20:06:14',1,1,0,0),(50,7,9,6,'2009-06-07 19:04:53','192.168.18.100',1,0,1,1,'2009-06-07 19:53:37',1,1,0,0),(51,7,9,6,'2009-06-07 19:06:50','192.168.18.100',1,0,1,1,'2009-06-07 19:47:25',1,1,0,0);
+INSERT INTO `jforum_posts` VALUES (1,1,1,2,'2005-01-04 16:59:54','127.0.0.1',1,0,1,1,NULL,0,1,0,0);
 /*!40000 ALTER TABLE `jforum_posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -564,7 +563,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_posts_text` WRITE;
 /*!40000 ALTER TABLE `jforum_posts_text` DISABLE KEYS */;
-INSERT INTO `jforum_posts_text` VALUES (1,'开始创建奇迹……\r\n','新手入门'),(2,'[b]做饭的时候空的电饭煲烧了近一个小时。[/b]','laopo'),(3,'翻动撒发生发大水 ','新手入门'),(4,'[quote=Anonymous]翻动撒发生发大水 [/quote]\r\n辅导书开发撒积分了解 ','新手入门'),(5,'吃虾 不做饭','休息不做饭'),(6,'无聊啊','回复:新手入门'),(7,'沙发','回复:休息不做饭'),(8,'傻逼','图书管里的书很多'),(9,' :wink:一群无聊的人 :P :!: :!:','回复:图书管里的书很多'),(10,'还能快速回复','新手入门'),(11,'kkkk','新手入门'),(12,'RSS订阅测试','图书管里的书很多'),(13,'注册用户回复测试','回复:图书管里的书很多'),(14,'[b]好帖顶起来[/b] :D :D :D :thumbup:','回复:laopo'),(15,'[google][quote=Anonymous]吃虾 不做饭[/quote] :D[/google]','休息不做饭'),(16,'1，  版面在首页的横栏上所占比例太大。\r\n2， 主题和内容的字体区别太大，主题类的字体太小，而内容类的字体反而很大。\r\n','不足和缺点'),(17,'晕，没发现这个东西啊。','新手入门'),(18,'在哪“顶”？','新手入门'),(19,'1， 版面在首页的横栏上所占比例太大。 \r\n2， 主题和内容的字体区别太大，主题类的字体太小，而内容类的字体反而很大。\r\n3， 右边的logo排末尾显得太过拥挤，左边logo又有点太简单。','不足和缺点'),(20,'搞笑啊！！','休息不做饭'),(21,'顶','休息不做饭'),(22,'1， 版面在首页的横栏上所占比例太大。 \r\n2， 主题和内容的字体区别太大，主题类的字体太小，而内容类的字体反而很大。','休息不做饭'),(23,'1， 版面在首页的横栏上所占比例太大。 \r\n2， 主题和内容的字体区别太大，主题类的字体太小，而内容类的字体反而很大。','休息不做饭'),(24,'1， 版面在首页的横栏上所占比例太大。 \r\n2， 主题和内容的字体区别太大，主题类的字体太小，而内容类的字体反而很大。','休息不做饭'),(25,'1， 版面在首页的横栏上所占比例太大。 \r\n2， 主题和内容的字体区别太大，主题类的字体太小，而内容类的字体反而很大。','休息不做饭'),(26,'晕','休息不做饭'),(27,'不行吗？','休息不做饭'),(28,'快速回复的时候，要点好几次才能成功。','休息不做饭'),(29,'这下又可以了。奇怪！','休息不做饭'),(30,'不清楚！','休息不做饭'),(31,'帖子能分页吗？','休息不做饭'),(32,'怎么还是这个页面啊？','休息不做饭'),(33,'哦，可以了。','休息不做饭'),(34,'但刚才那个快速回复要点好几次的问题又出现了，奇怪！','休息不做饭'),(35,'我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。','休息不做饭'),(36,'原来没有字数限制了，这样不安全吧？','休息不做饭'),(37,'再来一次','休息不做饭'),(38,'我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。我看看快速回复有字数限制没。','休息不做饭'),(39,'4，快速回复没字数限制，不好。','不足和缺点'),(40,'5，快速回复的时候，出现要点好几次才能成功回复的情况。','不足和缺点'),(41,'6，主页正下方的 “新文章” “没有新文章”等不能使用。','不足和缺点'),(42,'[quote=Anonymous]傻逼[/quote]\r\n牛！','图书管里的书很多'),(43,'[quote=han][quote=Anonymous]傻逼[/quote]\r\n牛！[/quote]\r\n顶起！','图书管里的书很多'),(44,'[quote=han][quote=han][quote=Anonymous]傻逼[/quote]\r\n牛！[/quote]\r\n顶起！[/quote]\r\n再顶！','图书管里的书很多'),(45,'再顶','图书管里的书很多'),(46,'[quote=han]5，快速回复的时候，出现要点好几次才能成功回复的情况。[/quote]\r\n原来是因为“发贴间隔时间太短,您不能发表新文章. 请等候再试.”。但此话显示地方不容易看到。','不足和缺点'),(47,'7， 如果大列表下面点击展开列表的button，可以直接预览到热帖的话就更好了。','不足和缺点'),(48,'8， 个人资料的版面不好看。左边的应该右对齐才好看，标签和填写框隔太远了。\r\n\r\n[color=red][b]江南传道士[/b]：采纳，以改。[/color]','不足和缺点'),(49,'9，个人资料,“这些信息将对外公开”栏，会员资料只对部分人公开的功能没有。\r\n\r\n[color=red][b]江南传道士：[/b]楼主QQ空间用多了  :lol:    暂不考虑好友、好友可见……等功能[/color]','不足和缺点'),(50,'10， 不能通过此交流区来寻找和添加好友。\r\n\r\n[color=red][b]江南传道士：[/b]这个功能是没有 :?   交友毕竟不是本论坛的意图，但你可以给其他会员发‘短信’[/color]','不足和缺点'),(51,'11， 如果连游客都能发表帖子的话，容易变得不好管理，一些喜欢乱发言发贴甚至打广告的，不好处理。\r\n\r\n[color=red][b]江南传道士：[/b]系统目前采用最开放的策略，希望能把那些很懒、很挑剔的用户和临时用户也吸引住； 因此方便很重要； \r\n\r\n盈利方案：广告收入\r\n用户越多越好，有无注册没关系，造成的管理不便是个问题，只能辛苦管理员，一个一个的去查看。[/color]','不足和缺点');
+INSERT INTO `jforum_posts_text` VALUES (1,'[b][color=blue][size=18]Congratulations :!: [/size][/color][/b]\nYou have completed the installation, and JForum is up and running. \n\nTo start administering the board, login as [i]Admin / <the password you supplied in the installer>[/i] and access the [b][url=/admBase/login.page]Admin Control Panel[/url][/b] using the link that shows up in the bottom of the page. There you will be able to create Categories, Forums and much more  :D  \n\nFor more information and support, please refer to the following pages:\n\n:arrow: Community forum: http://www.jforum.net/community.jsp\n:arrow: Documentation: http://www.jforum.net/doc\n\nThank you for choosing JForum.\n\n[url=http://www.jforum.net/doc/Team]The JForum Team[/url]\n\n','Welcome to JForum');
 /*!40000 ALTER TABLE `jforum_posts_text` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -588,7 +587,7 @@ CREATE TABLE `jforum_privmsgs` (
   `privmsgs_enable_smilies` tinyint(1) NOT NULL default '1',
   `privmsgs_attach_sig` tinyint(1) NOT NULL default '1',
   PRIMARY KEY  (`privmsgs_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -597,7 +596,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_privmsgs` WRITE;
 /*!40000 ALTER TABLE `jforum_privmsgs` DISABLE KEYS */;
-INSERT INTO `jforum_privmsgs` VALUES (1,2,'who',3,5,'2009-06-07 18:05:35','',1,0,1,1);
 /*!40000 ALTER TABLE `jforum_privmsgs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -621,7 +619,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_privmsgs_text` WRITE;
 /*!40000 ALTER TABLE `jforum_privmsgs_text` DISABLE KEYS */;
-INSERT INTO `jforum_privmsgs_text` VALUES (1,'哪里人？ 多大？ 结婚没？');
 /*!40000 ALTER TABLE `jforum_privmsgs_text` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -696,7 +693,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_role_values` WRITE;
 /*!40000 ALTER TABLE `jforum_role_values` DISABLE KEYS */;
-INSERT INTO `jforum_role_values` VALUES (41,'1'),(50,'1'),(51,'1'),(52,'1'),(54,'1'),(59,'1'),(62,'1'),(63,'1'),(64,'1'),(65,'1'),(69,'1'),(71,'1'),(72,'1'),(76,'1'),(78,'1'),(79,'1'),(80,'1'),(80,'2'),(64,'2'),(80,'3'),(64,'3'),(71,'2'),(52,'2'),(69,'2'),(50,'2'),(79,'2'),(63,'2'),(76,'2'),(59,'2'),(72,'2'),(54,'2'),(71,'3'),(52,'3'),(69,'3'),(50,'3'),(79,'3'),(63,'3'),(76,'3'),(59,'3'),(72,'3'),(54,'3'),(71,'4'),(52,'4'),(69,'4'),(50,'4'),(79,'4'),(63,'4'),(76,'4'),(59,'4'),(72,'4'),(54,'4'),(71,'5'),(52,'5'),(69,'5'),(50,'5'),(79,'5'),(63,'5'),(76,'5'),(59,'5'),(72,'5'),(54,'5'),(71,'6'),(52,'6'),(69,'6'),(50,'6'),(79,'6'),(63,'6'),(76,'6'),(59,'6'),(72,'6'),(54,'6'),(71,'7'),(52,'7'),(69,'7'),(50,'7'),(79,'7'),(63,'7'),(76,'7'),(59,'7'),(72,'7'),(54,'7'),(71,'8'),(52,'8'),(69,'8'),(50,'8'),(79,'8'),(63,'8'),(76,'8'),(59,'8'),(72,'8'),(54,'8'),(71,'9'),(52,'9'),(69,'9'),(50,'9'),(79,'9'),(63,'9'),(76,'9'),(59,'9'),(72,'9'),(54,'9'),(71,'10'),(52,'10'),(69,'10'),(50,'10'),(79,'10'),(63,'10'),(76,'10'),(59,'10'),(72,'10'),(54,'10');
+INSERT INTO `jforum_role_values` VALUES (24,'1'),(25,'1'),(26,'1'),(27,'1'),(28,'1'),(29,'1'),(30,'1'),(31,'1'),(32,'1'),(33,'1'),(34,'1'),(35,'1'),(36,'1'),(37,'1'),(38,'1'),(39,'1'),(40,'1');
 /*!40000 ALTER TABLE `jforum_role_values` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -714,7 +711,7 @@ CREATE TABLE `jforum_roles` (
   PRIMARY KEY  (`role_id`),
   KEY `idx_group` (`group_id`),
   KEY `idx_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -723,7 +720,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_roles` WRITE;
 /*!40000 ALTER TABLE `jforum_roles` DISABLE KEYS */;
-INSERT INTO `jforum_roles` VALUES (41,2,'perm_attachments_enabled'),(42,2,'perm_create_poll'),(43,2,'perm_moderation_post_edit'),(44,2,'perm_create_sticky_announcement_topics'),(45,2,'perm_full_moderation_log'),(46,2,'perm_moderation'),(47,2,'perm_moderation_topic_lockUnlock'),(48,2,'perm_bookmarks_enabled'),(49,2,'perm_administration'),(50,2,'perm_anonymous_post'),(51,2,'perm_moderation_forums'),(52,2,'perm_forum'),(53,2,'perm_moderation_post_remove'),(54,2,'perm_html_disabled'),(55,2,'perm_vote'),(56,2,'perm_attachments_download'),(57,2,'perm_karma_enabled'),(58,2,'perm_moderation_approve_messages'),(59,2,'perm_reply_only'),(60,2,'perm_moderation_log'),(61,2,'perm_moderation_topic_move'),(62,2,'perm_reply_without_moderation'),(63,2,'perm_read_only_forums'),(64,2,'perm_category'),(65,1,'perm_attachments_enabled'),(66,1,'perm_create_poll'),(67,1,'perm_create_sticky_announcement_topics'),(68,1,'perm_bookmarks_enabled'),(69,1,'perm_anonymous_post'),(70,1,'perm_moderation_forums'),(71,1,'perm_forum'),(72,1,'perm_html_disabled'),(73,1,'perm_vote'),(74,1,'perm_attachments_download'),(75,1,'perm_karma_enabled'),(76,1,'perm_reply_only'),(77,1,'perm_moderation_log'),(78,1,'perm_reply_without_moderation'),(79,1,'perm_read_only_forums'),(80,1,'perm_category');
+INSERT INTO `jforum_roles` VALUES (1,1,'perm_vote'),(2,1,'perm_karma_enabled'),(3,1,'perm_anonymous_post'),(4,1,'perm_create_poll'),(5,1,'perm_bookmarks_enabled'),(6,1,'perm_attachments_download'),(7,1,'perm_create_sticky_announcement_topics'),(8,1,'perm_moderation_log'),(9,2,'perm_administration'),(10,2,'perm_moderation'),(11,2,'perm_moderation_post_remove'),(12,2,'perm_moderation_post_edit'),(13,2,'perm_moderation_topic_move'),(14,2,'perm_moderation_topic_lockUnlock'),(15,2,'perm_moderation_approve_messages'),(16,2,'perm_create_sticky_announcement_topics'),(17,2,'perm_vote'),(18,2,'perm_create_poll'),(19,2,'perm_karma_enabled'),(20,2,'perm_bookmarks_enabled'),(21,2,'perm_attachments_download'),(22,2,'perm_moderation_log'),(23,2,'perm_full_moderation_log'),(24,1,'perm_forum'),(25,2,'perm_forum'),(26,1,'perm_anonymous_post'),(27,2,'perm_anonymous_post'),(28,1,'perm_category'),(29,2,'perm_category'),(30,1,'perm_read_only_forums'),(31,2,'perm_read_only_forums'),(32,1,'perm_html_disabled'),(33,2,'perm_html_disabled'),(34,1,'perm_attachments_enabled'),(35,2,'perm_attachments_enabled'),(36,1,'perm_reply_only'),(37,2,'perm_reply_only'),(38,1,'perm_reply_without_moderation'),(39,2,'perm_reply_without_moderation'),(40,2,'perm_moderation_forums');
 /*!40000 ALTER TABLE `jforum_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -752,7 +749,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_sessions` WRITE;
 /*!40000 ALTER TABLE `jforum_sessions` DISABLE KEYS */;
-INSERT INTO `jforum_sessions` VALUES ('ED75EE73EEDCC9BB0ACA694574374E81',2,'2009-06-04 21:13:05',196657,'',0,NULL),('322009B5BA61BE8CF62E21234882F88A',3,'2009-06-07 20:22:04',308563,'',0,NULL),('EA04E0E509A70AFACCFF63C58A01D897',4,'2009-06-07 11:02:16',651359,'',0,NULL),('7AA828394D249FF7A9E0C78C55D1E443',5,'2009-06-07 18:08:39',341860,'',0,NULL),('CA88F32D361F1462BAA6C858FC2BF922',6,'2009-06-07 18:42:54',1459547,'',0,NULL);
+INSERT INTO `jforum_sessions` VALUES ('540EFEFE08FD49731D552D2042D40462',6,'2009-06-08 23:38:37',0,'',0,NULL);
 /*!40000 ALTER TABLE `jforum_sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -834,7 +831,7 @@ CREATE TABLE `jforum_topics` (
   KEY `topic_first_post_id` (`topic_first_post_id`),
   KEY `topic_last_post_id` (`topic_last_post_id`),
   KEY `topic_moved_id` (`topic_moved_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -843,7 +840,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_topics` WRITE;
 /*!40000 ALTER TABLE `jforum_topics` DISABLE KEYS */;
-INSERT INTO `jforum_topics` VALUES (1,1,'新手入门',2,'2005-01-04 16:59:54',18,0,0,0,0,1,1,0,1),(2,2,'laopo',1,'2009-06-07 10:53:49',15,1,0,0,0,2,14,0,1),(3,9,'新手入门',1,'2009-06-07 10:54:36',22,6,0,0,0,3,18,0,0),(4,9,'休息不做饭',1,'2009-06-07 10:58:35',57,21,0,0,0,5,38,0,0),(5,9,'图书管里的书很多',1,'2009-06-07 10:59:52',38,7,0,0,0,8,45,0,0),(6,8,'不足和缺点',1,'2009-06-07 18:22:52',16,0,0,0,0,16,16,0,0),(7,9,'不足和缺点',1,'2009-06-07 18:31:27',47,9,0,0,0,19,51,0,0);
+INSERT INTO `jforum_topics` VALUES (1,1,'Welcome to JForum',2,'2005-01-04 16:59:54',2,0,0,0,0,1,1,0,0);
 /*!40000 ALTER TABLE `jforum_topics` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -869,7 +866,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_topics_watch` WRITE;
 /*!40000 ALTER TABLE `jforum_topics_watch` DISABLE KEYS */;
-INSERT INTO `jforum_topics_watch` VALUES (5,3,1),(2,3,1),(4,6,1),(4,3,1),(7,6,1),(5,6,1);
 /*!40000 ALTER TABLE `jforum_topics_watch` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -894,7 +890,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_user_groups` WRITE;
 /*!40000 ALTER TABLE `jforum_user_groups` DISABLE KEYS */;
-INSERT INTO `jforum_user_groups` VALUES (1,1),(2,2),(2,3),(1,4),(1,5),(1,6);
+INSERT INTO `jforum_user_groups` VALUES (1,1),(2,2);
 /*!40000 ALTER TABLE `jforum_user_groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -960,8 +956,11 @@ CREATE TABLE `jforum_users` (
   `security_hash` varchar(32) default NULL,
   `user_karma` double default NULL,
   `user_authhash` varchar(32) default NULL,
+  `user_qq` varchar(15) default NULL,
+  `user_sex` tinyint(4) default '0',
+  `user_birthday` datetime default NULL,
   PRIMARY KEY  (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -970,7 +969,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `jforum_users` WRITE;
 /*!40000 ALTER TABLE `jforum_users` DISABLE KEYS */;
-INSERT INTO `jforum_users` VALUES (1,NULL,'Anonymous','nopass',0,0,NULL,'2009-06-04 13:18:15',NULL,16,'',NULL,'','%d/%M/%Y %H:%i',0,0,NULL,NULL,0,1,0,1,1,1,1,1,1,0,0,1,1,0,NULL,0,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,5,NULL),(2,NULL,'Admin','21232f297a57a5a743894a0e4a801fc3',0,0,NULL,'2009-06-04 13:18:15',NULL,1,'',NULL,'','%d/%M/%Y %H:%i',0,0,NULL,NULL,0,1,0,1,1,1,1,1,1,0,0,1,1,0,NULL,0,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL),(3,1,'江南传道士','1a1dc91c907325c69271ddf0c944bc72',0,0,'2009-06-04 13:53:25','2009-06-04 13:51:53',NULL,3,'',NULL,'zh_CN','%d/%M/%Y %H:%i',0,0,NULL,NULL,0,1,0,1,1,1,1,1,1,0,0,1,1,-1,'eccbc87e4b5ce2fe28308fd9f2a7baf3.jpg',0,'vincentc@hz.webex.com','','','','江南传道士：以宣扬成功之道为己任。',NULL,'','','','','','',NULL,NULL,0,NULL,1,NULL,NULL,'959ec47b265a739538fd9f4bec6e42ad'),(4,1,'con','1a1dc91c907325c69271ddf0c944bc72',0,0,'2009-06-04 14:31:34','2009-06-04 14:31:10',NULL,0,'',NULL,'','%d/%M/%Y %H:%i',0,0,NULL,NULL,0,1,0,1,1,1,1,1,1,0,0,1,1,0,'a87ff679a2f3e71d9181a67b7542122c.jpg',0,'con@pass.com','','','','',NULL,'','','','','','',NULL,NULL,0,NULL,1,NULL,NULL,NULL),(5,1,'xiao','1a1dc91c907325c69271ddf0c944bc72',0,0,NULL,'2009-06-07 18:04:32',NULL,0,'',NULL,'','%d/%M/%Y %H:%i',0,0,NULL,NULL,0,1,0,1,1,1,1,1,1,0,0,1,1,0,NULL,0,'xiao@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL),(6,1,'han','202cb962ac59075b964b07152d234b70',0,0,'2009-06-07 18:42:16','2009-06-07 18:35:48',NULL,31,'',NULL,'','%d/%M/%Y %H:%i',0,0,NULL,NULL,0,1,0,1,1,1,1,1,1,0,0,1,1,-1,NULL,0,'xiaohan@sina.com','','','','',NULL,'','','','','','',NULL,NULL,0,NULL,1,NULL,NULL,'089598dde7ef43d7d3bda82edba1b0aa');
+INSERT INTO `jforum_users` VALUES (1,NULL,'Anonymous','nopass',0,0,NULL,'2009-06-08 23:44:55',NULL,0,'',NULL,'','%d/%M/%Y %H:%i',0,0,NULL,NULL,0,1,0,1,1,1,1,1,1,0,0,1,1,0,NULL,0,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,0,NULL),(2,NULL,'Admin','21232f297a57a5a743894a0e4a801fc3',0,0,NULL,'2009-06-08 23:44:55',NULL,1,'',NULL,'','%d/%M/%Y %H:%i',0,0,NULL,NULL,0,1,0,1,1,1,1,1,1,0,0,1,1,0,NULL,0,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,0,NULL);
 /*!40000 ALTER TABLE `jforum_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1084,4 +1083,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-06-07 14:15:18
+-- Dump completed on 2009-06-08 15:48:47
