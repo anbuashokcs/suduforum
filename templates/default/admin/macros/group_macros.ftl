@@ -63,9 +63,11 @@
 			<#if !group?exists || n.id != group.id>
 				<option value="${n.id}"<#if parentId == n.id || selectedList.contains(n.id)> selected="selected"</#if>><#list 0..level as j>&nbsp;</#list>${n.name}</option>
 				<@selectOption n, parentId/>
-				
 				<#global level = level - 2>
 			</#if>
 		</#list>
 	</#if>
 </#macro>
+
+
+<#include "category_macros.ftl" />
