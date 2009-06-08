@@ -5,8 +5,20 @@ var maxAttachments = ${maxAttachments?default(0)};
 var counter = 0;
 
 <#if attachmentsEnabled>
+var InsertFile=function(filepath){
+    var filename=filepath;
+    if(filename=="")return;
+    filename=filename.replace(/\\/g,"/");
+    filename=filename.substring(filename.lastIndexOf("/")+1);
+   var  _filename=filename.toLowerCase();
+    if(_filename.indexOf(".gif")!=-1||_filename.indexOf(".jpg")!=-1||_filename.indexOf(".jpeg")!=-1||_filename.indexOf(".png")!=-1){
+        emoticon("[attachment=img]"+filename +"[/attachment]");
+    }else{
+        emoticon("[attachment=file]"+filename+"[/attachment]");
+    }
+}
 	var template = "<div id='attach_#counter#'><table width='100%' class='gensmall'><tr><td>${I18n.getMessage("Attachments.filename")}</td>";
-	template += "<td><input type='file' size='50' name='file_#counter#'></td></tr>";
+	template += "<td><input type='file' size='50' name='file_#counter#' id='upfile_#counter#'>&nbsp;<input type='button'  onclick=InsertFile(document.getElementById('upfile_#counter#').value) value='${I18n.getMessage("Insert")}'></td></tr>";
 	template += "<tr><td>${I18n.getMessage("Attachments.description")}</td>";
 	template += "<td><input type='text' name='comment_#counter#' size='50'>";
 	template += "&nbsp;&nbsp;<a href='javascript:removeAttach(#counter#)' class='gensmall'>[${I18n.getMessage("Attachments.remove")}]</a></td></tr>";
@@ -42,7 +54,7 @@ var counter = 0;
 
 <#if attachments?exists>
 	var templateEdit = "<table width='100%'><tr><td class='row2 gen'>${I18n.getMessage("Attachments.filename")}</td>";
-	templateEdit += "<td class='row2 gen'>#name#</td></tr>";
+	templateEdit += "<td class='row2 gen'>#name#  &nbsp;<input type='button'  onclick=InsertFile('#name#') value='${I18n.getMessage("Insert")}'></td></tr>";
 	templateEdit += "<tr><td class='row2 gen'>${I18n.getMessage("Attachments.description")}</td>";
 	templateEdit += "<td class='row2' valign='middle'><input type='text' size='50' name='edit_comment_#id#' value='#value#'>";
 	templateEdit += "&nbsp;&nbsp;<span class='gensmall'><input type='checkbox' onclick='configureAttachDeletion(#id#, this);'>${I18n.getMessage("Attachments.remove")}</span></td></tr>";
@@ -67,7 +79,7 @@ var counter = 0;
 		for (var i = 0; i < data.length; i++) {
 			var a = data[i];
 			var s = templateEdit.replace(/#value#/, a["description"]);
-			s = s.replace(/#name#/, a["filename"]);
+			s = s.replace(/#name#/g, a["filename"]);
 			s = s.replace(/#id#/g, a["id"]);
 
 			var v = document.getElementById("edit_attach").innerHTML;
