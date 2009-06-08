@@ -8,91 +8,127 @@
 <meta http-equiv="Content-Type" content="text/html; charset=${encoding}" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="-1" />
+<title>${pageTitle?default("JForum")?html}</title>
 <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/style.css?${startupTime} );</style>
 <style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/${language}.css?${startupTime} );</style>
-
 <#if hasCodeBlock>
 	<style type="text/css">@import url( ${contextPath}/templates/${templateName}/styles/SyntaxHighlighter.css?${startupTime} );</style>
 </#if>
-
-<title>${pageTitle?default("JForum")?html}</title>
-
+<style type="text/css">
+body{margin:1px;padding:0;}
+#topline{height:21px;cursor:pointer;text-align:right;margin:0px 4px 0px 0;}
+#topline ul{margin:0;padding:0;list-style-type:none;height:20px;}
+#topline li{margin:0 ;padding:3px 0  0 0;line-height:18px;width:60px;text-align:center;float:right;font-size:12px;background-image:url(${contextPath}/templates/${templateName}/images/cellpic1.gif);}
+#toploginform{margin-top:0px;margin-bottom:0px;font-size:12px;}
+#toploginform input[type="text"] {margin-top:0px;border-bottom:1px solid #000000; border-right:0;border-left:0;border-top:0;width:60px;}
+.input_text{margin-top:0px;border:1px solid #CCCCCC;width:60px;}
+.input_text2{margin-top:0px;border-bottom:1px solid #000000; border-right:0;border-left:0;border-top:0;width:60px;}
+#toploginform button{margin:0px;padding:1px 0 0 0;border:1px solid #CCCCCC; background-color:#FFFFFF;height:18px;}
+.infoMacro {list-style-type:decimal;font-size:12px;BORDER-RIGHT: #3c78b5 1px solid; BORDER-TOP: #3c78b5 1px solid; BORDER-LEFT: #3c78b5 1px solid; BORDER-BOTTOM: #3c78b5 1px solid; BACKGROUND-COLOR: #FFFFFF;}
+.olstyle{margin-top:5px;margin-bottom:5px;}
+.olstyle li{margin:3px;}
+</style>
+<!-- #include "lightbox.htm"/ -->
+<script type="text/javascript" src="${contextPath}/templates/${templateName}/js/popupmenu.js"> </script>
+<script type="text/javascript">
+    window.onload=function(){
+  var langPopup = new PopupMenu();
+   <#list locales as loc>
+     <#assign selected = ""/>
+     <#if loc == language>
+    <#assign selected = "selected"/>
+        </#if>
+  langPopup.add('<img src="${contextPath}/templates/${templateName}/images/${loc}/lang.gif" border="0" alt="lang"> ${I18n.getMessage("User.Lang."+loc)}', function(target) {
+  <#if (selected=="selected")>
+    <#else>
+   document.forms['frm_changlang'].elements['lang'].value = "${loc}";document.forms['frm_changlang'].submit();
+    </#if>
+   });
+ </#list>
+  langPopup.setSize(200, 0);
+  langPopup.bind('langDispArea',true); // target is this pre block
+    }
+</script>
 </head>
 <body class="${language}">
-
 <!--
 Original theme from phpBB (http://www.phpbb.com) subSilver
 Created by subBlue design
 http://www.subBlue.com
 
-Modifications by JForum Team
+Modifications by JForum Team & www.trydone.com
 -->
-
-<table width="100%" border="0">
-	<tr>
-		<td>
-			<table cellspacing="0" cellpadding="0" width="100%" border="0">
-				<tr>
-					<td>
-						<a href="${forumLink}"><img src="${contextPath}/templates/${templateName}/images/logo.jpg"  vspace="1" border="0" alt="[Logo]" /></a>
-					</td>
-					 
-					<td width="100%" align="right" valign="middle">
-						<span class="boardtitle">${forumTitle?default("JForum")}</span>
-						<table cellspacing="0" cellpadding="2" border="0">
-							<tr>
-								<td valign="top" nowrap="nowrap" align="right">&nbsp;
-									<img src="${contextPath}/templates/${templateName}/images/icon_mini_search.gif" alt="[Search]"/>
-									<span class="mainmenu"><a id="search" class="mainmenu" href="${JForumContext.encodeURL("/search/filters")}"><b>${I18n.getMessage("ForumBase.search")}</b></a> &nbsp;
-									
-									<img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Recent Topics]" />
-									<a id="latest" class="mainmenu" href="${JForumContext.encodeURL("/recentTopics/list")}">${I18n.getMessage("ForumBase.recentTopics")}</a> &nbsp;
-									<img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Hottest Topics]" />
-									<a id="hottest" class="mainmenu" href="${JForumContext.encodeURL("/hottestTopics/list")}">${I18n.getMessage("ForumBase.hottestTopics")}</a> &nbsp;
-									<img src="${contextPath}/templates/${templateName}/images/icon_mini_members.gif" alt="[Members]" />&nbsp;
-									<a id="latest2" class="mainmenu" href="${JForumContext.encodeURL("/user/list")}">${I18n.getMessage("ForumBase.usersList")}</a> &nbsp;
-									<span class="mainmenu"> <img src="${contextPath}/templates/${templateName}/images/icon_mini_groups.gif" alt="[Groups]" />&nbsp;<a id="backtosite" class="mainmenu" href="${homepageLink}">${I18n.getMessage("ForumBase.backToSite")}</a>&nbsp;
-									<br>
-									
-
-									<#if canAccessModerationLog?default(false)>
-										<img src="${contextPath}/templates/${templateName}/images/icon_mini_members.gif" alt="[Moderation Log]" />
-										<a id="moderationlog" class="mainmenu" href="${JForumContext.encodeURL("/moderation/showActivityLog")}">${I18n.getMessage("ModerationLog.moderationLog")}</a> &nbsp;
-									</#if>
-
-									<#if logged>
-										<a id="myprofile" class="mainmenu" href="${JForumContext.encodeURL("/user/edit/${session.userId}")}"><img src="${contextPath}/templates/${templateName}/images/icon_mini_profile.gif" border="0" alt="[Profile]" /> ${I18n.getMessage("ForumBase.profile")}</a>&nbsp; 
-										<#if bookmarksEnabled>
-											<a class="mainmenu" href="${JForumContext.encodeURL("/bookmarks/list/${session.userId}")}"><img src="${contextPath}/templates/${templateName}/images/icon_minipost.gif" alt="[Post]" />${I18n.getMessage("Bookmarks.myBag")}</a>&nbsp;
-										</#if>
-										<a id="privatemessages" class="mainmenu" href="${JForumContext.encodeURL("/pm/inbox")}"><img src="${contextPath}/templates/${templateName}/images/icon_mini_message.gif" border="0" alt="[Message]" />
-											<#if (session.privateMessages > 0)>
-												${I18n.getMessage("ForumBase.newPm")}: (${session.privateMessages})
-											<#else>
-												${I18n.getMessage("ForumBase.privateMessages")}
-											</#if>
-										</a>&nbsp;
-										</span>
-
-										<#if !sso>
-											<a id="logout" class="mainmenu" href="${JForumContext.encodeURL("/user/logout")}"><img src="${contextPath}/templates/${templateName}/images/icon_mini_login.gif" border="0" alt="[Login]" /> ${I18n.getMessage("ForumBase.logout")} [${session.username}] </a></span>
-										</#if>
-									</#if>
-	
-									<#if !logged && !sso>
-										<a id="register" class="mainmenu" href="${JForumContext.encodeURL("/user/insert")}"><img src="${contextPath}/templates/${templateName}/images/icon_mini_register.gif" border="0" alt="[Register]" /> ${I18n.getMessage("ForumBase.register")}</a>&nbsp;/&nbsp;</span>
-										<a id="login" class="mainmenu" href="${JForumContext.encodeURL("/user/login")}"><img src="${contextPath}/templates/${templateName}/images/icon_mini_login.gif" border="0" alt="[Login]" /> ${I18n.getMessage("ForumBase.login")}</a>&nbsp; </span>
-									</#if>
-
-									
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td>
-
+<div style="padding:12px 1px 1px 1px;margin:0 4px;background-image:url(${contextPath}/templates/${templateName}/topbg.gif);">
+<div style="width:100%;height:85px;overflow:auto;text-align:left;clear:both;top:0;margin-bottom:0px;background-color:#FFFFFF;">
+<span id="topleftlogo" style="width:200px;clear:none;float:left;"><a href="${homepageLink}"><img src="${contextPath}/templates/${templateName}/images/logo.jpg"  vspace="1" border="0" alt="[Logo]" /></a></span>
+<div id="topright" style="width:450px;float:right;text-align:right;clear:none;margin:8px 8px 8px 0px;">
+ <span id="topforumtitle" class="maintitle">${forumTitle?default("JForum")}</span>
+<br/>
+<img src="${contextPath}/templates/${templateName}/images/icon_mini_search.gif" alt="[Search]"/>
+<a id="search" rel="lightbox"  class="mainmenu" href="${JForumContext.encodeURL("/search/filters")}"><b>${I18n.getMessage("ForumBase.search")}</b></a>
+<img src="${contextPath}/templates/${templateName}/images/icon_mini_members.gif" alt="[Members]" />
+<a id="latest2" class="mainmenu" href="${JForumContext.encodeURL("/user/list")}">${I18n.getMessage("ForumBase.usersList")}</a>
+<img src="${contextPath}/templates/${templateName}/images/icon_mini_groups.gif" alt="[Groups]" />&nbsp;<a id="backtosite" class="mainmenu" href="${homepageLink}">${I18n.getMessage("ForumBase.backToSite")}</a>
+<br>
+<img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Hottest Topics]" />
+<a id="hottest" class="mainmenu" href="${JForumContext.encodeURL("/hottestTopics/list")}">${I18n.getMessage("ForumBase.hottestTopics")}</a>
+<img src="${contextPath}/templates/${templateName}/images/icon_mini_recentTopics.gif" alt="[Recent Topics]" />
+<a id="latest" class="mainmenu" href="${JForumContext.encodeURL("/recentTopics/list")}">${I18n.getMessage("ForumBase.recentTopics")}</a>
+<#if canAccessModerationLog?default(false)>
+<img src="${contextPath}/templates/${templateName}/images/icon_mini_members.gif" alt="[Moderation Log]" />
+<a id="moderationlog" class="mainmenu" href="${JForumContext.encodeURL("/moderation/showActivityLog")}">${I18n.getMessage("ModerationLog.moderationLog")}</a>
+</#if>
+</div>
+</div>
+<div style="clear:both;text-align:left;padding:1px;background-color:#FFFFFF;margin:3px 0 0 0;height:23px;overflow:hidden;">
+<form action="" method="post" name="frm_changlang" style="display:none;"><input type="hidden" name="lang" value="${language}"/></form>
+<span id="top_userinfo" style="float:left;"><img id="langDispArea" style="margin:5px;clear:none;float:left;clear:none;cursor:pointer;" src="${contextPath}/templates/${templateName}/images/${language}/lang.gif" border="0" alt="${I18n.getMessage("User.Lang."+language)}">
+<#if logged>
+<a id="myprofile" class="mainmenu" href="${JForumContext.encodeURL("/user/edit/${session.userId}")}"><img src="${contextPath}/templates/${templateName}/images/icon_mini_profile.gif" border="0" alt="[Profile]" /> ${I18n.getMessage("ForumBase.profile")}</a>
+<img src="${contextPath}/templates/${templateName}/images/icon_minipost.gif" alt="[MyTopics]" />
+<a id="mytopics" class="mainmenu" href="${JForumContext.encodeURL("/recentTopics/showTopicsByUser/${session.userId}")}"> ${I18n.getMessage("ForumBase.myTopics")}</a>
+<#if bookmarksEnabled>
+	<a class="mainmenu" href="${JForumContext.encodeURL("/bookmarks/list/${session.userId}")}"><img src="${contextPath}/templates/${templateName}/images/icon_minipost.gif" alt="[Post]" />${I18n.getMessage("Bookmarks.myBag")}</a>
+</#if>
+<a id="privatemessages" class="mainmenu" href="${JForumContext.encodeURL("/pm/inbox")}">
+<#if (session.privateMessages > 0)>
+  <img src="${contextPath}/templates/${templateName}/images/icon_mini_new_message.gif" border="0" alt="[New Message]" /> ${I18n.getMessage("ForumBase.newPm")}: (${session.privateMessages})
+<#else>
+  <img src="${contextPath}/templates/${templateName}/images/icon_mini_message.gif" border="0" alt="[Message]" /> ${I18n.getMessage("ForumBase.privateMessages")}
+</#if>
+</a>&nbsp;
+<#if !sso>
+  <a id="logout"  class="mainmenu" href="${JForumContext.encodeURL("/user/logout")}"><img src="${contextPath}/templates/${templateName}/images/icon_mini_login.gif" border="0" alt="[Logout]" /> ${I18n.getMessage("ForumBase.logout")} [${session.username}] </a>
+</#if>
+</#if>
+</span>
+<#if !logged && !sso> 
+<form action="${JForumContext.encodeURL("/jforum")}" style="float:left;clear:none;margin-left:0;padding-left:0;" method="post" name="toploginform" id="toploginform" accept-charset="${encoding}">
+<input type="hidden" name="module" value="user" />
+<input type="hidden" name="returnPath" value="${JForumContext.encodeURL("/forums/list")}" />
+<input type="hidden" name="action" value="validateLogin" />
+${I18n.getMessage("Login.user")}:<input class="input_text" maxlength="40" size="25" name="username" />
+${I18n.getMessage("Login.password")}:<input class="input_text" type="password" maxlength="25" size="25" name="password" />
+<#if autoLoginEnabled><label for="topautologin">${I18n.getMessage("Login.autoLogon")}: </label><input type="checkbox" id="topautologin" name="autologin" /></#if>
+<button type="submit"> ${I18n.getMessage("Login.enter")} </button>
+<!--<a id="login"  rel="lightbox"  class="mainmenu" href="${JForumContext.encodeURL("/user/login")}"><img src="${contextPath}/templates/${templateName}/images/icon_mini_login.gif" border="0" alt="[Login]" /> ${I18n.getMessage("ForumBase.login")}</a>-->
+<a id="register"  rel="lightbox"  class="mainmenu" href="${JForumContext.encodeURL("/user/insert")}"><img src="${contextPath}/templates/${templateName}/images/icon_mini_register.gif" border="0" alt="[Register]" /> ${I18n.getMessage("ForumBase.register")}</a>
+<a href="${JForumContext.encodeURL("/user/lostPassword")}">${I18n.getMessage("Login.lostPassword")}</a>
+<a href="${JForumContext.encodeURL("/user/activateManual")}">${I18n.getMessage("ActivateAccount.activate")}</a>
+</form>
+<script type="text/javascript">
+<#if returnPath?exists>
+document.forms["toploginform"].elements["returnPath"].value="${returnPath?html}";
+<#else>
+if(self.location.href.indexOf("${JForumContext.encodeURL("/user/login")}")==-1&&self.location.href.indexOf("${JForumContext.encodeURL("/jforum")}")==-1){
+document.forms["toploginform"].elements["returnPath"].value=self.location.href;
+}
+</#if>
+</script>
+</#if>
+  <br clear="all"/>
+</div>
+</div>
+<table width="100%" border="0" id="maintable">
+<tr>
+  <td>

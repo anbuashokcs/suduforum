@@ -1,0 +1,6 @@
+﻿.zh_CN .mceSelectList {font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; font-size: 12px !important; font-weight: normal; margin-top: 3px; padding: 0; display: inline; vertical-align: top; background-color: #F0F0EE;}
+.zh_CN .mceLabel, .mceLabelDisabled {font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; font-size: 12px;}
+.zh_CN .mceStatusbarTop .mceStatusbarPathText,.zh_CN  .mceStatusbarBottom .mceStatusbarPathText,.zh_CN  .mceStatusbar .mceStatusbarPathText {font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; font-size: 12px; padding: 2px; line-height: 16px; overflow: visible;}
+.zh_CN .mcePathItem, .mcePathItem:link,.zh_CN  .mcePathItem:visited,.zh_CN  .mcePathItem:hover {text-decoration: none; font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; font-size: 9pt; color: #000000;}
+.zh_CN .mceMenu a,.zh_CN  .mceMenuTitle,.zh_CN  .mceMenuDisabled {display: block; width: 100%; text-decoration: none; background-color: white; font-family: Tahoma, Verdana, Arial, Helvetica; font-size: 12px; line-height: 20px; color: black;}
+.zh_CN body,td,label{font-size:12px;}

@@ -1,0 +1,461 @@
+* {
+/* Reset browsers default margin, padding and font sizes */
+    margin: 0;
+    padding: 0;
+    font-size:12px;
+}
+
+.forumbg {
+    background: #ebebeb none repeat-x 0 0;
+    margin-bottom: 4px;
+    padding: 0 5px;
+    clear: both;
+}
+
+
+ul.topiclist {
+    display: block;
+    list-style-type: none;
+    margin: 0;
+    font-size: 12px;
+}
+
+ul.topiclist li {
+    display: block; 
+    color: #777777;
+    margin: 0;
+}
+
+ul.topiclist dl {
+    height: 1%;
+    overflow: hidden;
+    position: relative;
+}
+
+dl.icon {
+    min-height: 35px;
+    height: auto !important;
+    background-position: 10px 50%; /* Position of folder icon */
+    background-repeat: no-repeat;
+}
+
+ul.topiclist dt {
+    font-size: 12px;
+    padding-top:2px;
+}
+
+li.header {
+    font-size: 12px;
+} 
+li.header dl {
+    color: #FFFFFF;
+    background-image: url( ../images/cellpic3.gif );
+    background-repeat: repeat-x;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+li.header dt {
+    font-size: 12px;
+    line-height: 1em;
+    border-left-width: 0;
+    margin: 2px 0 4px 0;
+    color: #FFFFFF;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-transform: uppercase;
+}
+
+li.header dd {
+    font-size: 12px;
+    line-height: 1em;
+    border-left-width: 0;
+    margin: 2px 0 4px 0;
+    color: #FFFFFF;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-transform: uppercase;
+}
+
+ul.topiclist dt {
+    font-family: Tahoma, Helvetica, Arial, Sans-serif;
+    font-size: 1.2em;
+} 
+
+ul.topiclist dt {
+    display: block;
+    float: left;
+    width: 50%;
+    font-size: 1.1em;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+li.header dd {
+    font-size: 1.2em;
+    color: #FFFFFF;
+}
+
+ul.topiclist dd {
+    border-left-color: #FFFFFF;
+}
+
+ul.topiclist dd {
+    display: block;
+    float: left;
+    border-left: 1px solid #FFFFFF;
+    padding: 4px 0;
+}
+
+dd.posts {
+    width: 9%;
+    text-align: center;
+    line-height: 2.2em;
+    font-size: 12px;
+}
+
+dd.author {
+    width: 12%;
+    text-align: center;
+    line-height: 2.2em;
+    font-size: 12px;
+}
+
+dd.forum {
+    width: 12%;
+    text-align: center;
+    line-height: 2.2em;
+    font-size: 12px;
+}
+
+dd.views {
+    width: 8%;
+    text-align: center;
+    line-height: 2.2em;
+    font-size: 1.2em;
+}
+
+dd.lastpost {
+    width: 24%;
+    font-size: 11px;
+}
+
+dd.lastpost span {
+    display: block;
+    padding-left: 5px;
+}
+
+li.row {
+    background-color: #e8ecee;
+    border-top: 1px solid #FFFFFF;
+    border-bottom: 1px solid #8f8f8f; 
+}
+
+.bg2 {
+    background-color: #f2f2f2;
+}
+
+ul.topiclist li.row dl {
+    padding: 2px 0;
+}
+
+a.forumtitle, a.topictitle {
+    font-size: 1em;
+}
+
+a:link {
+    color: #105289;
+}
+
+a.topictitle {
+    font-size: 12px;
+    font-weight: bold;
+    color: #898989;
+    text-decoration: none;
+}
+
+a:link {
+    color: #898989;
+    text-decoration: none;
+}
+
+.username-coloured {
+    font-weight: bold;
+    display: inline !important;
+}
+
+ul.topiclist dfn {
+/* Labels for post/view counts */
+    display: none;
+}
+
+img {
+    border-width: 0;
+}
+
+.bg1 {
+    background-color: #f7f7f7;
+}
+
+.row .pagination {
+    display: block;
+    float: right;
+    width: auto;
+    margin-top: 0;
+    padding: 1px 0 1px 15px;
+    font-size: 0.9em;
+    background: none 0 50% no-repeat;
+}
+
+li.row strong {
+    color: #000000;
+}
+
+li.row strong {
+    font-weight: normal;
+    color: #000000;
+}
+
+.pagination {
+    font-size: 1.1em;
+    height: 1%; /* IE tweak (holly hack) */
+    width: auto;
+    text-align: right;
+    margin-top: 5px;
+    float: right;
+}
+
+.row .pagination span a {
+    background-color: #FFFFFF;
+}
+
+.pagination span a:link {
+    font-weight: normal;
+    text-decoration: none;
+    color: #747474;
+    margin: 0 2px;
+    padding: 0 2px;
+    background-color: #eeeeee;
+    border: 1px solid #bababa;
+    font-size: 0.9em;
+    line-height: 1.5em;
+}
+
+.pagination span a {
+    font-weight: normal;
+    text-decoration: none;
+    color: #747474;
+    margin: 0 2px;
+    padding: 0 2px;
+    background-color: #eeeeee;
+    border: 1px solid #bababa;
+    font-size: 0.9em;
+    line-height: 1.5em;
+}
+
+.pagination span.page-sep {
+    display: none;
+}
+
+span.corners-bottom {
+    background-image: none;
+    background-position: 0 100%;
+    margin: 0 -5px;
+    clear: both;
+    font-size: 1px;
+    line-height: 1px;
+    display: block;
+    height: 5px;
+    background-repeat: no-repeat;
+}
+
+span.corners-bottom span {
+    background-image: none;
+    background-position: 100% 100%;
+    font-size: 1px;
+    line-height: 1px;
+    display: block;
+    height: 5px;
+    background-repeat: no-repeat;
+}
+
+fieldset.quickmod, fieldset.jumpbox, fieldset.display-options {
+    font-size: 1.2em;
+}
+
+fieldset.display-options {
+    font-size: 1.2em;
+    text-align: center;
+    margin: 3px 0 5px 0;
+}
+
+fieldset {
+    border-width: 0;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+}
+
+fieldset.display-options a {
+    margin-top: 3px;
+}
+
+a.right {
+    padding-right: 12px;
+    background: none no-repeat 95% 60%;
+}
+
+.right-box {
+    float: right;
+    width: auto;
+    text-align: right;
+}
+
+fieldset.display-options label {
+    white-space: nowrap;
+    padding-right: 2px;
+}
+
+label {
+    color: #425067;
+    cursor: default;
+    padding-right: 5px;
+    color: #676767;
+}
+
+select {
+    border-color: #666666;
+    background-color: #FAFAFA;
+}
+
+select {
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    cursor: pointer;
+    vertical-align: middle;
+    border: 1px solid #666666;
+    padding: 1px;
+    background-color: #FAFAFA;
+}
+
+option {
+    padding-right: 1em;
+}
+
+input.button2 {
+    font-size: 1em;
+}
+
+label input {
+    vertical-align: middle;
+}
+
+input {
+    font-weight: normal;
+    cursor: pointer;
+    vertical-align: middle;
+    padding: 0 3px;
+    font-size: 1em;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+}
+
+hr {
+/* Also see tweaks.css */
+    border: 0 none #FFFFFF;
+    border-top: 1px solid #CCCCCC;
+    height: 1px;
+    margin: 5px 0;
+    display: block;
+    clear: both;
+}
+
+.topic-actions {
+    margin-bottom: 3px;
+    font-size: 1.1em;
+    height: 28px;
+    min-height: 28px;
+}
+
+.buttons {
+    float: left;
+    width: auto;
+    height: auto;
+}
+
+.buttons div.post-icon {
+    width: 96px;
+    height: 25px;
+}
+
+.buttons div {
+    float: left;
+    margin: 0 5px 0 0;
+    background-position: 0 100%;
+}
+
+.buttons div a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-position: 0 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.buttons div span {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.pagination strong {
+    font-weight: normal;
+}
+
+.pagination span strong {
+    padding: 0 2px;
+    margin: 0 2px;
+    font-weight: normal;
+    color: #FFFFFF;
+    background-color: #bfbfbf;
+    border: 1px solid #bfbfbf;
+    font-size: 0.9em;
+}
+
+fieldset.jumpbox {
+    font-size: 1.2em;
+}
+
+fieldset.jumpbox {
+    text-align: right;
+    margin-top: 15px;
+    height: 2.5em;
+}
+
+ul.topiclist .title {
+    font-weight: bold;
+    font-size: 12px;
+    background-image: url( ../images/cellpic3.gif );
+    color: #ffa34f;
+    height: 25px;
+    background-color: #01336b
+}
+
+div.listbody{
+    background:#6666ff;
+    margin: 10px;
+}
+
+div.listbody-inner{
+     margin:3px;padding-bottom:2px;
+}
+
+.olstyle {
+    list-style-type:decimal;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left:40px;
+}
+.olstyle li {
+    margin: 3px;
+}

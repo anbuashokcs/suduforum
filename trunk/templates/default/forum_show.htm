@@ -1,5 +1,54 @@
 <#include "header.htm"/>
-
+<#import "../macros/trydone_common.ftl" as trydone/>
+<script type="text/javascript" src="${contextPath}/templates/${templateName}/js/jquery.js?${startupTime}"></script>
+<script type="text/javascript">
+var __currentTopicID=0;
+function getUrl(topic,id){
+   self.location="${JForumContext.encodeURL("/posts/list/_topicid_")}".replace("_topicid_",topic)+(id!=undefined?"#"+id:"");
+}
+function getUserHome(userid){
+   self.location="${JForumContext.encodeURL("/user/edit/_userid_")}".replace("_userid_",userid);
+}
+function getMore(o,id,reload){ 
+    var displayid=document.getElementById("mA_"+id);
+    if(displayid.style.display!='none'&&reload==undefined){
+        o.src="${contextPath}/templates/${templateName}/images/icon_close.gif";
+        displayid.style.display='none';
+        return;
+    }
+	if(reload==undefined)
+        o.src="${contextPath}/templates/${templateName}/images/icon_open.gif";
+    displayid.style.display='';
+    if(displayid.innerHTML!=""&&reload==undefined){
+        return;
+    }
+    displayid.innerHTML="<img src=${contextPath}/templates/${templateName}/images/icon_loadding.gif>";
+	__currentTopicID=id;
+    getPostsByTopicId(id,0);
+};
+var getPostsByTopicId = function(id, start) { 
+    $.ajax({
+        type:"POST",
+        url: "${contextPath}/jforum${extension}?module=ajax&action=getPostsByTopicId",
+        data:{
+            topicId:id,
+            start:start
+        },
+        dataType:"script",
+        global:false
+    });
+}
+function callbackAm(data) {
+  var datalog = "<ol class=olstyle>";
+  var topicId=__currentTopicID;
+  for (var d=1;d<data.length;d++) {      
+    topicId=data[d].topicId;
+    datalog += "<li><a href=javascript:getUrl("+data[d].topicId+","+data[d].id+");>" + data[d].text.substring(0,50)+"</a> -- [<a href=javascript:getUserHome('"+data[d].userId+"')>"+data[d].postUsername+"</a>]"+ "</li>";
+  }
+displayid=document.getElementById("mA_"+topicId);
+displayid.innerHTML=datalog+"</ol><div style=text-align:left;margin-left:20px;><img style=\"cursor:pointer;border:0;\" src=\"${contextPath}/templates/${templateName}/images/icon_reload.jpg\" onclick=\"getMore(null,"+topicId+",true);\"  alt=\"[reload]\">&nbsp;<img style=\"cursor:pointer;border:0;\" src=\"${contextPath}/templates/${templateName}/images/icon_more.jpg\" onclick=\"getUrl("+topicId+");\"  alt=\"[more]\"></div>";
+};
+</script>
 <#import "../macros/pagination.ftl" as pagination>
 <#import "../macros/presentation.ftl" as presentation/>
 
@@ -19,9 +68,8 @@
 			<table cellspacing="2" cellpadding="2" width="100%" align="center">
 				<tr>
 					<td valign="bottom" align="left" colspan="2">
-						<a class="maintitle" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a> &raquo;
-						<a class="maintitle" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a>
-
+						<a class="maintitle" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a>  
+   <@trydone.listParentCateogrys allCategories, forum.categoryId,"&raquo; <a class=nav href="+JForumContext.encodeURL("/forums/show/"+forum.id)+">"+forum.name?html+"</a>"/>
 						<#if rssEnabled>
 							<a href="${JForumContext.encodeURL("/rss/forumTopics/${forum.id}")}"><img src="${contextPath}/templates/${templateName}/images/xml_button.gif" border="0" alt="[XML]" /></a>
 							<br />
@@ -59,8 +107,7 @@
 							<a href="${JForumContext.encodeURL("/jforum${extension}?module=posts&amp;action=insert&amp;forum_id=${forum.id}", "")}" rel="nofollow" class="icon_new_topic"><img src="${contextPath}/images/transp.gif" alt="" /></a>
 						</td>
 					</#if>
-
-					<form accept-charset="${encoding}" action="${JForumContext.encodeURL("/jforum")}" method="get" id="formSearch" name="formSearch">
+                 <form accept-charset="${encoding}" action="${JForumContext.encodeURL("/jforum")}" method="get" id="formSearch" name="formSearch">
 					<input type="hidden" name="module" value="search"/>
 					<input type="hidden" name="action" value="search"/>
 					<input type="hidden" name="forum" value="${forum.id}">
@@ -198,7 +245,7 @@
 
 					<tr class="bg_small_yellow">
 						<td ${class1} valign="middle"  align="center" width="20"><@presentation.folderImage topic/></td>
-						<td ${class1} width="100%">
+						<td ${class1} width="100%"><img src="${contextPath}/templates/${templateName}/images/icon_close.gif" border="0" style="margin:0;padding:0;cursor:pointer;" onclick="getMore(this,'${topic.id}')"/>
 							<#if topic.hasAttach() && attachmentsEnabled><img src="${contextPath}/templates/${templateName}/images/icon_clip.gif" align="middle" alt="[Clip]" /></#if>
 							<span class="topictitle">
 							<a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}">
@@ -217,7 +264,8 @@
 								<@pagination.littlePostPagination topic.id, postsPerPage, topic.totalReplies/>
 								</span>
 							</#if>
-						</td>
+                        <div class="infoMacro" style="display:none" id="mA_${topic.id}"></div>
+                        </td>
 
 						<td ${class2} valign="middle"  align="center"><span class="postdetails">${topic.totalReplies}</span></td>
 						<td ${class3} valign="middle"  align="center">
@@ -273,7 +321,11 @@
 
 					<td valign="middle"  align="left" colspan="${colspan?default("0")}">
 						<span class="nav">
-						<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a> &raquo;  <a class="nav" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a></span>
+						<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a>
+                            
+   <@trydone.listParentCateogrys allCategories, forum.categoryId,"&raquo; <a class=nav href="+JForumContext.encodeURL("/forums/show/"+forum.id)+">"+forum.name?html+"</a>"/>
+           
+                        </span>
 					</td>
 
 					<td nowrap="nowrap" align="right" class="nav">${paginationData}</td>

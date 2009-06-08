@@ -1,6 +1,55 @@
 <#include "header.htm"/>
 <#import "../macros/pagination.ftl" as pagination>
 <#import "../macros/presentation.ftl" as presentation/>
+<script type="text/javascript" src="${contextPath}/templates/${templateName}/js/jquery.js?${startupTime}"></script>
+<script type="text/javascript">
+var __currentTopicID=0;
+function getUrl(topic,id){
+   self.location="${JForumContext.encodeURL("/posts/list/_topicid_")}".replace("_topicid_",topic)+(id!=undefined?"#"+id:"");
+}
+function getUserHome(userid){
+   self.location="${JForumContext.encodeURL("/user/edit/_userid_")}".replace("_userid_",userid);
+}
+function getMore(o,id,reload){
+    var displayid=document.getElementById("mA_"+id);
+    if(displayid.style.display!='none'&&reload==undefined){
+        o.src="${contextPath}/templates/${templateName}/images/icon_close.gif";
+        displayid.style.display='none';
+        return;
+    }
+	if(reload==undefined)
+        o.src="${contextPath}/templates/${templateName}/images/icon_open.gif";
+    displayid.style.display='';
+    if(displayid.innerHTML!=""&&reload==undefined){
+        return;
+    }
+    displayid.innerHTML="<img src=${contextPath}/templates/${templateName}/images/icon_loadding.gif>";
+	__currentTopicID=id;
+    getPostsByTopicId(id,0);
+};
+var getPostsByTopicId = function(id, start) {
+    $.ajax({
+        type:"POST",
+        url: "${contextPath}/jforum.${extension}?module=ajax&action=getPostsByTopicId",
+        data:{
+            topicId:id,
+            start:start
+        },
+        dataType:"script",
+        global:false
+    });
+}
+function callbackAm(data) {
+  var datalog = "<ol class=olstyle>";
+  var topicId=__currentTopicID;
+  for (var d=1;d<data.length;d++) {
+    topicId=data[d].topicId;
+    datalog += "<li><a href=javascript:getUrl("+data[d].topicId+","+data[d].id+");>" + data[d].text.substring(0,50)+"</a> -- [<a href=javascript:getUserHome('"+data[d].userId+"')>"+data[d].postUsername+"</a>]"+ "</li>";
+  }
+displayid=document.getElementById("mA_"+topicId);
+displayid.innerHTML=datalog+"</ol><div style=text-align:left;margin-left:20px;><img style=\"cursor:pointer;border:0;\" src=\"${contextPath}/templates/${templateName}/images/icon_reload.jpg\" onclick=\"getMore(null,"+topicId+",true);\"  alt=\"[reload]\">&nbsp;<img style=\"cursor:pointer;border:0;\" src=\"${contextPath}/templates/${templateName}/images/icon_more.jpg\" onclick=\"getUrl("+topicId+");\"  alt=\"[more]\"></div>";
+};
+</script>
 
 <link rel="alternate" type="application/rss+xml" title="RSS" href="${contextPath}/rss/recentTopics${extension}" />
 
@@ -43,7 +92,7 @@
 					<td class="row2" valign="middle" align="center"><a class="postdetails" href="${JForumContext.encodeURL("/forums/show/${forums.get(topic_index).getId()}")}">${forums.get(topic_index).getName()}</a></td>
 					<td class="row1" valign="middle" align="center" width="20"><@presentation.folderImage topic/></td>
 					<td class="row1" width="80%">
-						<span class="topictitle">
+						<span class="topictitle"><img src="${contextPath}/templates/${templateName}/images/icon_close.gif" border="0" style="margin:0;padding:0;cursor:pointer;" onclick="getMore(this,'${topic.id}')"/>
 						<a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}"><#if (topic.title?length == 0)>No Subject<#else>${topic.title?html}</#if></a>
 						</span>
 
@@ -52,7 +101,8 @@
 							<br />
 							<@pagination.littlePostPagination topic.id, postsPerPage, topic.totalReplies/>				
 							</span>
-						</#if>		
+						</#if>
+                        <div class="infoMacro" style="display:none" id="mA_${topic.id}"></div>
 					</td>
 
 					<td class="row2" valign="middle" align="center"><span class="postdetails">${topic.totalReplies}</span></td>

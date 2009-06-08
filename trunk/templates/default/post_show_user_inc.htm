@@ -1,4 +1,4 @@
-<span class="genmed"><b>${user.username?html}</b></span>
+<span class="genmed"><b><a href="${JForumContext.encodeURL("/user/profile/${user.id}")}">${user.username?html}</a></b></span>
 <br />
 <#if karmaEnabled && post.userId != 1>
 	<script type="text/javascript">writeStars(${user.karma.karmaPoints}, "${user.id}${post.id}");</script>
@@ -23,7 +23,7 @@
 <br /> 
 
 <#if post.userId != 1>
-	${I18n.getMessage("PostShow.userRegistrationDate")}: ${user.registrationDate}<br />
+	${I18n.getMessage("PostShow.userRegistrationDate")}: ${user.getRegistrationDateFormated()}<br />
 	${I18n.getMessage("PostShow.userTotalMessages")}: ${user.totalPosts}
 </#if>
 <br />
@@ -45,5 +45,22 @@
 		<span class="offline">${I18n.getMessage("PostShow.userOffline")} </span>
 	</#if>
 </#if>
+ <br/>
+    <#if (user.sex?exists &&( user.sex==1 || user.sex==2))>
+        ${I18n.getMessage("User.sex")}:
+        <#if user.sex==1>
+            ${I18n.getMessage("User.sex.male")}
+            <#elseif user.sex==2>
+                ${I18n.getMessage("User.sex.female")}
+                <#else>
+                    ${I18n.getMessage("User.sex.unknown")}
+        </#if>
+        <br/>
+    </#if> 
+<#if (user.birthday?exists )>
+    ${I18n.getMessage("User.birthday")}:${user.birthdayFormated}</br>
+</#if>
+
+
 </span>
 <br />

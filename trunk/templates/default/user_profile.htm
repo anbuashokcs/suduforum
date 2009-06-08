@@ -22,7 +22,6 @@
 		<td class="catleft" align="center" width="40%" height="28"><b><span class="gen">${I18n.getMessage("UserProfile.avatar")}</span></b></td>
 		<td class="catright" align="center" width="60%"><b><span class="gen">${I18n.getMessage("UserProfile.allAbout")} ${u.username}</span></b></td>
     </tr>
-
 	<tr>
 		<td class="row1" valign="top" align="center" height="6">
 			<#if (u.avatar?exists && u.avatar?length > 0)>
@@ -47,7 +46,7 @@
 			<table cellspacing="1" cellpadding="3" width="100%" border="0">
 				<tr>
 					<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("UserProfile.registrationDate")}:&nbsp;</span></td>
-					<td width="100%"><b><span class="gen">${u.registrationDate}</span></b></td>
+					<td width="100%"><b><span class="gen">${u.getRegistrationDateFormated()}</span></b></td>
 				</tr>
 				
 				<tr>
@@ -76,8 +75,31 @@
 					<td><b><span class="gen">${u.from}</span></b></td>
 				</tr>
 				</#if>
-            
-				<#if (u.webSite?exists && u.webSite?length > 0)>
+                <#if (u.sex?exists &&( u.sex==1 || u.sex==2) )>
+			<tr>
+				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.sex")}:</span></td>
+				<td class="row1">
+                    <span class="gen"><#if u.sex==1>
+                          ${I18n.getMessage("User.sex.male")}
+                        <#elseif u.sex==2>
+                            ${I18n.getMessage("User.sex.female")}
+                        <#else>
+                            ${I18n.getMessage("User.sex.unknown")}
+                        </#if></span>
+                </td>
+			</tr>
+			</#if>
+			<#if (u.birthday?exists )>
+			<tr>
+				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.birthday")}:</span></td>
+				<td class="row1">
+                    <span class="gen">${u.birthdayFormated}</span>
+                </td>
+			</tr>
+			</#if>
+                
+
+                <#if (u.webSite?exists && u.webSite?length > 0)>
 				<tr>
 					<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("UserProfile.webSite")}:&nbsp;</span></td>
 					<td><span class="gen"><b><a href="${u.webSite}" target="_new">${u.webSite}</a></b></span></td>
@@ -164,12 +186,19 @@
 				<td class="row1" valign="middle"><span class="gen">${u.yim}</span></td>
 			</tr>
 			</#if>
-
+			<#if (u.qq?exists && u.qq?length > 0)>
+			<tr>
+				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.qq")}:</span></td>
+				<td class="row1">
+                    <span class="gen"><a target=_self href=tencent://message/?uin=${u.qq}&Menu=yes><img border="0" SRC=http://wpa.qq.com/pa?p=1:${u.qq}:4 alt="Tencent QQ">${u.qq}</a></span>
+                </td>
+			</tr>
+			</#if>
 			<#if (u.icq?exists && u.icq?length > 0)>
 			<tr>
 				<td valign="middle" nowrap="nowrap" align="right"><span class="gen">${I18n.getMessage("User.icq")}:</span></td>
 				<td class="row1">
-					<a href="http://wwp.icq.com/scripts/search.dll?to=${u.icq}"><img src="${contextPath}/templates/${templateName}/images/icon_icq_add.gif" border="0" /></a>
+					<span class="gen"><a href="http://wwp.icq.com/scripts/search.dll?to=${u.icq}"><img src="${contextPath}/templates/${templateName}/images/icon_icq_add.gif" border="0" /></a></span>
 				</td>
 			</tr>
 			</#if>
