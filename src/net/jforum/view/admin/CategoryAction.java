@@ -61,6 +61,7 @@ import net.jforum.util.I18n;
 import net.jforum.util.TreeGroup;
 import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.view.admin.common.ModerationCommon;
+import freemarker.template.TemplateModelException;
 
 /**
  * ViewHelper for category administration.
@@ -85,13 +86,15 @@ public class CategoryAction extends AdminCommand
 	{
 		this.context.put("groups", new TreeGroup().getNodes());
 		this.context.put("selectedList", new ArrayList());
-		this.setTemplateName(TemplateKeys.CATEGORY_INSERT);
+		this.context.put("categories", cm.selectAll());
+        this.setTemplateName(TemplateKeys.CATEGORY_INSERT);
 		this.context.put("action", "insertSave");
 	}
 	
 	// Edit
 	public void edit()
 	{
+		this.context.put("categories", cm.selectAll());
 		this.context.put("category", this.cm.selectById(this.request.getIntParameter("category_id")));
 		this.setTemplateName(TemplateKeys.CATEGORY_EDIT);
 		this.context.put("action", "editSave");
@@ -104,7 +107,7 @@ public class CategoryAction extends AdminCommand
 				this.request.getIntParameter("categories_id")));
 		c.setName(this.request.getParameter("category_name"));
 		c.setModerated("1".equals(this.request.getParameter("moderate")));
-			
+        c.setParentId(Integer.parseInt(request.getParameter("parent_id")));
 		this.cm.update(c);
 		ForumRepository.reloadCategory(c);
 		
@@ -147,8 +150,9 @@ public class CategoryAction extends AdminCommand
 		Category c = new Category();
 		c.setName(this.request.getParameter("category_name"));
 		c.setModerated("1".equals(this.request.getParameter("moderated")));
-			
-		int categoryId = this.cm.addNew(c);
+        c.setParentId(Integer.parseInt(request.getParameter("parent_id")));
+
+        int categoryId = this.cm.addNew(c);
 		c.setId(categoryId);
 
 		ForumRepository.addCategory(c);

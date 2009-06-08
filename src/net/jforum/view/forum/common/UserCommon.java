@@ -46,6 +46,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 import net.jforum.JForumExecutionContext;
 import net.jforum.SessionFacade;
@@ -62,6 +65,7 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -122,9 +126,21 @@ public class UserCommon
 		u.setBbCodeEnabled("1".equals(request.getParameter("allowbbcode")));
 		u.setSmiliesEnabled("1".equals(request.getParameter("allowsmilies")));
 		u.setNotifyAlways("1".equals(request.getParameter("notify_always")));
-		u.setNotifyText("1".equals(request.getParameter("notify_text")));
-		
-		String website = safeHtml.makeSafe(request.getParameter("website"));
+		u.setNotifyText("1".equals(request.getParameter("notify_text"))); 
+        u.setQq(safeHtml.makeSafe(request.getParameter("qq")));
+        u.setSex(Integer.parseInt(safeHtml.makeSafe(request.getParameter("sex"))));
+
+        try {
+            Date birthday;// = new Date(Long.parseLong("-2209017600000"));
+            birthday = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_FORMAT)).parse(request.getParameter("birthday"));
+            u.setBirthday(birthday);
+        } catch (Exception e) {
+            u.setBirthday(null);
+            logger.info(" Parse Date using format(" + SystemGlobals.getValue(ConfigKeys.DATE_FORMAT) + ") Exception : " + request.getParameter("birthday"));
+        }
+//        u.setBirthday(birthday);
+
+        String website = safeHtml.makeSafe(request.getParameter("website"));
 		if (!StringUtils.isEmpty(website) && !website.toLowerCase().startsWith("http://")) {
 			website = "http://" + website;
 		}

@@ -54,6 +54,7 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.standard.ParseException;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.QueryParser;
@@ -157,8 +158,9 @@ public class LuceneSearch implements NewDocumentAdded
 			else {
 				result = new SearchResult(new ArrayList(), 0);
 			}
-		}
-		catch (Exception e) {
+		} catch (ParseException e) {
+				result = new SearchResult(new ArrayList(), 0);
+              }catch (Exception e) {
 			throw new SearchException(e);
 		}
 		

@@ -87,9 +87,12 @@ public class DbUtils
 		if (st != null) {
 			try {
 				st.clearWarnings();
+			}
+			catch (Exception e) { }
+			try {
 				st.close();
 			}
-			catch (SQLException e) { }
+			catch (Exception e) { }
 		}
 	}
 }

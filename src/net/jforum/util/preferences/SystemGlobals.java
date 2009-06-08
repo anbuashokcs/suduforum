@@ -42,10 +42,7 @@
  */
 package net.jforum.util.preferences;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -106,7 +103,14 @@ public class SystemGlobals implements VariableStore
 	{
 		globals = new SystemGlobals();
 		globals.buildSystem(appPath, mainConfigurationFile);
-	}
+        
+        //pinke@trydone.com
+        try {
+            getlocalesFromFile();
+        } catch (IOException e) {
+           logger.error(e);
+        }
+    }
 	
 	public static void reset()
 	{
@@ -397,7 +401,7 @@ public class SystemGlobals implements VariableStore
 	 * */
 	public static String getSql(String sql)
 	{
-		return queries.getProperty(sql);
+        return queries.getProperty(sql);
 	}
 
 	/**
@@ -414,4 +418,45 @@ public class SystemGlobals implements VariableStore
 	{
 		return new Properties(globals.defaults);
 	}
+
+
+
+    private static  Properties locales;
+
+    /**
+     *
+     * <p> pinke@trydone.com <p>
+     * @return   locales Properties
+     * @throws IOException
+     */
+    public static Properties getLocales() throws IOException {
+        if(locales==null){
+              return getlocalesFromFile();
+        }
+         return locales;
+    }
+    public static List getLocaleList() throws IOException {
+        Properties ls = getLocales();
+		List localesList = new ArrayList();
+		for (Enumeration e = ls.keys(); e.hasMoreElements();) {
+			localesList.add(e.nextElement());
+		}
+        return localesList;
+    }
+    /**
+     * <p> pinke@trydone.com <p> 
+     * @return locales Properties
+     * @throws IOException
+     */
+    public static Properties getlocalesFromFile() throws IOException {
+         locales = new Properties();
+//        FileInputStream fis = new FileInputStream(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR)
+//                + "/languages/locales.properties");
+   FileInputStream fis = new FileInputStream(SystemGlobals.getApplicationResourceDir() + "/"
+           + SystemGlobals.getValue(ConfigKeys.LOCALES_DIR)
+                 +getValue(ConfigKeys.LOCALES_NAMES));
+        locales.load(fis);
+        fis.close();
+        return locales;
+    }
 }

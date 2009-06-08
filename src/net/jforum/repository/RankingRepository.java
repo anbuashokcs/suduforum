@@ -83,7 +83,16 @@ public class RankingRepository implements Cacheable
 	
 	public static int size()
 	{
-		return ((List)cache.get(FQN, ENTRIES)).size();
+        int ret= 0;
+        //for null exception when cache failure. Not goond idea :(
+        try {
+            ret = ((List)cache.get(FQN, ENTRIES)).size();
+        } catch (Exception e) {
+            loadRanks();
+            ret = ((List)cache.get(FQN, ENTRIES)).size();
+        }
+
+        return ret;
 	}
 	
 	/**
@@ -112,7 +121,13 @@ public class RankingRepository implements Cacheable
 		Ranking lastRank = new Ranking();
 		
 		List entries = (List)cache.get(FQN, ENTRIES);
-		
+        //for null exception when cache failure. Not goond idea :(
+		 if(entries==null){
+             loadRanks();
+             entries = (List)cache.get(FQN, ENTRIES);
+         }
+        if(entries==null)return null;
+
 		for (Iterator iter = entries.iterator(); iter.hasNext(); ) {
 			Ranking r = (Ranking)iter.next();
 			
@@ -135,6 +150,13 @@ public class RankingRepository implements Cacheable
 		r.setId(rankId);
 		
 		List l = (List)cache.get(FQN, ENTRIES);
+        //pinke add
+        if(l==null){
+            loadRanks();
+            l = (List)cache.get(FQN, ENTRIES);
+        }
+        if(l==null) return null;
+
 		int index = l.indexOf(r);
 		
 		return index > -1

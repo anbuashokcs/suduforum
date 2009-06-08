@@ -258,4 +258,22 @@ public class AttachmentInfo
 	{
 		this.uploadTimeInMillis = uploadTimeInMillis;
 	}
+
+
+    public String toString() {
+        return "AttachmentInfo{" +
+                "id=" + id +
+                ", attachId=" + attachId +
+                ", downloadCount=" + downloadCount +
+                ", physicalFilename='" + physicalFilename + '\'' +
+                ", realFilename='" + realFilename + '\'' +
+                ", comment='" + comment + '\'' +
+                ", mimetype='" + mimetype + '\'' +
+                ", uploadTimeInMillis=" + uploadTimeInMillis +
+                ", filesize=" + filesize +
+                ", hasThumb=" + hasThumb +
+                ", uploadTime=" + uploadTime +
+                ", extension=" + extension +
+                '}';
+    }
 }

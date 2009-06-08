@@ -1190,7 +1190,14 @@ public class GenericTopicDAO extends AutoKeys implements TopicDAO
 				u.setAim(rs.getString("user_aim"));
 				u.setSignature(rs.getString("user_sig"));
 
-				m.put(new Integer(u.getId()), u);
+
+
+                u.setQq( rs.getString("user_qq"));
+                u.setSex(rs.getInt("user_sex"));
+                if (rs.getDate("user_birthday") != null) {
+                    u.setBirthday(new Date(rs.getDate("user_birthday").getTime()));
+                }
+                m.put(new Integer(u.getId()), u);
 			}
 			
 			return m;

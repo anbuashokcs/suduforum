@@ -43,11 +43,7 @@
 package net.jforum.view.forum;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import net.jforum.Command;
 import net.jforum.JForumExecutionContext;
@@ -58,8 +54,10 @@ import net.jforum.dao.ModerationDAO;
 import net.jforum.entities.Forum;
 import net.jforum.entities.MostUsersEverOnline;
 import net.jforum.entities.UserSession;
+import net.jforum.entities.Topic;
 import net.jforum.repository.ForumRepository;
 import net.jforum.repository.SecurityRepository;
+import net.jforum.repository.TopicRepository;
 import net.jforum.security.SecurityConstants;
 import net.jforum.util.I18n;
 import net.jforum.util.preferences.ConfigKeys;
@@ -70,6 +68,9 @@ import net.jforum.view.forum.common.ForumCommon;
 import net.jforum.view.forum.common.PostCommon;
 import net.jforum.view.forum.common.TopicsCommon;
 import net.jforum.view.forum.common.ViewCommon;
+import freemarker.template.TemplateModelException;
+import freemarker.template.TemplateModelIterator;
+import freemarker.template.TemplateModel;
 
 /**
  * @author Rafael Steil
@@ -85,11 +86,11 @@ public class ForumAction extends Command
 		this.setTemplateName(TemplateKeys.FORUMS_LIST);
 
 		this.context.put("allCategories", ForumCommon.getAllCategoriesAndForums(true));
-		this.context.put("topicsPerPage", new Integer(SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE)));
+        this.context.put("topicsPerPage", new Integer(SystemGlobals.getIntValue(ConfigKeys.TOPICS_PER_PAGE)));
 		this.context.put("rssEnabled", SystemGlobals.getBoolValue(ConfigKeys.RSS_ENABLED));
 
 		this.context.put("totalMessages", new Integer(ForumRepository.getTotalMessages()));
-		this.context.put("totalRegisteredUsers", ForumRepository .totalUsers());
+		this.context.put("totalRegisteredUsers", ForumRepository.totalUsers());
 		this.context.put("lastUser", ForumRepository.lastRegisteredUser());
 
 		SimpleDateFormat df = new SimpleDateFormat(SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
@@ -148,7 +149,32 @@ public class ForumAction extends Command
 		}
 
 		this.context.put("mostUsersEverOnline", mostUsersEverOnline);
-	}
+
+        //list  recent topics
+        int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
+        List topics = TopicRepository.getRecentTopics();
+        List forums = new ArrayList(postsPerPage);
+
+        for (Iterator iter = topics.iterator(); iter.hasNext();) {
+            Topic t = (Topic) iter.next();
+            try {
+                Forum f = ForumRepository.getForum(t.getForumId());
+                if (f == null || !ForumRepository.isCategoryAccessible(f.getCategoryId())) {
+                    iter.remove();
+                } else {
+                    forums.add(f);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        this.context.put("postsPerPage", new Integer(postsPerPage));
+        this.context.put("recentTopics", topics);
+       this.context.put("recentTopicForums", forums);
+
+    	TopicsCommon.topicListingBase();
+//		this.request.setAttribute("template", null); 
+    }
 
 	public void moderation()
 	{
@@ -183,7 +209,7 @@ public class ForumAction extends Command
 		boolean isLogged = SessionFacade.isLogged();
 		boolean isModerator = userSession.isModerator(forumId);
 
-		boolean canApproveMessages = (isLogged && isModerator 
+		boolean canApproveMessages = (isLogged && isModerator
 			&& SecurityRepository.canAccess(SecurityConstants.PERM_MODERATION_APPROVE_MESSAGES));
 
 		Map topicsToApprove = new HashMap();
@@ -251,14 +277,14 @@ public class ForumAction extends Command
 	public void readAll()
 	{
 		String forumId = this.request.getParameter("forum_id");
-		
+
 		if (forumId != null) {
 			Map tracking = SessionFacade.getTopicsReadTimeByForum();
-			
+
 			if (tracking == null) {
 				tracking = new HashMap();
 			}
-			
+
 			tracking.put(new Integer(forumId), new Long(System.currentTimeMillis()));
 			SessionFacade.setAttribute(ConfigKeys.TOPICS_READ_TIME_BY_FORUM, tracking);
 		}
@@ -280,7 +306,7 @@ public class ForumAction extends Command
 
 		SearchAction searchAction = new SearchAction(this.request, this.response, this.context);
 		searchAction.newMessages();
-		
+
 		this.setTemplateName(TemplateKeys.SEARCH_NEW_MESSAGES);
 	}
 
@@ -323,7 +349,7 @@ public class ForumAction extends Command
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dao ForumDAO
 	 * @param forumId int
 	 * @param userId int
@@ -355,4 +381,8 @@ public class ForumAction extends Command
 			this.setTemplateName(ViewCommon.contextToLogin());
 		}
 	}
+   public void categories(){
+       this.context.put("currentCategoryId",new Integer(this.request.getIntParameter("category_id")));
+       list();
+   }
 }

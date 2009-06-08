@@ -43,6 +43,7 @@
 package net.jforum.entities;
 
 import java.io.File;
+import java.io.Serializable;
 
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
@@ -51,14 +52,14 @@ import net.jforum.util.preferences.SystemGlobals;
  * @author Rafael Steil
  * @version $Id: Attachment.java,v 1.5 2006/08/20 22:47:35 rafaelsteil Exp $
  */
-public class Attachment
+public class Attachment implements Serializable
 {
 	private int id;
 	private int postId;
 	private int privmsgsId;
 	private int userId;
 	private AttachmentInfo info;
-	
+
 	/**
 	 * @return Returns the id.
 	 */
@@ -152,4 +153,15 @@ public class Attachment
 			+ this.info.getPhysicalFilename()
 			+ "_thumb";
 	}
+
+
+    public String toString() {
+        return "Attachment{" +
+                "id=" + id +
+                ", postId=" + postId +
+                ", privmsgsId=" + privmsgsId +
+                ", userId=" + userId +
+                ", info=" + info +
+                '}';
+    }
 }

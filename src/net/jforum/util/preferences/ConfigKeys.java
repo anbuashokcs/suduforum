@@ -144,6 +144,7 @@ public class ConfigKeys
 	public static final String DAO_DRIVER = "dao.driver";
 
 	public static final String DATE_TIME_FORMAT = "dateTime.format";
+	public static final String DATE_FORMAT = "date.format";
 	public static final String RSS_DATE_TIME_FORMAT = "rss.datetime.format";
 	public static final String RSS_ENABLED = "rss.enabled";
 	public static final String HOT_TOPIC_BEGIN = "hot.topic.begin";
@@ -171,6 +172,8 @@ public class ConfigKeys
 	public static final String I18N_IMAGES_DIR = "i18n.images.dir";
 	public static final String LOCALES_DIR = "locales.dir";
 	public static final String LOCALES_NAMES = "locales.names";
+    //pinke@trydone.com for muli language.
+    public static final String LOCALES_PROPERTIES = "locales.properties";
 
 	public static final String MAIL_LOST_PASSWORD_MESSAGE_FILE = "mail.lostPassword.messageFile";
 	public static final String MAIL_LOST_PASSWORD_SUBJECT = "mail.lostPassword.subject";

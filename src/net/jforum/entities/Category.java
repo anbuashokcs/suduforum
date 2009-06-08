@@ -58,6 +58,7 @@ import net.jforum.repository.SecurityRepository;
 import net.jforum.security.PermissionControl;
 import net.jforum.security.SecurityConstants;
 import net.jforum.util.ForumOrderComparator;
+import net.jforum.util.CategoryOrderComparator;
 
 /**
  * Represents a category in the System.
@@ -82,8 +83,10 @@ public class Category  implements Serializable
 	private String name;
 	private Map forumsIdMap = new HashMap();
 	private Set forums = new TreeSet(new ForumOrderComparator());
-		
-	public Category() {}
+
+    private int parentId;
+
+    public Category() {}
 	
 	public Category(int id) {
 		this.id = id;
@@ -99,8 +102,9 @@ public class Category  implements Serializable
 		this.id = c.getId();
 		this.order = c.getOrder();
 		this.moderated = c.isModerated();
-		
-		for (Iterator iter = c.getForums().iterator(); iter.hasNext(); ) {
+        this.parentId=c.getParentId();
+
+        for (Iterator iter = c.getForums().iterator(); iter.hasNext(); ) {
 			this.addForum(new Forum((Forum)iter.next()));
 		}
 	}
@@ -343,12 +347,27 @@ public class Category  implements Serializable
 	{
 		return ((o instanceof Category) && (((Category)o).getId() == this.id));
 	}
-	
-	/** 
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return "[" + this.name + ", id=" + this.id + ", order=" + this.order + "]"; 
-	}
 
+    /**
+     * @see Object#toString()
+     */
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", order=" + order +
+                ", moderated=" + moderated +
+                ", name='" + name + '\'' +
+                ", forumsIdMap=" + forumsIdMap +
+                ", forums=" + forums +
+                ", parentId=" + parentId +
+                '}';
+    }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
+    }
 }

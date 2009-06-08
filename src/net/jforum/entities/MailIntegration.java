@@ -16,8 +16,17 @@ public class MailIntegration
 	private String popHost;
 	private String popUsername;
 	private String popPassword;
-	
-	/**
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
 	 * @return the forumId
 	 */
 	public int getForumId()
@@ -124,7 +133,7 @@ public class MailIntegration
 	}
 	
 	/**
-	 * @see java.lang.Object#toString()
+	 * @see Object#toString()
 	 */
 	public String toString()
 	{

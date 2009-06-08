@@ -222,7 +222,7 @@ public class TopicsCommon
 	public static boolean isTopicAccessible(int forumId)
 	{
 		Forum f = ForumRepository.getForum(forumId);
-		
+
 		if (f == null || !ForumRepository.isCategoryAccessible(f.getCategoryId())) {
 			new ModerationHelper().denied(I18n.getMessage("PostShow.denied"));
 			return false;

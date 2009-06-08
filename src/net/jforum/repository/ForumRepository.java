@@ -234,9 +234,9 @@ public class ForumRepository implements Cacheable
 	{
 		PermissionControl pc = SecurityRepository.get(userId);
 		List l = new ArrayList();
-		
+
 		Set categoriesSet = (Set)cache.get(FQN, CATEGORIES_SET);
-		
+
 		if (categoriesSet == null) {
 			synchronized (ForumRepository.instance) {
 				if (categoriesSet == null) {
@@ -266,7 +266,7 @@ public class ForumRepository implements Cacheable
 				l.add(c);
 			}
 		}
-		
+
 		return l;
 	}
 

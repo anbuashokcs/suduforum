@@ -49,7 +49,7 @@ import net.jforum.repository.ForumRepository;
 
 /**
  * Represents a specific forum.
- * 
+ *
  * @author Rafael Steil
  * @version $Id: Forum.java,v 1.13 2007/07/28 14:17:09 rafaelsteil Exp $
  */
@@ -68,11 +68,11 @@ public class Forum implements Serializable
 	private LastPostInfo lpi;
 
 	public Forum() { }
-	
+
 	public Forum(int forumId) {
 		this.id = forumId;
 	}
-	
+
 	public Forum(Forum f)
 	{
 		this.description = f.getDescription();
@@ -87,23 +87,23 @@ public class Forum implements Serializable
 		this.unread = f.getUnread();
 		this.lpi = f.getLastPostInfo();
 	}
-	
+
 	public void setLastPostInfo(LastPostInfo lpi) {
 		this.lpi = lpi;
 	}
-	
+
 	public LastPostInfo getLastPostInfo() {
 		return this.lpi;
 	}
-	
-	public List getModeratorList() 
+
+	public List getModeratorList()
 	{
 		return ForumRepository.getModeratorList(this.id);
 	}
-	
+
 	/**
 	 * Gets the forum's description
-	 * 
+	 *
 	 * @return String with the description
 	 */
 	public String getDescription() {
@@ -112,7 +112,7 @@ public class Forum implements Serializable
 
 	/**
 	 * Gets the forum's ID
-	 * 
+	 *
 	 * @return int value representing the ID
 	 */
 	public int getId() {
@@ -121,16 +121,19 @@ public class Forum implements Serializable
 
 	/**
 	 * Gets the category which the forum belongs to
-	 * 
-	 * @return int value representing the ID of the category 
+	 *
+	 * @return int value representing the ID of the category
 	 */
 	public int getCategoryId() {
 		return this.idCategories;
 	}
+    public void setCategoryId(int categoryId){
+                this.idCategories=categoryId;
+    }
 
-	/**
+    /**
 	 * Gets the ID of the last post
-	 * 
+	 *
 	 * @return int value representing the ID of the post
 	 */
 	public int getLastPostId() {
@@ -139,7 +142,7 @@ public class Forum implements Serializable
 
 	/**
 	 * Checks if is a moderated forum
-	 * 
+	 *
 	 * @return boolean value. <code>true</code> if the forum is moderated, <code>false</code> if not.
 	 */
 	public boolean isModerated() {
@@ -148,7 +151,7 @@ public class Forum implements Serializable
 
 	/**
 	 * Gets the name of the forum
-	 * 
+	 *
 	 * @return String with the name
 	 */
 	public String getName() {
@@ -157,7 +160,7 @@ public class Forum implements Serializable
 
 	/**
 	 * Gets the order
-	 * 
+	 *
 	 * @return int value representing the order of the forum
 	 */
 	public int getOrder() {
@@ -166,20 +169,20 @@ public class Forum implements Serializable
 
 	/**
 	 * Gets the total number of topics posted in the forum
-	 * 
+	 *
 	 * @return int value with the total number of the topics
 	 */
 	public int getTotalTopics() {
 		return this.totalTopics;
 	}
-	
+
 	public boolean getUnread() {
 		return this.unread;
 	}
 
 	/**
 	 * Sets the description.
-	 * 
+	 *
 	 * @param description The description to set
 	 */
 	public void setDescription(String description) {
@@ -188,7 +191,7 @@ public class Forum implements Serializable
 
 	/**
 	 * Sets the id.
-	 * 
+	 *
 	 * @param id The id to set
 	 */
 	public void setId(int id) {
@@ -197,7 +200,7 @@ public class Forum implements Serializable
 
 	/**
 	 * Sets the category id
-	 * 
+	 *
 	 * @param idCategories The ID of the category  to set to the forum
 	 */
 	public void setIdCategories(int idCategories) {
@@ -206,7 +209,7 @@ public class Forum implements Serializable
 
 	/**
 	 * Sets the ID of the last post
-	 * 
+	 *
 	 * @param lastPostId The post id
 	 */
 	public void setLastPostId(int lastPostId) {
@@ -215,7 +218,7 @@ public class Forum implements Serializable
 
 	/**
 	 * Sets the moderated flag to the forum
-	 * 
+	 *
 	 * @param moderated <code>true</code> or <code>false</code>
 	 */
 	public void setModerated(boolean moderated) {
@@ -224,7 +227,7 @@ public class Forum implements Serializable
 
 	/**
 	 * Sets the name of the forum
-	 * 
+	 *
 	 * @param name The name to set
 	 */
 	public void setName(String name) {
@@ -233,54 +236,66 @@ public class Forum implements Serializable
 
 	/**
 	 * Sets the order.
-	 * 
+	 *
 	 * @param order The order to set
 	 */
 	public void setOrder(int order) {
 		this.order = order;
 	}
-	
+
 	public void setUnread(boolean status) {
 		this.unread = status;
 	}
 
 	/**
 	 * Sets the total number of topics
-	 * 
+	 *
 	 * @param totalTopics int value with the total number of topics
 	 */
 	public void setTotalTopics(int totalTopics) {
 		this.totalTopics = totalTopics;
 	}
-	
+
 	public int getTotalPosts() {
 		return this.totalPosts;
 	}
-	
+
 	public void setTotalPosts(int totalPosts) {
 		this.totalPosts = totalPosts;
 	}
-	
-	/** 
+
+	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o) 
+	public boolean equals(Object o)
 	{
 		return ((o instanceof Forum) && (((Forum)o).getId() == this.id));
 	}
 
-	/** 
+	/**
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode() 
+	public int hashCode()
 	{
 		return this.id;
 	}
-	
-	/** 
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return "[" + this.name + ", id=" + this.id + ", order=" + this.order + "]";
-	}
+
+    /**
+     * @see Object#toString()
+     */
+    public String toString() {
+        return "Forum{" +
+                "id=" + id +
+                ", idCategories=" + idCategories +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", order=" + order +
+                ", totalTopics=" + totalTopics +
+                ", totalPosts=" + totalPosts +
+                ", lastPostId=" + lastPostId +
+                ", moderated=" + moderated +
+                ", unread=" + unread +
+                ", lpi=" + lpi +
+                '}';
+    }
 }

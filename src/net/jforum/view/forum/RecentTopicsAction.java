@@ -89,8 +89,11 @@ public class RecentTopicsAction extends Command
 		TopicsCommon.topicListingBase();
 		this.request.setAttribute("template", null);
 	}
-	
-	private List topics()
+    
+    public List getForums() {
+        return forums;
+    }
+    private List topics()
 	{
 		int postsPerPage = SystemGlobals.getIntValue(ConfigKeys.POSTS_PER_PAGE);
 		List topics = TopicRepository.getRecentTopics();

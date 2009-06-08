@@ -61,8 +61,12 @@ public class Ranking implements Serializable
 	private int min;
 	
 	public Ranking() {}
-	
-	/**
+
+    public Ranking(int rankingId) {
+        this.id=rankingId;
+    }
+
+    /**
 	 * @return int
 	 */
 	public int getId() {

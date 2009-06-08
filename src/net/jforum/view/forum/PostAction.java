@@ -1412,69 +1412,82 @@ public class PostAction extends Command
 			this.context.put("message", I18n.getMessage("Attachments.featureDisabled"));
 			return;
 		}
-		
-		String filename = SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR)
-			+ "/"
-			+ a.getInfo().getPhysicalFilename();
 
-		if (!new File(filename).exists()) {
-			this.setTemplateName(TemplateKeys.POSTS_ATTACH_NOTFOUND);
-			this.context.put("message", I18n.getMessage("Attachments.notFound"));
-			return;
-		}
-		
-		FileInputStream fis = null;
-		OutputStream os = null;
+        String filename = SystemGlobals.getValue(ConfigKeys.ATTACHMENTS_STORE_DIR)
+                + "/"
+                + a.getInfo().getPhysicalFilename();
 
-		try {
-			a.getInfo().setDownloadCount(a.getInfo().getDownloadCount() + 1);
-			am.updateAttachment(a);
+        if (!new File(filename).exists()) {
+            this.setTemplateName(TemplateKeys.POSTS_ATTACH_NOTFOUND);
+            this.context.put("message", I18n.getMessage("Attachments.notFound"));
+            return;
+        }
 
-			fis = new FileInputStream(filename);
-			os = response.getOutputStream();
+        //pinke 2007.08.17  如果不是做为内部引用的话就加一个下载统计�
+        if (request.getParameter("include") == null) {
+            a.getInfo().setDownloadCount(a.getInfo().getDownloadCount() + 1);
+            am.updateAttachment(a);
+        }
+        //modify by pinke 2007-8-15  支持我线程
+        try {
+            com.trydone.forum.action.AttachmentAction.downloadAttachment(am, a);
+        } catch (IOException e) {
+            throw new AttachmentException(e.getMessage());
+        }
 
-			if (am.isPhysicalDownloadMode(a.getInfo().getExtension().getExtensionGroupId())) {
-				this.response.setContentType("application/octet-stream");
-			}
-			else {
-				this.response.setContentType(a.getInfo().getMimetype());
-			}
-
-			if (this.request.getHeader("User-Agent").indexOf("Firefox") != -1) {
-				this.response.setHeader("Content-Disposition", "attachment; filename=\""
-					+ new String(a.getInfo().getRealFilename().getBytes(SystemGlobals.getValue(ConfigKeys.ENCODING)),
-						SystemGlobals.getValue(ConfigKeys.DEFAULT_CONTAINER_ENCODING)) + "\";");
-			}
-			else {
-				this.response.setHeader("Content-Disposition", "attachment; filename=\""
-					+ ViewCommon.toUtf8String(a.getInfo().getRealFilename()) + "\";");
-			}
-
-			this.response.setContentLength((int)a.getInfo().getFilesize());
-
-			int c;
-			byte[] b = new byte[4096];
-			while ((c = fis.read(b)) != -1) {
-				os.write(b, 0, c);
-			}
-
-			
-			JForumExecutionContext.enableCustomContent(true);
-		}
-		catch (IOException e) {
-			throw new ForumException(e);
-		}
-		finally {
-			if (fis != null) {
-				try { fis.close(); }
-				catch (Exception e) {}
-			}
-			
-			if (os != null) {
-				try { os.close(); }
-				catch (Exception e) {}
-			}
-		}
+//
+//        FileInputStream fis = null;
+//		OutputStream os = null;
+//
+//		try {
+//			a.getInfo().setDownloadCount(a.getInfo().getDownloadCount() + 1);
+//			am.updateAttachment(a);
+//
+//			fis = new FileInputStream(filename);
+//			os = response.getOutputStream();
+//
+//			if (am.isPhysicalDownloadMode(a.getInfo().getExtension().getExtensionGroupId())) {
+//				this.response.setContentType("application/octet-stream");
+//			}
+//			else {
+//				this.response.setContentType(a.getInfo().getMimetype());
+//			}
+//
+//			if (this.request.getHeader("User-Agent").indexOf("Firefox") != -1) {
+//				this.response.setHeader("Content-Disposition", "attachment; filename=\""
+//					+ new String(a.getInfo().getRealFilename().getBytes(SystemGlobals.getValue(ConfigKeys.ENCODING)),
+//						SystemGlobals.getValue(ConfigKeys.DEFAULT_CONTAINER_ENCODING)) + "\";");
+//			}
+//			else {
+//				this.response.setHeader("Content-Disposition", "attachment; filename=\""
+//					+ ViewCommon.toUtf8String(a.getInfo().getRealFilename()) + "\";");
+//			}
+//
+//			this.response.setContentLength((int)a.getInfo().getFilesize());
+//
+//			int c;
+//			byte[] b = new byte[4096];
+//			while ((c = fis.read(b)) != -1) {
+//				os.write(b, 0, c);
+//			}
+//
+//
+//			JForumExecutionContext.enableCustomContent(true);
+//		}
+//		catch (IOException e) {
+//			throw new ForumException(e);
+//		}
+//		finally {
+//			if (fis != null) {
+//				try { fis.close(); }
+//				catch (Exception e) {}
+//			}
+//
+//			if (os != null) {
+//				try { os.close(); }
+//				catch (Exception e) {}
+//			}
+//		}
 	}
 	
 	private void cannotEdit()

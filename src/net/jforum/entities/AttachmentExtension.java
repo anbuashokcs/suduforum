@@ -42,11 +42,13 @@
  */
 package net.jforum.entities;
 
+import java.io.Serializable;
+
 /**
  * @author Rafael Steil
  * @version $Id: AttachmentExtension.java,v 1.7 2006/08/20 22:47:35 rafaelsteil Exp $
  */
-public class AttachmentExtension
+public class AttachmentExtension  implements Serializable
 {	
 	private int id;
 	private int extensionGroupId;
@@ -170,4 +172,16 @@ public class AttachmentExtension
 	{
 		this.unknown = unknown;
 	}
+
+    public String toString() {
+        return "AttachmentExtension{" +
+                "id=" + id +
+                ", extensionGroupId=" + extensionGroupId +
+                ", allow=" + allow +
+                ", unknown=" + unknown +
+                ", comment='" + comment + '\'' +
+                ", extension='" + extension + '\'' +
+                ", uploadIcon='" + uploadIcon + '\'' +
+                '}';
+    }
 }

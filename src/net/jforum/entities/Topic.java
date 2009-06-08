@@ -88,8 +88,9 @@ public class Topic implements Serializable
 	
 	private User postedBy;
 	private User lastPostBy;
-	
-	public Topic() {}
+    private static final long serialVersionUID = -5343915039698311508L;
+
+    public Topic() {}
 	
 	public Topic(int topicId)
 	{

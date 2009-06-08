@@ -43,6 +43,8 @@
  */
 package net.jforum.entities;
 
+import java.util.Date;
+
 /**
  * @author Rafael Steil
  * @version $Id: PrivateMessage.java,v 1.6 2006/12/06 21:56:28 rafaelsteil Exp $
@@ -55,8 +57,17 @@ public class PrivateMessage
 	private User toUser;
 	private Post post;
 	private String formatedDate;
-	
-	public PrivateMessage() { }
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public PrivateMessage() { }
 	
 	public PrivateMessage(int id) {
 		this.id = id;
@@ -156,5 +167,6 @@ public class PrivateMessage
 	public void setFormatedDate(String formatedDate)
 	{
 		this.formatedDate = formatedDate;
-	}
+
+    }
 }

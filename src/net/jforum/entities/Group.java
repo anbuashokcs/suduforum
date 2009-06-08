@@ -77,8 +77,12 @@ public class Group
 		setParentId(parentId);
 		setDescription(description);
 	}
-	
-	/**
+
+    public Group(int id) {
+        this.id=id;
+    }
+
+    /**
 	 * @return String
 	 */
 	public String getDescription() {

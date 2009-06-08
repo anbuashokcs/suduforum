@@ -54,8 +54,15 @@ public class Smilie implements Serializable
 	private String code;
 	private String url;
 	private String diskName;
-	
-	/**
+
+    public Smilie() {
+    }
+
+    public Smilie(int id) {
+        this.id=id;
+    }
+
+    /**
 	 * @return
 	 */
 	public String getCode() {

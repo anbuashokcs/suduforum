@@ -96,7 +96,7 @@ public class ModerationLog
 	 */
 	public Date getDate()
 	{
-		return this.date;
+		return this.date==null?new Date(0):date;
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public class ModerationLog
 	}
 	
 	/**
-	 * @param userId the userId to set
+	 * @param user the userId to set
 	 */
 	public void setUser(User user)
 	{

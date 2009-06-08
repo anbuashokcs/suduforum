@@ -52,52 +52,58 @@ import net.jforum.entities.Smilie;
 import net.jforum.exceptions.SmiliesLoadException;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
+import org.apache.log4j.Logger;
 
 /**
  * @author Rafael Steil
  * @version $Id: SmiliesRepository.java,v 1.15 2006/08/20 22:47:38 rafaelsteil Exp $
  */
-public class SmiliesRepository implements Cacheable
-{
-	private static CacheEngine cache;
-	private static final String FQN = "smilies";
-	private static final String ENTRIES = "entries";
-	private static boolean contexted = false;
+public class SmiliesRepository implements Cacheable {
+    private static CacheEngine cache;
+    private static final String FQN = "smilies";
+    private static final String ENTRIES = "entries";
+    private static boolean contexted = false;
 
-	/**
-	 * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
-	 */
-	public void setCacheEngine(CacheEngine engine)
-	{
-		cache = engine;
-	}
-	
-	public static void loadSmilies()
-	{
-		try {
-			cache.add(FQN, ENTRIES, DataAccessDriver.getInstance().newSmilieDAO().selectAll());
-			contexted = false;
-		}
-		catch (Exception e) {
-			throw new SmiliesLoadException("Error while loading smilies: " + e);
-		}
-	}
-	
-	public static List getSmilies()
-	{
-		List list = (List)cache.get(FQN, ENTRIES);
-		if (!contexted) {
-			String forumLink = SystemGlobals.getValue(ConfigKeys.FORUM_LINK);
-			
-			for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-				Smilie s = (Smilie)iter.next();
-				s.setUrl(s.getUrl().replaceAll("#CONTEXT#", forumLink).replaceAll("\\\\", ""));
-			}
-			
-			cache.add(FQN, ENTRIES, list);
-			contexted = true;
-		}
-		
-		return list;
-	}
+    /**
+     * @see net.jforum.cache.Cacheable#setCacheEngine(net.jforum.cache.CacheEngine)
+     */
+    public void setCacheEngine(CacheEngine engine) {
+        cache = engine;
+    }
+
+    public static void loadSmilies() {
+        try {
+            cache.add(FQN, ENTRIES, DataAccessDriver.getInstance().newSmilieDAO().selectAll());
+            contexted = false;
+        }
+        catch (Exception e) {
+            throw new SmiliesLoadException("Error while loading smilies: " + e);
+        }
+    }
+
+    public static List getSmilies() {
+        List list = (List) cache.get(FQN, ENTRIES);
+        //pinke fix for when cache fatch fail.
+        if (list == null) {
+            loadSmilies();
+            list = (List) cache.get(FQN, ENTRIES);
+        }
+        if (list == null) {
+            Logger.getLogger(SmiliesRepository.class).error("Smilies can't fatch. :( ");
+            return new java.util.ArrayList();
+        }
+        if (!contexted) {
+            String forumLink = SystemGlobals.getValue(ConfigKeys.FORUM_LINK);
+
+            for (Iterator iter = list.iterator(); iter.hasNext();) {
+                Smilie s = (Smilie) iter.next();
+                s.setUrl(s.getUrl().replaceAll("#CONTEXT#", forumLink).replaceAll("\\\\", ""));
+            }
+
+            cache.add(FQN, ENTRIES, list);
+            contexted = true;
+        }
+
+        return list;
+    }
 }
