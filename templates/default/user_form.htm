@@ -26,11 +26,11 @@ function validateForm()
 
 <input type="hidden" name="user_id" value="${u.id}" />
 
-<table id="userform" cellspacing="0" cellpadding="10" width="100%" align="center" border="0">
+<table cellspacing="0" cellpadding="10" width="100%" align="center" border="0">
 	<tr>
 		<td class="bodyline">
 
-			<table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
+			<table id="userForm" class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
 				<#assign message = ""/>
 				<#if editDone?default(false)>
 					<#assign message = I18n.getMessage("User.editDone")/>
@@ -117,6 +117,10 @@ function validateForm()
 					<td class="row2"><input type="text" class="post" style="WIDTH: 300px" maxlength="15" size="10" name="icq" value="${u.icq?default("")?html}" /> </td>
 				</tr>
 				<tr>
+					<td class="row1"><span class="gen">${I18n.getMessage("User.qq")}:</span></td>
+					<td class="row2"><input type="text" class="post" style="WIDTH: 300px" maxlength="15" size="10" name="qq" value="${u.qq?default("")?html}" /> </td>
+				</tr>
+				<tr>
 					<td class="row1"><span class="gen">${I18n.getMessage("User.aim")}:</span></td>
 					<td class="row2"><input type="text" class="post" style="WIDTH: 300px" maxlength="255" name="aim" value="${u.aim?default("")?html}" /> </td>
 				</tr>
@@ -143,6 +147,21 @@ function validateForm()
 				<tr>
 					<td class="row1"><span class="gen">${I18n.getMessage("User.interests")}:</span></td>
 					<td class="row2"><input type="text" class="post" style="WIDTH: 300px" maxlength="150" size="35" name="interests" value="${u.interests?default("")?html}" /> </td>
+				</tr>
+				<tr>
+					<td class="row1"><span class="gen">${I18n.getMessage("User.birthday")}:</span></td>
+					<td class="row2"><input type="text" class="post" style="WIDTH: 300px" maxlength="150" size="35" name="birthday" value="${u.birthdayFormated?default("")}" /><span class="gen">${dateFormat?default("")?html} </span></td>
+				</tr>
+				<tr>
+					<td class="row1"><span class="gen">${I18n.getMessage("User.sex")}:</span></td>
+					<td class="row2"> 
+
+                    <select name="sex">
+                        <option value="1" <#if (u.sex==1)>selected="selected"</#if> >${I18n.getMessage("User.sex.male")}</option>
+                        <option value="2" <#if (u.sex==2)>selected="selected"</#if> >${I18n.getMessage("User.sex.female")}</option>
+                        <option value="0" <#if (u.sex!=1 && u.sex!=2)> selected="selected"</#if> >${I18n.getMessage("User.sex.unknown")}</option>
+                    </select>
+                    </td>
 				</tr>
 				<tr>
 					<td class="row1">

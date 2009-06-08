@@ -1,6 +1,7 @@
 <#include "header.htm"/>
 <#import "../macros/pagination.ftl" as pagination/>
 <#import "../macros/presentation.ftl" as presentation/>
+<#import "../macros/trydone_common.ftl" as trydone/>
 
 <#assign canEditSomeMessage = false/>
 
@@ -54,7 +55,7 @@
 			<table cellspacing="2" cellpadding="2" width="100%" border="0">
 				<tr>
 					<td valign="middle" align="left" colspan="2">
-						<span class="maintitle"><a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}" name="top" class="maintitle" id="top">${topic.title?html}</a></span>
+						<span class="maintitle"><a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}" name="top" class="fmaintitle" id="top">${topic.title?html}</a></span>
 						<#if rssEnabled>
 						&nbsp;<a href="${contextPath}/rss/topicPosts/${topic.id}${extension}"><img src="${contextPath}/templates/${templateName}/images/xml_button.gif" border="0" alt="XML" /></a>
 						</#if>
@@ -65,6 +66,11 @@
 			<table cellspacing="2" cellpadding="2" width="100%" border="0">
 				<tr>
 					<#if !readonly>
+                     <#if !readonly && !replyOnly>
+						<td valign="middle" align="left" width="50">
+							<a href="${JForumContext.encodeURL("/jforum${extension}?module=posts&amp;action=insert&amp;forum_id=${forum.id}", "")}" rel="nofollow" class="icon_new_topic"><img src="${contextPath}/images/transp.gif" alt="" /></a>
+						</td>
+					</#if>
 					<td width="8%" align="left" valign="bottom" nowrap="nowrap">
 					</#if>
 						<#if topic.status == STATUS_LOCKED>
@@ -80,8 +86,8 @@
 
 					<td valign="middle" align="left" colspan="${colspan?default("0")}">
 						<span class="nav">
-						<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")} </a> 
-            			&raquo; <a class="nav" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name} </a></span>
+						<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")} </a>
+<@trydone.listParentCateogrys allCategories, forum.categoryId,"&raquo; <a class=nav href="+JForumContext.encodeURL("/forums/show/"+forum.id)+">"+forum.name?html+"</a>"/></span>
 					</td>
 					<td valign="middle" align="right"><#assign paginationData><@pagination.doPagination "list", topic.id/></#assign>${paginationData}</td>
 				</tr>
@@ -235,7 +241,7 @@
 					<td valign="middle" align="left" colspan="${colspan?default("0")}">
 						<span class="nav">
 						<a class="nav" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")} </a> 
-            			&raquo; <a class="nav" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name} </a>
+            			<@trydone.listParentCateogrys allCategories, forum.categoryId,"&raquo; <a class=nav href="+JForumContext.encodeURL("/forums/show/"+forum.id)+">"+forum.name?html+"</a>"/></span> </a>
 						</span>
 					</td>
 
@@ -387,7 +393,7 @@ $(document).ready(function() {
 	<#if moderatorCanEdit || canEditSomeMessage>
 		$(".edit_area").editable("${contextPath}/jforum${extension}?module=ajax&action=savePost", {
 			submit: '${I18n.getMessage("Update")}',
-			cancel: '${I18n.getMessage("cancel")}',
+			cancel: '${I18n.getMessage("Cancel")}',
 			type: 'textarea',
 			tooltip: '${I18n.getMessage("PostShow.doubleClickEdit")}',
 			rows: 15,

@@ -7,7 +7,7 @@
 <script type="text/javascript" src="${contextPath}/templates/${templateName}/js/jquery.js?${startupTime}"></script>
 <script type="text/javascript">
 var __currentForumID=0;
-var $get=function(){return document.getElementById(arguments[0]);}
+        var $get=function(){return document.getElementById(arguments[0]);}
 function getUrl(topic,id){
    location="${JForumContext.encodeURL("/posts/list/_topicid_")}".replace("_topicid_",topic)+(id!=undefined?"#"+id:"");
 }function getForumUrl(forumId){
@@ -59,37 +59,50 @@ displayid.innerHTML=datalog+"</ol><div style=text-align:left;margin-left:20px;><
 <table width="100%" align="center">
 	<tr>
 		<td width="100%" height="318" valign="top">
-			<table cellspacing="0" cellpadding="2" width="100%" align="center" border="0">
-				<tr>
-					<td valign="bottom" align="left">
-						<#if logged><span class="gensmall">${I18n.getMessage("ForumListing.lastVisit")}: ${lastVisit}</span><br /></#if>
-						<span class="gensmall">${I18n.getMessage("ForumListing.date")}: ${now}</span><br />
-						<span class="forumlink"><a class="forumlink" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a></span>
-					</td>
-					<td class="gensmall" valign="bottom" align="right">&nbsp;
+
+            <table cellspacing="0" cellpadding="1" width="100%" align="center" border="0">
+				<tr  >
+					<td valign="bottom"  >
+                        <!--  span class="forumlink"><a class="forumlink" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a></span -->
+						<span class="gensmall">${I18n.getMessage("ForumListing.date")}: ${now}</span>&nbsp;&nbsp;
 					<#if logged>
+					<span class="gensmall">${I18n.getMessage("ForumListing.lastVisit")}: ${lastVisit}</span> &nbsp;
 						<a class="gensmall" href="${JForumContext.encodeURL("/forums/newMessages")}">${I18n.getMessage("ForumListing.readLastVisitMessages")}</a>
 					</#if>
 					</td>
 				</tr>
-			</table>
-			
-			<table class="forumline" cellspacing="1" cellpadding="2" width="100%" border="0">
+                <tr><td>
+                <#if currentCategoryId!=0>
+                   	<a class="maintitle" href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a>
+                    <@trydone.listParentCateogrys allCategories,currentCategoryId,""/>
+                </#if>
+                </td></tr>
+            </table>
+
+            <table class="forumline" cellspacing="1" cellpadding="2" width="100%" border="0">
 				<tr>
 					<th class="thcornerl" nowrap="nowrap" colspan="2" height="25" align="center" valign="middle">&nbsp;${I18n.getMessage("ForumListing.forums")}&nbsp;</th>
 					<th class="thtop" nowrap="nowrap" width="50">&nbsp;${I18n.getMessage("ForumListing.totalTopics")}&nbsp;</th>
 					<th class="thtop" nowrap="nowrap" width="50">&nbsp;${I18n.getMessage("ForumListing.totalMessages")}&nbsp;</th>
 					<th class="thcornerr" nowrap="nowrap">&nbsp;${I18n.getMessage("ForumListing.lastMessage")}&nbsp;</th>
 				</tr>
-		  
-				<!-- START FORUM LISTING -->
+                <!-- START FORUM LISTING -->
 				<#list allCategories as category>
-					<tr>
-						<td class="catleft" colspan="2" height="28"><span class="cattitle">${category.name}</span></td>
+                    <#if (category.parentId==currentCategoryId||category.id==currentCategoryId)>
+                    <tr>
+						<td class="catleft" colspan="2" height="28"><span class="cattitle" ><a href="${JForumContext.encodeURL("/forums/categories/${category.id}")}">${category.name}</a></span>
+
+                        </td>
 						<td class="catright" align="right" colspan="3">&nbsp;</td>
 					</tr>
-
-					<#list category.getForums() as forum>
+                    <tr><td colspan="2"><span  id="children_${category.id}">
+                            <#list allCategories as child>
+                              <#if (child.parentId==category.id)>
+                              <span class="thcornerl" style="font-weight:bold;font-size:12px;"> [<a href="${JForumContext.encodeURL("/forums/categories/${child.id}")}">${child.name}</a>] </span>
+                             </#if>
+                          </#list>
+                          </span></td></tr>
+                    <#list category.getForums() as forum>
 					<#assign lpi = forumRepository.getLastPostInfo(forum.id)/>
 					<tr>
 						<td class="row1" valign="middle" align="center" height="50">
@@ -100,7 +113,7 @@ displayid.innerHTML=datalog+"</ol><div style=text-align:left;margin-left:20px;><
 						</#if>
 						</td>
 						<td class="row1" width="100%" height="50">
-							<span class="forumlink"><a class="forumlink" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a></span><br />
+							<span class="forumlink"><img src="${contextPath}/templates/${templateName}/images/icon_close.gif" border="0" style="margin:0;padding:0;cursor:pointer;" onclick="getMore(this,'${forum.id}')"/><a class="forumlink" href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a></span><br />
 							<span class="genmed">
 								${forum.description?default("")}
 								<#if forum.isModerated()><br />
@@ -111,7 +124,8 @@ displayid.innerHTML=datalog+"</ol><div style=text-align:left;margin-left:20px;><
 								</#list>
 								</#if>
 							</span>
-							<br />		
+							<br />
+<div class="infoMacro" style="display:none" id="mA_${forum.id}"></div>
 						</td>
 						<td class="row2" valign="middle" align="center" height="50"><span class="gensmall">${forum.totalTopics}</span></td>
 						<td class="row2" valign="middle" align="center" height="50">
@@ -141,6 +155,9 @@ displayid.innerHTML=datalog+"</ol><div style=text-align:left;margin-left:20px;><
 						</td>
 					</tr>
 					</#list>
+
+
+                 </#if>
 				</#list>		
 				<!-- END OF FORUM LISTING -->
 			</table>
@@ -224,8 +241,8 @@ displayid.innerHTML=datalog+"</ol><div style=text-align:left;margin-left:20px;><
 				</table>
 			</form>
 			</#if>
-
-			<table cellspacing="3" cellpadding="0" align="center" border="0">
+            
+            <table cellspacing="3" cellpadding="0" align="center" border="0">
 				<tr>
 					<td align="center" width="20"><img src="${contextPath}/templates/${templateName}/images/folder_new.gif" alt="[New Folder]" /></td>
 					<td><span class="gensmall">${I18n.getMessage("ForumListing.newMessages")}</span></td>
@@ -240,5 +257,4 @@ displayid.innerHTML=datalog+"</ol><div style=text-align:left;margin-left:20px;><
 		</td>
 	</tr>
 </table>
-
-<#include "bottom.htm"/>
+ <#include "bottom.htm"/>
