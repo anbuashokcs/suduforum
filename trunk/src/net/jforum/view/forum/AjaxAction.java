@@ -43,10 +43,8 @@
  */
 package net.jforum.view.forum;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import com.trydone.forum.action.ajax.PostAjaxAction;
+import freemarker.template.SimpleHash;
 import net.jforum.Command;
 import net.jforum.SessionFacade;
 import net.jforum.dao.DataAccessDriver;
@@ -65,12 +63,13 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 import net.jforum.util.preferences.TemplateKeys;
 import net.jforum.view.forum.common.PostCommon;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 
-import freemarker.template.SimpleHash;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Rafael Steil
@@ -259,4 +258,50 @@ public class AjaxAction extends Command
 	{
 		this.ignoreAction();
 	}
+
+    //trydone addtions pinke 20071017
+
+    private PostAjaxAction paa = new PostAjaxAction();
+
+    public void getPostsByTopicId() {
+        String topicIdStr=request.getParameter("topicId");
+        String startStr=request.getParameter("start");
+        int topicId,start;
+        try {
+            topicId=Integer.parseInt(topicIdStr);
+        } catch (NumberFormatException e) {
+            topicId=0;
+        }
+        try {
+            start=Integer.parseInt(startStr);
+        } catch (NumberFormatException e) {
+            start=0;
+        }
+
+        List list = paa.getPosts(topicId, start,false);
+		this.setTemplateName(TemplateKeys.AJAX_JSON_FORMAT);
+		this.context.put("posts", list);
+		this.context.put("show_posts",Boolean.TRUE);
+    }
+
+    public void getTopicByForumId() {
+            String forumIdStr=request.getParameter("forumId");
+        String startStr=request.getParameter("start");
+        int forumId,start;
+        try {
+            forumId =Integer.parseInt(forumIdStr);
+        } catch (NumberFormatException e) {
+            forumId =0;
+        }
+        try {
+            start=Integer.parseInt(startStr);
+        } catch (NumberFormatException e) {
+            start=0;
+        }
+        List list = paa.getPostsByForumId(forumId, start,false);
+		this.setTemplateName(TemplateKeys.AJAX_JSON_FORMAT);
+		this.context.put("topics", list);
+		this.context.put("show_topics",Boolean.TRUE);
+    }
+
 }

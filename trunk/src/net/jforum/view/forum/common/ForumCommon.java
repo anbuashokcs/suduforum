@@ -125,7 +125,7 @@ public class ForumCommon
 		checkUnreadPosts = checkUnreadPosts && (userId != anonymousUserId);
 
 		List categories = ForumRepository.getAllCategories(userId);
-		
+
 		if (!checkUnreadPosts) {
 			return categories;
 		}

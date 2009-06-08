@@ -42,7 +42,6 @@
  */
 package net.jforum.view.admin;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -91,22 +90,13 @@ public class ConfigAction extends AdminCommand
 			p.put(key, value);
 		}
 
-		Properties locales = new Properties();
-		
-		FileInputStream fis = null;
-		
+		Properties locales;
+
 		try {
-			fis = new FileInputStream(SystemGlobals.getValue(ConfigKeys.CONFIG_DIR)
-				+ "/languages/locales.properties");
-			locales.load(fis);
+			locales=SystemGlobals.getLocales();
 		}
 		catch (IOException e) {
 			throw new ForumException(e);
-		}
-		finally {
-			if (fis != null) {
-				try { fis.close(); } catch (Exception e) {}
-			}
 		}
 		
 		List localesList = new ArrayList();

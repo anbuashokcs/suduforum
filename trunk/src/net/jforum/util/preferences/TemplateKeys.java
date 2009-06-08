@@ -206,4 +206,6 @@ public class TemplateKeys
 	public static final String AJAX_IS_POST_INDEXED = "ajax.is.post.indexed";
 	public static final String AJAX_TEST_MAIL = "ajax.test.mail";
 	public static final String AJAX_LOAD_POST = "ajax.load.post";
+    // for trydone by pinke 20071017
+    public static final String AJAX_JSON_FORMAT="ajax.json.format";
 }

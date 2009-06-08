@@ -158,8 +158,15 @@ public class JForum extends JForumBaseServlet
 			utils.refreshSession();
 			
 			context.put("logged", SessionFacade.isLogged());
-			
-			// Process security data
+
+            //for custom language by pinke@trydone.com
+            String lang=request.getParameter("lang");
+            if(lang!=null){
+                SessionFacade.getUserSession().setLang(lang);
+            }
+            context.put("locales",SystemGlobals.getLocaleList());
+
+            // Process security data
 			SecurityRepository.load(SessionFacade.getUserSession().getUserId());
 
 			utils.prepareTemplateContext(context, forumContext);
@@ -201,6 +208,8 @@ public class JForum extends JForumBaseServlet
 				}
 			}
 		}
+		catch (RuntimeException e) {
+			this.handleException(out, response, encoding, e, request);}
 		catch (Exception e) {
 			this.handleException(out, response, encoding, e, request);
 		}
@@ -214,9 +223,10 @@ public class JForum extends JForumBaseServlet
 	{
 		// Here we go, baby
 		Command c = this.retrieveCommand(moduleClass);
-		Template template = c.process(request, response, context);
+        Template template = null;
+        template = c.process(request, response, context);
 
-		if (JForumExecutionContext.getRedirectTo() == null) {
+        if (JForumExecutionContext.getRedirectTo() == null) {
 			String contentType = JForumExecutionContext.getContentType();
 			
 			if (contentType == null) {
@@ -228,11 +238,12 @@ public class JForum extends JForumBaseServlet
 			// Binary content are expected to be fully 
 			// handled in the action, including outputstream
 			// manipulation
-			if (!JForumExecutionContext.isCustomContent()) {
-				out = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding));
-				template.process(JForumExecutionContext.getTemplateContext(), out);
-				out.flush();
-			}
+            if (template != null)
+                if (!JForumExecutionContext.isCustomContent()) {
+                    out = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding));
+                    template.process(JForumExecutionContext.getTemplateContext(), out);
+                    out.flush();
+                }
 		}
 		
 		return out;
@@ -282,7 +293,7 @@ public class JForum extends JForumBaseServlet
 				new ExceptionWriter().handleExceptionData(e, out, request);
 			}
 			else {
-				new ExceptionWriter().handleExceptionData(e, new BufferedWriter(new OutputStreamWriter(response.getOutputStream())), request);
+				new ExceptionWriter().handleExceptionData(e, new BufferedWriter(new OutputStreamWriter(response.getOutputStream(),encoding)), request);
 			}
 		}
 	}

@@ -73,7 +73,10 @@ public class ModulesRepository
 	public static void init(String baseDir)
 	{
 		cache.put(ENTRIES, ConfigLoader.loadModulesMapping(baseDir));
-	}
+        if (logger.isDebugEnabled()) {
+            ((Properties) cache.get(ENTRIES)).list(System.out);
+        }
+    }
 	
 	public static int size()
 	{

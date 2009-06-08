@@ -87,6 +87,7 @@ public class ControllerUtils
 		
 		context.put("karmaEnabled", SecurityRepository.canAccess(SecurityConstants.PERM_KARMA_ENABLED));
 		context.put("dateTimeFormat", SystemGlobals.getValue(ConfigKeys.DATE_TIME_FORMAT));
+		context.put("dateFormat", SystemGlobals.getValue(ConfigKeys.DATE_FORMAT));
 		context.put("autoLoginEnabled", SystemGlobals.getBoolValue(ConfigKeys.AUTO_LOGIN_ENABLED));
 		context.put("sso", ConfigKeys.TYPE_SSO.equals(SystemGlobals.getValue(ConfigKeys.AUTHENTICATION_TYPE)));
 		context.put("contextPath", request.getContextPath());

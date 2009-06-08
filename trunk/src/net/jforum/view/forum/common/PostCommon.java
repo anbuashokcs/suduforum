@@ -93,14 +93,16 @@ public class PostCommon
 		
 		post.setText(text.toString());
 		post.setText(safeHtml.makeSafe(post.getText()));
-		
-		processText(post);
+
+        processText(post);
 		
 		post.setText(safeHtml.ensureAllAttributesAreSafe(post.getText()));
-		
+
+        //pinke parse Attachment etc.
+        com.trydone.forum.action.PostParser.parse(post);          		
 		return post;
 	}
-	
+
 	private static void processText(Post post)
 	{
 		int codeIndex = post.getText().indexOf("[code");

@@ -70,17 +70,17 @@ public class IdentifiableMimeMessage extends MimeMessage
 	{
 		this.messageId = messageId;
 	}
-	
-	/**
-	 * @see javax.mail.internet.MimeMessage#updateMessageID()
-	 */
-	protected void updateMessageID() throws MessagingException 
-	{
-		if (this.messageId != null) {
-			this.addHeader("Message-ID", this.messageId);
-		}
-		else {
-			super.updateMessageID();
-		}
-	}
+
+//	/**
+//	 * @see javax.mail.internet.MimeMessage#updateMessageID()
+//	 */
+//	protected void updateMessageID() throws MessagingException
+//	{
+//		if (this.messageId != null) {
+//			this.addHeader("Message-ID", this.messageId);
+//		}
+//		else {
+//			super.updateMessageID();
+//		}
+//	}
 }
