@@ -55,7 +55,7 @@ INSERT INTO jforum_smilies (code, url, disk_name) VALUES (':|', '<img src=\"#CON
 --
 -- Demonstration Forum
 --
-INSERT INTO jforum_categories VALUES (1,'Category Test',1,0);
+INSERT INTO jforum_categories  (categories_id, title, display_order, moderated,parent_id) VALUES (1,'Category Test',1,0,0);
 INSERT INTO jforum_forums VALUES (1,1,'Test Forum','This is a test forum',1,1,1,0);
 INSERT INTO jforum_topics VALUES (1,1,'Welcome to JForum',2,current_timestamp,1,0,0,0,0,1,1,0,0);
 INSERT INTO jforum_posts VALUES (1,1,1,2,current_timestamp,'127.0.0.1',1,0,1,1,null,0,1,0,0);

@@ -29,6 +29,7 @@ CREATE TABLE jforum_categories (
   title VARCHAR2(100) DEFAULT ' ' NOT NULL ,
   display_order NUMBER(10) DEFAULT 0 NOT NULL,
   moderated NUMBER(10) DEFAULT 0,
+  parent_id NUMBER(10) DEFAULT 0,
   PRIMARY KEY(categories_id)
 );
 
@@ -389,6 +390,9 @@ CREATE TABLE jforum_users (
   user_authhash VARCHAR(32),
   user_notify_always NUMBER(1) DEFAULT 0,
   user_notify_text NUMBER(1) DEFAULT 0,
+  user_qq VARCHAR(15),
+  user_sex NUMBER(1) default 0,
+  user_birthday DATE,
   PRIMARY KEY (user_id)
 );
 
