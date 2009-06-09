@@ -68,6 +68,7 @@ tinyMCE.init({
 </script>
 
 <script type="text/javascript">
+
 <!--
 function newCaptcha()
 {
@@ -76,6 +77,12 @@ function newCaptcha()
 
 function validatePostForm(f)
 {
+   if(f.message.value.length > 65530/2){
+	   alert("${I18n.getMessage("PostForm.textTooLarge")}");
+	   f.message.focus();
+	   return false;
+    }
+	
 	var he=document.getElementById('disable_html');
 	if(!he.checked){
 	    if(tinyMCE!=undefined){

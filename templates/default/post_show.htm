@@ -270,6 +270,11 @@
 
 					function validatePostForm(f)
 					{
+						if(f.message.value.length > 65530/2){
+							alert("${I18n.getMessage("PostForm.textTooLarge")}");
+							f.message.focus();
+							return false;
+						}
 						if (f.message.value.replace(/^\s*|\s*$/g, "").length == 0) {
 							alert("${I18n.getMessage("PostForm.textEmpty")}");
 							f.message.focus();
@@ -308,7 +313,7 @@
 							<table>
 								<tr>
 									<td align="center">
-										<textarea class="post" style="width: 350px" name="message" rows="10" cols="35" onkeyup="enterText(this);" onclick="enterText(this);" onselect="enterText(this);" onblur="leaveText();"></textarea>
+										<textarea class="post" style="width: 350px" id="message" name="message" rows="10" cols="35" onkeyup="enterText(this);" onclick="enterText(this);" onselect="enterText(this);" onblur="leaveText();"></textarea>
 									</td>
 								</tr>
 								<#if needCaptcha?default(false)>
