@@ -160,7 +160,7 @@ public class UserAction extends Command
 		
 		if (!hasErrors && SystemGlobals.getBoolValue(ConfigKeys.AGREEMENT_SHOW) && !this.agreementAccepted()) {
 			this.setTemplateName(TemplateKeys.AGREEMENT_LIST);
-			this.context.put("agreementContents", this.agreementContents());
+			//this.context.put("agreementContents", this.agreementContents()); //Vincent:老是有乱码问题，改成读取资源文件
 			return;
 		}
 
@@ -192,54 +192,54 @@ public class UserAction extends Command
 			+ SystemGlobals.getValue(ConfigKeys.SERVLET_EXTENSION));
 	}
 	
-	private String agreementContents()
-	{
-		StringBuffer contents = new StringBuffer();
-		
-		BufferedReader reader = null;
-		FileReader fileReader = null;
-
-		try {
-			String directory = new StringBuffer()
-				.append(SystemGlobals.getApplicationPath()) 
-				.append(SystemGlobals.getValue(ConfigKeys.AGREEMENT_FILES_PATH)) 
-				.append('/')
-				.toString();
-
-			String filename = "terms_" + SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT) + ".txt";
-			
-			File file = new File(directory + filename);
-			
-			if (!file.exists()) {
-				filename = SystemGlobals.getValue(ConfigKeys.AGREEMENT_DEFAULT_FILE);
-				file = new File(directory + filename);
-				
-				if (!file.exists()) {
-					throw new FileNotFoundException("Could not locate any terms agreement file");
-				}
-			}
-			
-			fileReader = new FileReader(file);
-			reader = new BufferedReader(fileReader);
-			
-			char[] buffer = new char[2048];
-			int c = 0;
-			
-			while ((c = reader.read(buffer, 0, buffer.length)) > -1) {
-				contents.append(buffer, 0, c);
-			}
-		}
-		catch (Exception e) {
-			logger.warn("Failed to read agreement data: " + e, e);
-			contents = new StringBuffer(I18n.getMessage("User.agreement.noAgreement"));
-		}
-		finally {
-			if (fileReader != null) { try { fileReader.close(); } catch (Exception e) {} }
-			if (reader != null) { try { reader.close(); } catch (Exception e) {} }
-		}
-		
-		return contents.toString();
-	}
+//	private String agreementContents()
+//	{
+//		StringBuffer contents = new StringBuffer();
+//		
+//		BufferedReader reader = null;
+//		FileReader fileReader = null;
+//
+//		try {
+//			String directory = new StringBuffer()
+//				.append(SystemGlobals.getApplicationPath()) 
+//				.append(SystemGlobals.getValue(ConfigKeys.AGREEMENT_FILES_PATH)) 
+//				.append('/')
+//				.toString();
+//
+//			String filename = "terms_" + SystemGlobals.getValue(ConfigKeys.I18N_DEFAULT) + ".txt";
+//			
+//			File file = new File(directory + filename);
+//			
+//			if (!file.exists()) {
+//				filename = SystemGlobals.getValue(ConfigKeys.AGREEMENT_DEFAULT_FILE);
+//				file = new File(directory + filename);
+//				
+//				if (!file.exists()) {
+//					throw new FileNotFoundException("Could not locate any terms agreement file");
+//				}
+//			}
+//			
+//			fileReader = new FileReader(file);
+//			reader = new BufferedReader(fileReader);
+//			
+//			char[] buffer = new char[2048];
+//			int c = 0;
+//			
+//			while ((c = reader.read(buffer, 0, buffer.length)) > -1) {
+//				contents.append(buffer, 0, c);
+//			}
+//		}
+//		catch (Exception e) {
+//			logger.warn("Failed to read agreement data: " + e, e);
+//			contents = new StringBuffer(I18n.getMessage("User.agreement.noAgreement"));
+//		}
+//		finally {
+//			if (fileReader != null) { try { fileReader.close(); } catch (Exception e) {} }
+//			if (reader != null) { try { reader.close(); } catch (Exception e) {} }
+//		}
+//		
+//		return contents.toString();
+//	}
 	
 	private boolean agreementAccepted()
 	{

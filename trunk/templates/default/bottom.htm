@@ -7,15 +7,19 @@
 	</tr>
 
 	<tr>
-		<td align="center">
-			<span class="copyright">www.sudusoft.com  Powered by <a class="copyright" href="http://www.jforum.net/" target="_blank">JForum ${version}</a> &copy; <a class="copyright" href="http://www.jforum.net/team.jsp" target="_blank">JForum Team</a> 
-				<!--Template: <a href="http://www.trydone.com">Trydone</a>--> </span>
+		<td align="center" valign="top" height="50px">
+			<span class="copyright">${I18n.getMessage("ForumBase.footer")}
+				<!--<a class="copyright" href="http://www.jforum.net/" target="_blank">JForum ${version}</a> &copy; <a class="copyright" href="http://www.jforum.net/team.jsp" target="_blank">JForum Team</a> -->
+				<!--Template: <a href="http://www.trydone.com">Trydone</a>--> 
+			</span>
 		</td>
 	</tr>
+
 </table>
 
 <#if hasCodeBlock>
 	<#include "highlighter_js.htm"/>
 </#if>
+
 </body>
 </html>
