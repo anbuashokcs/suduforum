@@ -73,19 +73,22 @@ public class SimpleSSOImpl implements SSO {                              // 必�
 
         String myapp_userid;
         //取程序上登陆过的用户名,我们程序存放用户名的cookie名称为"my_application_cookie_name"
-        Cookie mycookie = net.jforum.ControllerUtils.getCookie("my_application_cookie_name");
+        Cookie mycookie = net.jforum.ControllerUtils.getCookie("5isudu_cookie_name");
 
         //mycookie=null时说明没有事先在应用程序中登陆过(这里假设应该程序登陆后把登陆名存入cookie中)
         //注意应该程序cookie的path必须设置为/,或在同域名下可以设置为域名，否则取不到cookie
         if (mycookie == null || mycookie.getValue() == null || mycookie.getValue().length() == 0) {
+        	JForumExecutionContext.setRedirect(SystemGlobals.getValue(ConfigKeys.SSO_REDIRECT));//Vincent:add, need login
             return null;
         }
         myapp_userid = mycookie.getValue();
+        return myapp_userid; //Vincent:modify, username在cookie中，就直接login；
 
+        /*
         String remoteURL;
         //这个URL指向验证程序,其返回的内容格式为XML格式如上所说
         //具体validate.jsp如果写,得根据你的应用程序进行处理
-        remoteURL = "http://localhost:8181/myapp/validate.jsp?username=" + myapp_userid;
+        remoteURL = "http://localhost:8080/sudusoft/user/user!sso.action?username=" + myapp_userid;
         try {
             Document doc = new SAXBuilder().build(new URL(remoteURL));
             Element el = doc.detachRootElement();
@@ -107,5 +110,6 @@ public class SimpleSSOImpl implements SSO {                              // 必�
         //如果你的论坛必须要用户登后才行的话加上这行
         JForumExecutionContext.setRedirect(SystemGlobals.getValue(ConfigKeys.SSO_REDIRECT));
         return null;
+        */
     }
 }
