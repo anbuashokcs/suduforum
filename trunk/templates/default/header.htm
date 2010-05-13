@@ -87,6 +87,7 @@ Modifications by JForum Team & www.trydone.com
 <form action="" method="post" name="frm_changlang" style="display:none;"><input type="hidden" name="lang" value="${language}"/></form>
 <span id="top_userinfo" style="float:left;"><img id="langDispArea" style="margin:5px;clear:none;float:left;clear:none;cursor:pointer;" src="${contextPath}/templates/${templateName}/images/${language}/lang.gif" border="0" alt="${I18n.getMessage("User.Lang."+language)}">
 <#if logged>
+<span class="mainmenu">您好, ${session.username?html}</span>&nbsp;
 <a id="myprofile" class="mainmenu" href="${JForumContext.encodeURL("/user/edit/${session.userId}")}"><img src="${contextPath}/templates/${templateName}/images/icon_mini_profile.gif" border="0" alt="[Profile]" /> ${I18n.getMessage("ForumBase.profile")}</a>
 <img src="${contextPath}/templates/${templateName}/images/icon_minipost.gif" alt="[MyTopics]" />
 <a id="mytopics" class="mainmenu" href="${JForumContext.encodeURL("/recentTopics/showTopicsByUser/${session.userId}")}"> ${I18n.getMessage("ForumBase.myTopics")}</a>
@@ -100,6 +101,7 @@ Modifications by JForum Team & www.trydone.com
   <img src="${contextPath}/templates/${templateName}/images/icon_mini_message.gif" border="0" alt="[Message]" /> ${I18n.getMessage("ForumBase.privateMessages")}
 </#if>
 </a>&nbsp;
+
 <#if !sso>
   <a id="logout"  class="mainmenu" href="${JForumContext.encodeURL("/user/logout")}"><img src="${contextPath}/templates/${templateName}/images/icon_mini_login.gif" border="0" alt="[Logout]" /> ${I18n.getMessage("ForumBase.logout")} [${session.username}] </a>
 </#if>

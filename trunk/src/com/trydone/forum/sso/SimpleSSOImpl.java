@@ -14,7 +14,10 @@ import org.jdom.input.SAXBuilder;
 
 import javax.servlet.http.Cookie;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -82,6 +85,12 @@ public class SimpleSSOImpl implements SSO {                              // 必�
             return null;
         }
         myapp_userid = mycookie.getValue();
+        try {
+			myapp_userid = URLDecoder.decode(myapp_userid,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return myapp_userid; //Vincent:modify, username在cookie中，就直接login；
 
         /*

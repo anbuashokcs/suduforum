@@ -108,6 +108,7 @@ public class ForumAction extends Command
 
 		// Check for an optional language parameter
 		UserSession currentUser = SessionFacade.getUserSession();
+//		this.context.put("u", currentUser);//Vincent
 
 		if (currentUser.getUserId() == aid) {
 			String lang = this.request.getParameter("lang");
