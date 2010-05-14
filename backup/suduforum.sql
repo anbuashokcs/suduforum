@@ -318,7 +318,7 @@ CREATE TABLE `jforum_forums` (
 
 LOCK TABLES `jforum_forums` WRITE;
 /*!40000 ALTER TABLE `jforum_forums` DISABLE KEYS */;
-INSERT INTO `jforum_forums` VALUES (1,1,'新手快速入门','如果你是速读新手，请从这里大概了解速读的基础知识',1,1,1,1),(2,1,'心得经验分享','这里聚集众多读友成功的经验和失败的教训',2,0,0,1),(3,1,'速读资料下载','速读及速读相关资料免费下载 (如有侵权，请立即警告本站)',3,0,0,1),(4,2,'基础训练','基础训练交流区：集中注意力、视点移动、视幅扩展、焦点移动',4,0,0,0),(5,2,'实战训练','实战训练交流区：消除读音、消除回跳、提高理解率、提高速度',5,0,0,0),(6,2,'辅助训练','辅助训练交流区：奇像记忆、思维导图、曼陀罗、3D图像',6,0,0,0),(7,3,'建议意见','请留下您宝贵的建议意见',7,0,0,0),(8,3,'海阔天空','闲聊',8,0,0,0);
+INSERT INTO `jforum_forums` VALUES (1,1,'新手快速入门','如果你是速读新手，请从这里大概了解速读的基础知识',1,1,0,1),(2,1,'心得经验分享','这里聚集众多读友成功的经验和失败的教训',2,0,0,1),(3,1,'速读资料下载','速读及速读相关资料免费下载 (如有侵权，请立即警告本站)',3,0,0,1),(4,2,'基础训练','基础训练交流区：集中注意力、视点移动、视幅扩展、焦点移动',4,0,0,0),(5,2,'实战训练','实战训练交流区：消除读音、消除回跳、提高理解率、提高速度',5,0,0,0),(6,2,'辅助训练','辅助训练交流区：奇像记忆、思维导图、曼陀罗、3D图像',6,0,0,0),(7,3,'建议意见','请留下您宝贵的建议意见',7,0,0,0),(8,3,'海阔天空','闲聊',8,0,0,0);
 /*!40000 ALTER TABLE `jforum_forums` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -670,7 +670,6 @@ CREATE TABLE `jforum_sessions` (
 
 LOCK TABLES `jforum_sessions` WRITE;
 /*!40000 ALTER TABLE `jforum_sessions` DISABLE KEYS */;
-INSERT INTO `jforum_sessions` VALUES ('4F7A19C31204797AAE6BD4285F06CE84',2,'2010-05-13 16:49:52',0,'',0,NULL);
 /*!40000 ALTER TABLE `jforum_sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -973,4 +972,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-05-13  8:53:21
+-- Dump completed on 2010-05-14  9:02:16
