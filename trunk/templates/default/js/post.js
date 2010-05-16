@@ -110,6 +110,8 @@ function bbplace(text) {
 function emoticon(text) {
     if(text==undefined)return;
     var he = document.getElementById('disable_html');
+
+
     if (!he.checked) {
         if (tinyMCE != undefined) {
             if (tinyMCE.execCommand)
@@ -117,8 +119,11 @@ function emoticon(text) {
                 tinyMCE.execCommand('mceInsertContent', false, text);
             }
         }
+        
         return;
     }
+
+   
     text = ' ' + text;
     bbfontstyle(text, '');
     return;
@@ -128,8 +133,8 @@ function bbfontstyle(bbopen,bbclose) {
 var txtarea = document.post.message;
 
 //IE
-if (document.selection)
-  { txtarea.focus();
+if (document.selection){
+	txtarea.focus();
     sel = document.selection.createRange();
     sel.text = bbopen+sel.text+bbclose;
   }
