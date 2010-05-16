@@ -83,6 +83,8 @@ function validatePostForm(f)
 	   return false;
     }
 	
+
+	
 	var he=document.getElementById('disable_html');
 	if(!he.checked){
 	    if(tinyMCE!=undefined){
@@ -98,10 +100,12 @@ function validatePostForm(f)
 	}
 	</#if>
 	
+
+	
+	
 	if (f.message.value.replace(/^\s*|\s*$/g, "").length == 0) {
 		alert("${I18n.getMessage("PostForm.textEmpty")}");
-		f.message.focus();
-		
+		//f.message.focus();//Vincent:will refresh page		
 		return false;
 	}
 
@@ -109,7 +113,6 @@ function validatePostForm(f)
 	if (f.toUsername.value == "") {
 		alert("${I18n.getMessage("PrivateMessage.toUserIsEmpy")}");
 		f.toUsername.focus();
-
 		return false;
 	}
 	</#if>
@@ -371,6 +374,8 @@ function smiliePopup()
 
 <!-- for heightlight codes (by pinke @ trydone )-->
 <script type="text/javascript">
+	
+	
 var appendStr=function(b){
    var text= "[code="+b.value+"][/code]";//text;
      var he=document.getElementById('disable_html');
