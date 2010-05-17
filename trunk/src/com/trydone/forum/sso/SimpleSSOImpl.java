@@ -97,7 +97,7 @@ public class SimpleSSOImpl implements SSO {                              // 必�
         String remoteURL;
         //这个URL指向验证程序,其返回的内容格式为XML格式如上所说
         //具体validate.jsp如果写,得根据你的应用程序进行处理
-        remoteURL = "http://localhost:8080/sudusoft/user/user!sso.action?username=" + myapp_userid;
+        remoteURL = "http://10.224.172.240:8080/sudusoft/user/user!sso.action?username=" + myapp_userid;
         try {
             Document doc = new SAXBuilder().build(new URL(remoteURL));
             Element el = doc.detachRootElement();
