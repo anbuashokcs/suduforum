@@ -743,7 +743,7 @@ public class InstallAction extends Command
 		dbHost = this.notNullDefault(dbHost, "localhost");
 		dbEncodingOther = this.notNullDefault(dbEncodingOther, "utf-8");
 		dbEncoding = this.notNullDefault(dbEncoding, dbEncodingOther);
-		forumLink = this.notNullDefault(forumLink, "http://10.224.172.240");
+		forumLink = this.notNullDefault(forumLink, "http://192.168.18.168");
 		dbName = this.notNullDefault(dbName, "jforum");
 		
 		if ("hsqldb".equals(database)) {
