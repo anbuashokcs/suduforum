@@ -106,6 +106,11 @@ Modifications by JForum Team & www.trydone.com
   <a id="logout"  class="mainmenu" href="${JForumContext.encodeURL("/user/logout")}"><img src="${contextPath}/templates/${templateName}/images/icon_mini_login.gif" border="0" alt="[Logout]" /> ${I18n.getMessage("ForumBase.logout")} [${session.username}] </a>
 </#if>
 </#if>
+	
+<#if !logged && sso> <%--Vincent:add login button --%>
+	<a id="login"  rel="lightbox"  class="mainmenu" href="http://192.168.18.168:8080/sudusoft/user/login.action"> ${I18n.getMessage("ForumBase.login")}</a>
+</#if>
+			
 </span>
 <#if !logged && !sso> 
 <form action="${JForumContext.encodeURL("/jforum")}" style="float:left;clear:none;margin-left:0;padding-left:0;" method="post" name="toploginform" id="toploginform" accept-charset="${encoding}">

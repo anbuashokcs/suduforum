@@ -81,7 +81,7 @@ public class SimpleSSOImpl implements SSO {                              // 必�
         //mycookie=null时说明没有事先在应用程序中登陆过(这里假设应该程序登陆后把登陆名存入cookie中)
         //注意应该程序cookie的path必须设置为/,或在同域名下可以设置为域名，否则取不到cookie
         if (mycookie == null || mycookie.getValue() == null || mycookie.getValue().length() == 0) {
-        	JForumExecutionContext.setRedirect(SystemGlobals.getValue(ConfigKeys.SSO_REDIRECT));//Vincent:add, need login
+        	//JForumExecutionContext.setRedirect(SystemGlobals.getValue(ConfigKeys.SSO_REDIRECT));//Vincent:add, need login
             return null;
         }
         myapp_userid = mycookie.getValue();

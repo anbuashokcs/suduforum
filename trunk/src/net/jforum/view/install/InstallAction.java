@@ -740,7 +740,7 @@ public class InstallAction extends Command
 		String forumLink = this.request.getParameter("forum_link");
 		String adminPassword = this.request.getParameter("admin_pass1");
 		
-		dbHost = this.notNullDefault(dbHost, "localhost");
+		dbHost = this.notNullDefault(dbHost, "192.168.18.168");
 		dbEncodingOther = this.notNullDefault(dbEncodingOther, "utf-8");
 		dbEncoding = this.notNullDefault(dbEncoding, dbEncodingOther);
 		forumLink = this.notNullDefault(forumLink, "http://192.168.18.168");
