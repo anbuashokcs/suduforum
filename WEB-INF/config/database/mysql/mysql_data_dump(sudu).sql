@@ -218,7 +218,7 @@ CREATE TABLE `jforum_categories` (
 
 LOCK TABLES `jforum_categories` WRITE;
 /*!40000 ALTER TABLE `jforum_categories` DISABLE KEYS */;
-INSERT INTO `jforum_categories` VALUES (1,'速读资料',1,1,0),(2,'训练讨论',2,0,0),(3,'自由讨论',3,0,0);
+INSERT INTO `jforum_categories` VALUES (1,'速读资料',1,1,0),(2,'训练讨论',2,0,0),(3,'海阔天空',3,0,0);
 /*!40000 ALTER TABLE `jforum_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 

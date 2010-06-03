@@ -740,10 +740,10 @@ public class InstallAction extends Command
 		String forumLink = this.request.getParameter("forum_link");
 		String adminPassword = this.request.getParameter("admin_pass1");
 		
-		dbHost = this.notNullDefault(dbHost, "10.224.172.240");
+		dbHost = this.notNullDefault(dbHost, "5isudu.com");
 		dbEncodingOther = this.notNullDefault(dbEncodingOther, "utf-8");
 		dbEncoding = this.notNullDefault(dbEncoding, dbEncodingOther);
-		forumLink = this.notNullDefault(forumLink, "http://10.224.172.240");
+		forumLink = this.notNullDefault(forumLink, "http://5isudu.com");
 		dbName = this.notNullDefault(dbName, "jforum");
 		
 		if ("hsqldb".equals(database)) {
