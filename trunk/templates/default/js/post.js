@@ -108,11 +108,12 @@ function bbplace(text) {
 }
 
 function emoticon(text) {
+	
     if(text==undefined)return;
     var he = document.getElementById('disable_html');
 
-
-    if (!he.checked) {
+   
+    if (!he.checked) { 
         if (tinyMCE != undefined) {
             if (tinyMCE.execCommand)
             {
