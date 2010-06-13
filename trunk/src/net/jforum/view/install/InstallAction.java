@@ -88,6 +88,8 @@ import net.jforum.util.preferences.TemplateKeys;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.trydone.core.util.SiteconfigCommon;
+
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
 
@@ -740,10 +742,11 @@ public class InstallAction extends Command
 		String forumLink = this.request.getParameter("forum_link");
 		String adminPassword = this.request.getParameter("admin_pass1");
 		
-		dbHost = this.notNullDefault(dbHost, "5isudu.com");
+		String  siteName = SiteconfigCommon.SITENAME;
+		dbHost = this.notNullDefault(dbHost, siteName);
 		dbEncodingOther = this.notNullDefault(dbEncodingOther, "utf-8");
 		dbEncoding = this.notNullDefault(dbEncoding, dbEncodingOther);
-		forumLink = this.notNullDefault(forumLink, "http://5isudu.com");
+		forumLink = this.notNullDefault(forumLink, "http://"+siteName);
 		dbName = this.notNullDefault(dbName, "jforum");
 		
 		if ("hsqldb".equals(database)) {
