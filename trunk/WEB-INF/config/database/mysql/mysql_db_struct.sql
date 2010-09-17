@@ -4,6 +4,11 @@
 create database if not exists suduforum DEFAULT character set utf8 collate utf8_general_ci;
 
 
+
+
+/**************************************************************
+ * 创建表
+ **************************************************************/
 --
 -- Table structure for table 'jforum_banlist'
 --
